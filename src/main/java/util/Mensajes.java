@@ -1,8 +1,14 @@
 package util;
 
+/**
+ * Clase utilitaria que contiene los mensajes de texto utilizados en la interfaz de usuario.
+ */
 public class Mensajes {
 
-    public static String MENSAJE_MENU_INICIAL = """
+    /**
+     * Mensaje del menú principal del sistema.
+     */
+    public final static String MENU_INICIAL = """
             ================================
                 SISTEMA DE GESTIÓN PEDIDOS
             ================================
@@ -14,8 +20,10 @@ public class Mensajes {
             
             Seleccione una opción del 1 al 4:""";
 
-
-    public static String MENSAJE_MENU_CLIENTE = """
+    /**
+     * Mensaje del menú de gestión de clientes.
+     */
+    public final static String MENU_CLIENTES = """
             ==================================
                 SISTEMA DE GESTIÓN CLIENTES
             ==================================

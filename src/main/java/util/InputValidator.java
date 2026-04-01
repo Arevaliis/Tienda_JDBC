@@ -1,7 +1,17 @@
 package util;
 
+/**
+ * Clase utilitaria para comprobar que los valores ingresados por el usuario son adecuados al tipo de dato que se le solicita.
+ */
 public class InputValidator {
 
+    /**
+     * Verifica que el número ingresado por el usuario es un número válido. Comprueba que no se Null, no este vacío, solo contiene números
+     * y además, no puede ser menor a 1, en caso de que una de estas condiciones se cumpla, lanzara una excepción de tipo {@NumberFormatException}
+     *
+     * @param opc número ingresado por el usuario
+     * @return número si es válido si no lanzará una excepción de tipo {@NumberFormatException}
+     */
     public static int verificarNumeroIngresado(String opc) {
 
         if (opc == null){ return 4; }

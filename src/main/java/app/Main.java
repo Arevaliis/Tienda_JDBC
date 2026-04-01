@@ -6,8 +6,16 @@ import util.Mensajes;
 
 import javax.swing.JOptionPane;
 
+/**
+ * Clase principal de la aplicación.
+ * Se encarga de iniciar el sistema y controlar el flujo del menú principal.
+ */
 public class Main {
 
+    /**
+     * Método principal que inicia la ejecución del programa.
+     * Controla el bucle principal del sistema y gestiona la continuidad del usuario.
+     */
     public static void main(String[] args) {
         boolean seguir = true;
 
@@ -15,7 +23,7 @@ public class Main {
             try {
 
                 if (ejecutarOpcion() == 4 ) { return; }
-                seguir = ConsoleUI.continuarGestorPedidos("¿Desea seguir en el gestor? S/N: ", "Seguir Menu Principal");
+                seguir = ConsoleUI.confirmarContinuacion("¿Desea seguir en el gestor? S/N: ", "Seguir Menu Principal");
 
             } catch (IllegalArgumentException e) {
                 JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -28,8 +36,14 @@ public class Main {
         }
     }
 
+    /**
+     * Solicita al usuario una opción del menú principal y ejecuta la acción correspondiente.
+     *
+     * @return el número de la opción seleccionada por el usuario
+     * @throws IllegalArgumentException si la opción no está entre 1-4
+     */
     private static int ejecutarOpcion() {
-        int opc = ConsoleUI.ingresarNumero(Mensajes.MENSAJE_MENU_INICIAL, "Menu Inicial");
+        int opc = ConsoleUI.ingresarNumero(Mensajes.MENU_INICIAL, "Menu Inicial");
 
         switch (opc){
             case 1 -> GestorCliente.ejecutarGestorClientes();

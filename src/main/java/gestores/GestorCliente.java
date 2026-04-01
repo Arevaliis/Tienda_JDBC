@@ -11,7 +11,16 @@ import javax.swing.JOptionPane;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+/**
+ * Clase encargada de gestionar la interacción del usuario con el módulo de clientes.
+ */
 public class GestorCliente {
+
+    /**
+     * Inicia el gestor de clientes
+     * Establece la conexión con la base de datos y ejecuta el menú en bucle hasta que el usuario decida salir.
+     * Maneja excepciones tanto de acceso a datos {@SQLException} como de lógica de negocio {@ServiceException}.
+     */
     public static void ejecutarGestorClientes(){
 
         boolean seguir = true;
@@ -23,7 +32,7 @@ public class GestorCliente {
                 try {
 
                     if (ejecutarOpcion(clientesService) == 6) { return; }
-                    seguir = ConsoleUI.continuarGestorPedidos("¿Desea seguir en la sección de clientes? S/N: ", "Seguir Menu Clientes");
+                    seguir = ConsoleUI.confirmarContinuacion("¿Desea seguir en la sección de clientes? S/N: ", "Seguir Menu Clientes");
 
                 } catch (IllegalArgumentException | ServiceException e) {
                     JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -35,8 +44,16 @@ public class GestorCliente {
         }
     }
 
+    /**
+     * Solicita al usuario una opción del menú de clientes y ejecuta la acción correspondiente.
+     *
+     * @param clientesService servicio de clientes utilizado para la lógica de negocio
+     * @return número de la opción seleccionada
+     * @throws IllegalArgumentException si la opción ingresada no está en el rango válido (1-6)
+     * @throws ServiceException si ocurre un error en la capa de servicio
+     */
     private static int ejecutarOpcion(ClienteService clientesService) throws ServiceException {
-        int opc = ConsoleUI.ingresarNumero(Mensajes.MENSAJE_MENU_CLIENTE, "Menu Clientes");
+        int opc = ConsoleUI.ingresarNumero(Mensajes.MENU_CLIENTES, "Menu Clientes");
 
         switch (opc){
             case 1 -> {
