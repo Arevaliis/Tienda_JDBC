@@ -1,5 +1,8 @@
 package util;
 
+import exception.ValidationException;
+import model.Cliente;
+
 import javax.swing.JOptionPane;
 
 /**
@@ -38,5 +41,19 @@ public class ConsoleUI {
         String numero = JOptionPane.showInputDialog(null, mensaje, titulo, JOptionPane.QUESTION_MESSAGE);
 
         return InputValidator.verificarNumeroIngresado(numero);
+    }
+
+    public static Cliente crearCliente() throws ValidationException {
+        String nombre = ingresarPalabra("Ingrese el nombre del cliente: ", "Crear Cliente");
+        String apellido = ingresarPalabra("Ingrese el apellido del cliente: ", "Crear Cliente");
+
+        return new Cliente(nombre, apellido);
+
+    }
+
+    private static String ingresarPalabra(String mensaje, String titulo) throws ValidationException {
+        String palabra = JOptionPane.showInputDialog(null, mensaje, titulo, JOptionPane.INFORMATION_MESSAGE );
+
+        return InputValidator.verificarPalabra(palabra.trim());
     }
 }

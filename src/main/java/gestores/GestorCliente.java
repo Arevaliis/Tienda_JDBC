@@ -2,6 +2,7 @@ package gestores;
 
 import dao.impl.ClienteDAO;
 import exception.ServiceException;
+import exception.ValidationException;
 import service.impl.ClienteService;
 import util.ConsoleUI;
 import util.DatabaseConnection;
@@ -34,7 +35,7 @@ public class GestorCliente {
                     if (ejecutarOpcion(clientesService) == 6) { return; }
                     seguir = ConsoleUI.confirmarContinuacion("¿Desea seguir en la sección de clientes? S/N: ", "Seguir Menu Clientes");
 
-                } catch (IllegalArgumentException | ServiceException e) {
+                } catch (IllegalArgumentException | ServiceException | ValidationException e) {
                     JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
@@ -52,12 +53,13 @@ public class GestorCliente {
      * @throws IllegalArgumentException si la opción ingresada no está en el rango válido (1-6)
      * @throws ServiceException si ocurre un error en la capa de servicio
      */
-    private static int ejecutarOpcion(ClienteService clientesService) throws ServiceException {
+    private static int ejecutarOpcion(ClienteService clientesService) throws ServiceException, ValidationException {
         int opc = ConsoleUI.ingresarNumero(Mensajes.MENU_CLIENTES, "Menu Clientes");
 
         switch (opc){
             case 1 -> {
-                System.out.println("Cliente ingresado");
+                clientesService.insertarCliente(ConsoleUI.crearCliente());
+                JOptionPane.showMessageDialog(null, "Nuevo cliente agregado con éxito", "Crear cliente", JOptionPane.INFORMATION_MESSAGE);
             }
 
             case 2 -> System.out.println("Ver Cliente");
