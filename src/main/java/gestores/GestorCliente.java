@@ -12,6 +12,7 @@ import util.Mensajes;
 import javax.swing.JOptionPane;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  * Clase encargada de gestionar la interacción del usuario con el módulo de clientes.
@@ -47,40 +48,132 @@ public class GestorCliente {
     }
 
     /**
-     * Solicita al usuario una opción del menú de clientes y ejecuta la acción correspondiente.
+     * Muestra el menú de clientes, solicita una opción al usuario y ejecuta la acción correspondiente.
      *
-     * @param clientesService servicio de clientes utilizado para la lógica de negocio
-     * @return número de la opción seleccionada
-     * @throws IllegalArgumentException si la opción ingresada no está en el rango válido (1-6)
+     * @param clientesService servicio encargado de la lógica de negocio de clientes
+     * @return opción seleccionada por el usuario
+     *
      * @throws ServiceException si ocurre un error en la capa de servicio
+     * @throws ValidationException si los datos introducidos no son válidos
+     * @throws IllegalArgumentException si la opción no está dentro del rango permitido
      */
-    private static int ejecutarOpcion(ClienteService clientesService) throws ServiceException, ValidationException {
+    private static int ejecutarOpcion(ClienteService clientesService)  throws ServiceException, ValidationException {
+
         int opc = ConsoleUI.ingresarNumero(Mensajes.MENU_CLIENTES, "Menu Clientes");
 
-        switch (opc){
-            case 1 -> {
-                clientesService.insertarCliente(ConsoleUI.crearCliente());
-                JOptionPane.showMessageDialog(null, "Nuevo cliente agregado con éxito", "Crear cliente", JOptionPane.INFORMATION_MESSAGE);
-            }
-
-            case 2 -> {
-                Cliente cliente = clientesService.buscarClienteID(ConsoleUI.ingresarNumero("Ingrese el id del cliente: ", "Buscar Cliente Por ID"));
-                JOptionPane.showMessageDialog(null, cliente, "Ver Cliente", JOptionPane.INFORMATION_MESSAGE);
-            }
-
-            case 3 -> System.out.println("Ver Clientes");
-
-            case 4 -> {
-                System.out.println("Cliente modificado");
-            }
-            case 5 -> {
-                System.out.println("Cliente eliminado");
-            }
+        switch (opc) {
+            case 1 -> crearCliente(clientesService);
+            case 2 -> buscarCliente(clientesService);
+            case 3 -> listarClientes(clientesService);
+            case 4 -> menuModificar(clientesService);
+            case 5 -> eliminarCliente(clientesService);
 
             case 6 -> {}
             default -> throw new IllegalArgumentException("Debe ingresar un número comprendido entre 1 y 6");
         }
 
         return opc;
+    }
+
+    /**
+     * Solicita los datos de un nuevo cliente y lo inserta en el sistema.
+     *
+     * @param clientesService servicio encargado de gestionar clientes
+     * @throws ServiceException si ocurre un error al insertar el cliente
+     * @throws ValidationException si los datos del cliente no son válidos
+     */
+    private static void crearCliente(ClienteService clientesService) throws ServiceException, ValidationException {
+
+        clientesService.insertarCliente(ConsoleUI.crearCliente());
+        JOptionPane.showMessageDialog( null,  "Nuevo cliente agregado con éxito",  "Crear cliente",  JOptionPane.INFORMATION_MESSAGE );
+    }
+
+    /**
+     * Busca un cliente por su identificador y muestra su información en pantalla.
+     *
+     * @param clientesService servicio encargado de gestionar clientes
+     * @throws ServiceException si ocurre un error al buscar el cliente
+     */
+    private static void buscarCliente(ClienteService clientesService)  throws ServiceException {
+
+        Cliente cliente = clientesService.buscarClienteID( ConsoleUI.ingresarNumero("Ingrese el id del cliente: ", "Buscar Cliente Por ID"));
+        JOptionPane.showMessageDialog( null,  cliente,  "Ver Cliente",  JOptionPane.INFORMATION_MESSAGE );
+    }
+
+    /**
+     * Muestra por pantalla la lista de todos los clientes registrados en el sistema.
+     *
+     * @param clientesService servicio encargado de gestionar clientes
+     * @throws ServiceException si ocurre un error al obtener los clientes
+     */
+    private static void listarClientes(ClienteService clientesService) throws ServiceException {
+
+        List<Cliente> clientes = clientesService.mostrarTodosClientes();
+        List<String> mensaje = clientes.stream()
+                                        .map(Object::toString)
+                                        .toList();
+
+        JOptionPane.showMessageDialog( null,  String.join("\n", mensaje),  "Clientes Registrados",  JOptionPane.INFORMATION_MESSAGE );
+    }
+
+    /**
+     * Elimina un cliente del sistema a partir de su identificador.
+     *
+     * @param clientesService servicio encargado de gestionar clientes
+     * @throws ServiceException si ocurre un error al eliminar el cliente
+     */
+    private static void eliminarCliente(ClienteService clientesService)  throws ServiceException {
+
+        clientesService.eliminarCliente( ConsoleUI.ingresarNumero("Ingrese el id del cliente: ", "Eliminar Cliente") );
+        JOptionPane.showMessageDialog( null,  "Cliente eliminado con éxito",  "Eliminar Cliente",  JOptionPane.INFORMATION_MESSAGE );
+    }
+
+    /**
+     * Muestra el submenú de modificación de clientes y ejecuta la opción seleccionada.
+     *
+     * @param clientesService servicio encargado de gestionar clientes
+     * @throws ValidationException si los datos introducidos no son válidos
+     */
+    private static void menuModificar(ClienteService clientesService) throws ValidationException {
+
+        int opc = ConsoleUI.seleccionarOpcion( new String[]{"Nombre", "Apellido"},  "Modificar Cliente" );
+
+        switch (opc) {
+            case 0 -> modificarNombreCliente(clientesService);
+            case 1 -> modificarApellidoCliente(clientesService);
+            default -> { }
+        }
+    }
+
+    /**
+     * Modifica el nombre de un cliente existente.
+     *
+     * @param clientesService servicio encargado de gestionar clientes
+     * @throws ValidationException si los datos introducidos no son válidos
+     */
+    private static void modificarNombreCliente(ClienteService clientesService) throws ValidationException {
+
+        int id = ConsoleUI.ingresarNumero("Ingrese el id del cliente: ", "Buscar Cliente");
+        String nombre = ConsoleUI.ingresarPalabra("Ingrese el nuevo nombre del cliente; ", "Modificar Nombre");
+
+        clientesService.modificarNombreCliente(nombre, id);
+
+        JOptionPane.showMessageDialog( null,  "Cliente modificado con éxito",  "Modificar Cliente", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    /**
+     * Modifica el apellido de un cliente existente.
+     *
+     * @param clientesService servicio encargado de gestionar clientes
+     * @throws ValidationException si los datos introducidos no son válidos
+     */
+    private static void modificarApellidoCliente(ClienteService clientesService) throws ValidationException {
+
+        int id = ConsoleUI.ingresarNumero("Ingrese el id del cliente: ", "Buscar Cliente");
+        String apellido = ConsoleUI.ingresarPalabra("Ingrese el nuevo apellido del cliente; ", "Modificar Apellido");
+
+        clientesService.modificarApellidoCliente(apellido, id);
+
+        JOptionPane.showMessageDialog( null,  "Cliente modificado con éxito",  "Modificar Cliente",  JOptionPane.INFORMATION_MESSAGE);
     }
 }

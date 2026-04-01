@@ -26,9 +26,7 @@ public class ClienteDAO implements IClienteDAO {
 
             if (insert.executeUpdate() == 0){throw new DAOException("No se ha completado la inserción del cliente en la base de datos.");}
 
-        } catch (SQLException e) {
-            throw new DAOException("Error DAO: Fallo durante la inserción del cliente", e);
-        }
+        } catch (SQLException e) { throw new DAOException("Error DAO: Fallo durante la inserción del cliente", e); }
     }
 
     @Override
@@ -47,28 +45,68 @@ public class ClienteDAO implements IClienteDAO {
                                     resultado.getString("apellido"));
             }
 
-        } catch (SQLException e) {
-            throw new DAOException("Error DAO: Fallo durante select de cliente", e);
-        }
+        } catch (SQLException e) { throw new DAOException("Error DAO: Fallo durante select de cliente", e); }
     }
 
     @Override
     public List<Cliente> mostrarTodosClientes() throws DAOException{
-        return new ArrayList<>();
+        String sql = "SELECT id, nombre, apellido FROM cliente";
+
+        try (PreparedStatement selectTodosCliente = connection.prepareStatement(sql);
+            ResultSet resultado = selectTodosCliente.executeQuery()){
+
+                if (!resultado.next()){ return new ArrayList<>(); }
+
+                List<Cliente> clientes = new ArrayList<>();
+
+                do {
+                    clientes.add(
+                            new Cliente(resultado.getInt("id"),
+                                        resultado.getString("nombre"),
+                                        resultado.getString("apellido")));
+
+                } while (resultado.next());
+
+                return clientes;
+
+        } catch (SQLException e) { throw new DAOException("Error DAO: Fallo durante select de cliente", e); }
     }
 
     @Override
     public void modificarNombreCliente(Cliente cliente) throws DAOException{
+        String sql = "UPDATE cliente SET nombre = ? WHERE id = ?";
 
+        try (PreparedStatement updateNombre = connection.prepareStatement(sql)){
+            updateNombre.setString(1, cliente.getNombre());
+            updateNombre.setInt(2, cliente.getId());
+
+            if (updateNombre.executeUpdate() == 0){throw new DAOException("No se ha podido modificar el nombre del cliente.");}
+
+        } catch (SQLException e) { throw new DAOException("Error DAO: Fallo durante el update del nombre del cliente", e); }
     }
 
     @Override
     public void modificarApellidoCliente(Cliente cliente) throws DAOException{
+        String sql = "UPDATE cliente SET apellido = ? WHERE id = ?";
 
+        try (PreparedStatement updateApellido = connection.prepareStatement(sql)){
+            updateApellido.setString(1, cliente.getApellido());
+            updateApellido.setInt(2, cliente.getId());
+
+            if (updateApellido.executeUpdate() == 0) { throw new DAOException("No se ha podido modificar el apellido del cliente."); }
+
+        } catch (SQLException e) { throw new DAOException("Error DAO: Fallo durante el update del apellido del cliente", e); }
     }
 
     @Override
     public void eliminarCliente(int id) throws DAOException{
+        String sql = "DELETE FROM cliente WHERE id = ?";
 
+        try (PreparedStatement delete = connection.prepareStatement(sql)){
+            delete.setInt(1, id);
+
+            if (delete.executeUpdate() == 0){throw new DAOException("No se ha podido eliminar al cliente con id " + id);}
+
+        } catch (SQLException e) { throw new DAOException("Error DAO: Fallo durante el delete del cliente", e); }
     }
 }
