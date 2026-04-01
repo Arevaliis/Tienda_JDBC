@@ -6,6 +6,9 @@ import util.Mensajes;
 
 import javax.swing.JOptionPane;
 
+// TODO AL INSERTAR SIMBOLOS EN ID SALE ERROR EN FEO
+
+
 /**
  * Clase principal de la aplicación.
  * Se encarga de iniciar el sistema y controlar el flujo del menú principal.
