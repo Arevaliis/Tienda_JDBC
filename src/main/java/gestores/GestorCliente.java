@@ -3,6 +3,7 @@ package gestores;
 import dao.impl.ClienteDAO;
 import exception.ServiceException;
 import exception.ValidationException;
+import model.Cliente;
 import service.impl.ClienteService;
 import util.ConsoleUI;
 import util.DatabaseConnection;
@@ -62,7 +63,11 @@ public class GestorCliente {
                 JOptionPane.showMessageDialog(null, "Nuevo cliente agregado con éxito", "Crear cliente", JOptionPane.INFORMATION_MESSAGE);
             }
 
-            case 2 -> System.out.println("Ver Cliente");
+            case 2 -> {
+                Cliente cliente = clientesService.buscarClienteID(ConsoleUI.ingresarNumero("Ingrese el id del cliente: ", "Buscar Cliente Por ID"));
+                JOptionPane.showMessageDialog(null, cliente, "Ver Cliente", JOptionPane.INFORMATION_MESSAGE);
+            }
+
             case 3 -> System.out.println("Ver Clientes");
 
             case 4 -> {

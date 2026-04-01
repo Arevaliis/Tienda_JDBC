@@ -6,7 +6,10 @@ import model.Cliente;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ClienteDAO implements IClienteDAO {
     private final Connection connection;
@@ -24,18 +27,34 @@ public class ClienteDAO implements IClienteDAO {
             if (insert.executeUpdate() == 0){throw new DAOException("No se ha completado la inserción del cliente en la base de datos.");}
 
         } catch (SQLException e) {
-            throw new DAOException("Error DAO: Fallo durante la inserción del cliente");
+            throw new DAOException("Error DAO: Fallo durante la inserción del cliente", e);
         }
     }
 
     @Override
-    public void buscarClienteID(int id) throws DAOException{
+    public Cliente buscarClienteID(int id) throws DAOException{
+        String sql = "SELECT id, nombre, apellido FROM cliente WHERE id = ?";
 
+        try (PreparedStatement selectCliente = connection.prepareStatement(sql)){
+            selectCliente.setInt(1, id);
+
+            try (ResultSet resultado = selectCliente.executeQuery()){
+
+                if (!resultado.next()){ return null; }
+
+                return new Cliente( resultado.getInt("id"),
+                                    resultado.getString("nombre"),
+                                    resultado.getString("apellido"));
+            }
+
+        } catch (SQLException e) {
+            throw new DAOException("Error DAO: Fallo durante select de cliente", e);
+        }
     }
 
     @Override
-    public void mostrarTodosClientes() throws DAOException{
-
+    public List<Cliente> mostrarTodosClientes() throws DAOException{
+        return new ArrayList<>();
     }
 
     @Override
