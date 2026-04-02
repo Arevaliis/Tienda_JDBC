@@ -34,7 +34,7 @@ public class GestorCliente {
             while (seguir) {
                 try {
 
-                    if (ejecutarOpcion(clientesService) == 7) { return; }
+                    if (ejecutarOpcion(clientesService) == 0) { return; }
                     seguir = ConsoleUI.confirmarContinuacion("¿Desea seguir en la sección de clientes? S/N: ", "Seguir Menu Clientes");
 
                 } catch (IllegalArgumentException | ServiceException | ValidationException e) {
@@ -195,7 +195,8 @@ public class GestorCliente {
             case 4 -> verEmailPorCliente(clientesService);
             case 5 -> eliminarEmail(clientesService);
 
-            default -> throw new IllegalArgumentException("Debe ingresar un número comprendido entre 1 y 5");
+            case 0 -> {}
+            default -> throw new IllegalArgumentException("Debe ingresar un número comprendido entre 0 y 5");
         }
     }
 

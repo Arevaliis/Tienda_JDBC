@@ -25,7 +25,7 @@ public class Main {
         while (seguir) {
             try {
 
-                if (ejecutarOpcion() == 4 ) { return; }
+                if (ejecutarOpcion() == 0 ) { return; }
                 seguir = ConsoleUI.confirmarContinuacion("¿Desea seguir en el gestor? S/N: ", "Seguir Menu Principal");
 
             } catch (IllegalArgumentException e) {

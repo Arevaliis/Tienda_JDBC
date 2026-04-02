@@ -52,7 +52,8 @@ public class Mensajes {
                 3. Cambiar cliente
                 4. Ver email cliente
                 5. Eliminar email
+                0. Salir
 
-             Seleccione una opción del 1 al 5:""";
+             Seleccione una opción del 0 al 5:""";
 
 }
