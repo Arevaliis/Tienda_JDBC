@@ -2,6 +2,7 @@ package service.interfaces;
 
 import exception.ServiceException;
 import model.Cliente;
+import model.Email;
 
 import java.util.List;
 
@@ -60,4 +61,18 @@ public interface IClienteService {
      * @throws ServiceException si ocurre un error durante la eliminación o el cliente no existe
      */
     void eliminarCliente(int id) throws ServiceException;
+
+    // EMAIL
+    void agregarEmail(String direccionEmail, int idCliente) throws ServiceException;
+
+    void modificarEmail(String nuevoEmail, int idCliente) throws ServiceException;
+
+    Email buscarEmail(int id) throws ServiceException;
+
+    void cambiarIdClienteEmail(int nuevoClienteId, int idCliente) throws ServiceException;
+
+    List<Email> verEmailsPorCliente(int id) throws ServiceException;
+
+    void eliminarEmail(int id) throws ServiceException;
+
 }

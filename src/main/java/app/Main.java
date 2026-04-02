@@ -53,8 +53,8 @@ public class Main {
             case 2 -> System.out.println("Gestor Productos"); // TODO IMPLEMENTAR
             case 3 -> System.out.println("Gestor Pedidos"); // TODO IMPLEMENTAR
 
-            case 4 -> JOptionPane.showMessageDialog(null, "Saliendo", "Salir", JOptionPane.INFORMATION_MESSAGE);
-            default -> throw new IllegalArgumentException("Debe ingresar un número comprendido entre 1 y 4");
+            case 0 -> JOptionPane.showMessageDialog(null, "Saliendo", "Salir", JOptionPane.INFORMATION_MESSAGE);
+            default -> throw new IllegalArgumentException("Debe ingresar un número comprendido entre 0-3");
         }
 
         return opc;

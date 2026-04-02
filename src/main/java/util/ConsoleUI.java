@@ -89,4 +89,9 @@ public class ConsoleUI {
                 opciones[0]
         );
     }
+
+    public static String ingresarEmail() throws ValidationException {
+        String palabra = JOptionPane.showInputDialog(null, "Ingrese el email del cliente: ", "Ingresar Email", JOptionPane.INFORMATION_MESSAGE);
+        return InputValidator.verificarEmail(palabra.trim());
+    }
 }

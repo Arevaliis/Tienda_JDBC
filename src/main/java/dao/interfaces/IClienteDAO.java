@@ -2,6 +2,8 @@ package dao.interfaces;
 
 import exception.DAOException;
 import model.Cliente;
+import model.Email;
+import model.Telefono;
 
 import java.util.List;
 
@@ -46,7 +48,7 @@ public interface IClienteDAO {
     /**
      * Actualiza el apellido de un cliente en la base de datos.
      *
-     * @param cliente objeto Cliente que contiene el id y el nuevo apellido
+     * @param cliente objeto Cliente que contiene el ID y el nuevo apellido
      * @throws DAOException si ocurre un error durante la actualización o el cliente no existe
      */
     void modificarApellidoCliente(Cliente cliente) throws DAOException;
@@ -58,5 +60,20 @@ public interface IClienteDAO {
      * @throws DAOException si ocurre un error durante la eliminación o el cliente no existe
      */
     void eliminarCliente(int id) throws DAOException;
+
+    // EMAIL
+    void agregarEmail(Email email) throws DAOException;
+
+    List<String>  obtenerEmails() throws DAOException;
+
+    void modificarEmail(Email email) throws DAOException;
+
+    Email buscarEmail(int id) throws DAOException;
+
+    void cambiarIdClienteEmail(Email email) throws DAOException;
+
+    List<Email> verEmailsPorCliente(int id) throws DAOException;
+
+    void eliminarEmail(int id) throws DAOException;
 
 }

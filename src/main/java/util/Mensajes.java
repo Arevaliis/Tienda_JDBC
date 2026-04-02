@@ -16,9 +16,9 @@ public class Mensajes {
                     1. Clientes
                     2. Productos
                     3. Pedidos
-                    4. Salir
+                    0. Salir
             
-            Seleccione una opción del 1 al 4:""";
+            Seleccione una opción del 0 al 3:""";
 
     /**
      * Mensaje del menú de gestión de clientes.
@@ -33,7 +33,23 @@ public class Mensajes {
                 3. Listar todos los clientes
                 4. Modificar cliente
                 5. Eliminar cliente
-                6. Salir
+                6. Email
+                0. Salir
             
-            Seleccione una opción del 1 al 6:""";
+            Seleccione una opción del 0 al 6:""";
+
+
+    public final static String MENU_EMAIL = """
+             ==================================
+                SISTEMA DE GESTIÓN EMAIL
+             ==================================
+
+                1. Agregar email
+                2. Modificar email
+                3. Cambiar cliente
+                4. Ver email cliente
+                5. Eliminar email
+
+             Seleccione una opción del 1 al 5:""";
+
 }

@@ -4,14 +4,22 @@ import dao.impl.ClienteDAO;
 import exception.DAOException;
 import exception.ServiceException;
 import model.Cliente;
+import model.Email;
 import service.interfaces.IClienteService;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ClienteService implements IClienteService {
+    private final Connection connection;
     private final ClienteDAO clienteDAO;
 
-    public ClienteService(ClienteDAO clienteDAO) { this.clienteDAO = clienteDAO; }
+    public ClienteService(Connection connection) {
+        this.connection = connection;
+        this.clienteDAO = new ClienteDAO(connection);
+    }
 
     @Override
     public void insertarCliente(Cliente cliente) throws ServiceException {
@@ -80,5 +88,121 @@ public class ClienteService implements IClienteService {
             clienteDAO.eliminarCliente(id);
 
         } catch (DAOException e) { throw new ServiceException("Error Service: Fallo durante la eliminación del cliente", e); }
+    }
+
+    @Override
+    public void agregarEmail(String direccionEmail, int idCliente) throws ServiceException {
+
+        try {
+            connection.setAutoCommit(false);
+
+            try {
+                buscarClienteID(idCliente); // Verificamos si existe cliente
+                if (clienteDAO.obtenerEmails().contains(direccionEmail)) { throw new ServiceException("El email ya está registrado en la base de  datos"); }
+
+                clienteDAO.agregarEmail(new Email(direccionEmail, idCliente));
+                connection.commit();
+
+            } catch (SQLException | DAOException e) {
+                connection.rollback();
+                throw new ServiceException("Error Service: Fallo durante la transacción de insert email", e);
+
+            } finally {
+                connection.setAutoCommit(true);
+            }
+
+        } catch ( SQLException e) { throw new ServiceException("Error al configurar la transacción", e); }
+    }
+
+    @Override
+    public void modificarEmail(String nuevoEmail, int id) throws ServiceException {
+
+        try {
+            connection.setAutoCommit(false);
+
+            try {
+                Email email = buscarEmail(id);
+                if (clienteDAO.obtenerEmails().contains(nuevoEmail)) { throw new ServiceException("El email ya está registrado en la base de  datos"); }
+
+                email.setEmail(nuevoEmail);
+                clienteDAO.modificarEmail(email);
+
+                connection.commit();
+
+            } catch (SQLException | DAOException e) {
+                connection.rollback();
+                throw new ServiceException("Error Service: Fallo durante la transacción de update email", e);
+
+            } finally { connection.setAutoCommit(true); }
+
+        } catch ( SQLException e) { throw new ServiceException("Error al configurar la transacción", e); }
+    }
+
+    @Override
+    public Email buscarEmail(int id) throws ServiceException {
+        try{
+            Email email = clienteDAO.buscarEmail(id);
+            if (email == null){ throw new ServiceException("No existe ningún registro de email con el id: " + id); }
+
+            return email;
+
+        } catch (DAOException e) { throw new ServiceException("Error Service: Fallo durante la eliminación del cliente", e); }
+
+    }
+
+    @Override
+    public void cambiarIdClienteEmail(int nuevoClienteId, int id) throws ServiceException {
+        try {
+
+            connection.setAutoCommit(false);
+
+            try {
+                Email email = buscarEmail(id);
+                buscarClienteID(nuevoClienteId);
+
+                email.setIdCliente(nuevoClienteId);
+                clienteDAO.cambiarIdClienteEmail(email);
+
+                connection.commit();
+
+            } catch (SQLException | DAOException e) {
+                connection.rollback();
+                throw new ServiceException("Error Service: Fallo durante el cambio de id cliente en el email", e);
+
+            } finally { connection.setAutoCommit(true); }
+
+        } catch ( SQLException e) { throw new ServiceException("Error al configurar la transacción", e); }
+    }
+
+    @Override
+    public List<Email> verEmailsPorCliente(int id) throws ServiceException {
+
+        try{
+            List<Email> emailsIdInt = clienteDAO.verEmailsPorCliente(id);
+            if (emailsIdInt.isEmpty()) { throw new ServiceException("No hay email registrados en la base de datos para el cliente con id: " + id); }
+
+            List<Email> emailsCliente = new ArrayList<>();
+
+            for (Email email: emailsIdInt){
+                Cliente cliente = clienteDAO.buscarClienteID(email.getIdCliente());
+
+                emailsCliente.add(
+                                new Email(email.getId(),
+                                          email.getEmail(),
+                                          cliente));
+            }
+
+            return emailsCliente;
+
+        } catch (DAOException e) { throw new ServiceException("Error Service: Fallo durante la búsqueda de email por cliente", e); }
+    }
+
+    @Override
+    public void eliminarEmail(int id) throws ServiceException {
+        try {
+            clienteDAO.eliminarEmail(id);
+
+        } catch (DAOException e) { throw new ServiceException("Error Service: Fallo durante la eliminación de email con id: " + id, e); }
+
     }
 }

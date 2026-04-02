@@ -16,11 +16,11 @@ public class InputValidator {
      */
     public static int verificarNumeroIngresado(String opc) {
 
-        if (opc == null){ return 4; }
+        if (opc == null){ return 0; } // TODO MODIFICAR
 
         if (opc.isEmpty()){ throw new NumberFormatException("Debe ingresar una opción. No puede dejar el campo vacío."); }
         if (!opc.matches("^[0-9]+$")) { throw new NumberFormatException("La opción ingresada debe ser un número entero válido."); }
-        if (Integer.parseInt(opc) <= 0) { throw new NumberFormatException("Debe ingresar un valor mayor que 0"); }
+        if (Integer.parseInt(opc) < 1) { throw new NumberFormatException("Debe ingresar un valor mayor que 0"); }
 
         return Integer.parseInt(opc);
     }
@@ -33,5 +33,13 @@ public class InputValidator {
         if (palabra.length() < 3){ throw new ValidationException("Debe tener al menos 3 caracteres"); }
 
         return palabra.substring(0, 1).toUpperCase() + palabra.substring(1);
+    }
+
+    public static String verificarEmail(String email) throws ValidationException {
+
+        if (email.isEmpty()){throw new ValidationException("Debe ingresar un email. No puede dejar el campo vacío.");}
+        if (!email.matches("^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$")){throw new ValidationException("El formato del email no es correcto.");}
+
+        return email;
     }
 }

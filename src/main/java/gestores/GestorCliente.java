@@ -1,9 +1,9 @@
 package gestores;
 
-import dao.impl.ClienteDAO;
 import exception.ServiceException;
 import exception.ValidationException;
 import model.Cliente;
+import model.Email;
 import service.impl.ClienteService;
 import util.ConsoleUI;
 import util.DatabaseConnection;
@@ -29,12 +29,12 @@ public class GestorCliente {
         boolean seguir = true;
 
         try (Connection connection = DatabaseConnection.getConnection()) {
-            ClienteService clientesService = new ClienteService(new ClienteDAO(connection));
+            ClienteService clientesService = new ClienteService(connection);
 
             while (seguir) {
                 try {
 
-                    if (ejecutarOpcion(clientesService) == 6) { return; }
+                    if (ejecutarOpcion(clientesService) == 7) { return; }
                     seguir = ConsoleUI.confirmarContinuacion("¿Desea seguir en la sección de clientes? S/N: ", "Seguir Menu Clientes");
 
                 } catch (IllegalArgumentException | ServiceException | ValidationException e) {
@@ -67,9 +67,10 @@ public class GestorCliente {
             case 3 -> listarClientes(clientesService);
             case 4 -> menuModificar(clientesService);
             case 5 -> eliminarCliente(clientesService);
+            case 6 -> menuEmail(clientesService);
 
-            case 6 -> {}
-            default -> throw new IllegalArgumentException("Debe ingresar un número comprendido entre 1 y 6");
+            case 0 -> {}
+            default -> throw new IllegalArgumentException("Debe ingresar un número comprendido entre 0-6");
         }
 
         return opc;
@@ -136,11 +137,11 @@ public class GestorCliente {
      */
     private static void menuModificar(ClienteService clientesService) throws ValidationException {
 
-        int opc = ConsoleUI.seleccionarOpcion( new String[]{"Nombre", "Apellido"},  "Modificar Cliente" );
+        int opc = ConsoleUI.seleccionarOpcion( new String[]{"Nombre", "Apellido"},  "Modificar Cliente" ) + 1;
 
         switch (opc) {
-            case 0 -> modificarNombreCliente(clientesService);
-            case 1 -> modificarApellidoCliente(clientesService);
+            case 1 -> modificarNombreCliente(clientesService);
+            case 2 -> modificarApellidoCliente(clientesService);
             default -> { }
         }
     }
@@ -175,5 +176,62 @@ public class GestorCliente {
         clientesService.modificarApellidoCliente(apellido, id);
 
         JOptionPane.showMessageDialog( null,  "Cliente modificado con éxito",  "Modificar Cliente",  JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    private static void menuEmail(ClienteService clientesService) throws ValidationException {
+        int opc = ConsoleUI.ingresarNumero(Mensajes.MENU_EMAIL, "Menu Email");
+
+        switch (opc) {
+            case 1 -> agregarEmail(clientesService); // todo verificar si email existe. y id existe
+            case 2 -> modificarEmail(clientesService);
+            case 3 -> cambiarIdClienteEmail(clientesService);
+            case 4 -> verEmailPorCliente(clientesService);
+            case 5 -> eliminarEmail(clientesService);
+
+            case 0 -> {}
+            default -> throw new IllegalArgumentException("Debe ingresar un número comprendido entre 1 y 5");
+        }
+    }
+
+    private static void agregarEmail(ClienteService clientesService) throws ValidationException {
+        String email = ConsoleUI.ingresarEmail();
+        int idCliente = ConsoleUI.ingresarNumero("Ingrese el id del cliente: ", "Ingresar Email");
+
+        clientesService.agregarEmail(email, idCliente);
+        JOptionPane.showMessageDialog( null,  "Email agregado con éxito",  "Ingresar Email",  JOptionPane.INFORMATION_MESSAGE);
+
+    }
+
+    private static void modificarEmail(ClienteService clientesService) throws ValidationException {
+        String email = ConsoleUI.ingresarEmail();
+        int id = ConsoleUI.ingresarNumero("Ingrese el id: ", "Modificar Email");
+
+        clientesService.modificarEmail(email, id);
+        JOptionPane.showMessageDialog( null,  "Email modificado con éxito",  "Modificar Email",  JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    private static void cambiarIdClienteEmail(ClienteService clientesService) {
+        int idCliente = ConsoleUI.ingresarNumero("Ingrese el id del cliente: ", "Modificar Email");
+        int idEmail = ConsoleUI.ingresarNumero("Ingrese el id del email: ", "Modificar Email");
+
+        clientesService.cambiarIdClienteEmail(idCliente, idEmail);
+        JOptionPane.showMessageDialog( null,  "Cliente email modificado con éxito",  "Modificar Email",  JOptionPane.INFORMATION_MESSAGE);
+
+    }
+
+    private static void verEmailPorCliente(ClienteService clientesService) {
+        List<Email> email = clientesService.verEmailsPorCliente(ConsoleUI.ingresarNumero("Ingrese el id del cliente: ", "Ver Emails Cliente"));
+        List<String> mensaje = email.stream()
+                                    .map(Email::toString)
+                                    .toList();
+
+        JOptionPane.showMessageDialog( null,  String.join("\n", mensaje),  "Emails Cliente",  JOptionPane.INFORMATION_MESSAGE );
+    }
+
+    private static void eliminarEmail(ClienteService clientesService) {
+        int id = ConsoleUI.ingresarNumero("Ingrese el id del email: ", "Modificar Email");
+        clientesService.eliminarEmail(id);
+
+        JOptionPane.showMessageDialog( null,  "Email eliminado con éxito",  "Eliminar Email",  JOptionPane.INFORMATION_MESSAGE);
     }
 }
