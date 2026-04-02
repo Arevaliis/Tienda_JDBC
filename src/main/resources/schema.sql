@@ -13,30 +13,6 @@ CREATE TABLE email(
           ON DELETE CASCADE
 );
 
-
-CREATE TABLE telefono(
-     id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-     telefono VARCHAR(15) NOT NULL UNIQUE,
-     id_cliente INTEGER NOT NULL,
-
-     CONSTRAINT fk_id_cliente_telefono FOREIGN KEY (id_cliente) REFERENCES cliente(id)
-         ON DELETE CASCADE
-);
-
-CREATE TABLE direccion(
-      id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-      ciudad VARCHAR(50) NOT NULL,
-      provincia VARCHAR(50) NOT NULL,
-      calle VARCHAR(50) NOT NULL,
-      numero VARCHAR(10) NOT NULL,
-      cod_postal VARCHAR(10) NOT NULL,
-      piso INTEGER NULL,
-      id_cliente INTEGER NOT NULL,
-
-      CONSTRAINT fk_id_cliente_direccion FOREIGN KEY (id_cliente) REFERENCES cliente(id)
-          ON DELETE CASCADE
-);
-
 CREATE TABLE pedido(
     id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     id_cliente INTEGER NOT NULL,

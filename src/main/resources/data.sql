@@ -8,16 +8,6 @@ INSERT INTO email (email, id_cliente) VALUES
     ('ana@gmail.com', 2),
     ('luis@gmail.com', 3);
 
-INSERT INTO telefono (telefono, id_cliente) VALUES
-    ('600111222', 1),
-    ('611222333', 2),
-    ('622333444', 3);
-
-INSERT INTO direccion (ciudad, provincia, calle, numero, cod_postal, piso, id_cliente) VALUES
-    ('Madrid', 'Madrid', 'Gran Vía', '10', '28013', 3, 1),
-    ('Barcelona', 'Barcelona', 'Diagonal', '200', '08018', NULL, 2),
-    ('Valencia', 'Valencia', 'Colón', '15', '46004', 2, 3);
-
 INSERT INTO producto (nombre, descripcion, precio, stock) VALUES
   ('Teclado', 'Teclado mecánico RGB', 50.00, 100),
   ('Ratón', 'Ratón gaming', 25.00, 200),
