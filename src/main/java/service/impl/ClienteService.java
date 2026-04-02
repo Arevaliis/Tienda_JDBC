@@ -97,8 +97,8 @@ public class ClienteService implements IClienteService {
             connection.setAutoCommit(false);
 
             try {
-                buscarClienteID(idCliente); // Verificamos si existe cliente
-                if (clienteDAO.obtenerEmails().contains(direccionEmail)) { throw new ServiceException("El email ya está registrado en la base de  datos"); }
+                buscarClienteID(idCliente); // Verifica que el ID del cliente exista en la tabla cliente
+                if (clienteDAO.obtenerNombreEmails().contains(direccionEmail)) { throw new ServiceException("El email ya está registrado en la base de  datos"); }
 
                 clienteDAO.agregarEmail(new Email(direccionEmail, idCliente));
                 connection.commit();
@@ -115,14 +115,14 @@ public class ClienteService implements IClienteService {
     }
 
     @Override
-    public void modificarEmail(String nuevoEmail, int id) throws ServiceException {
+    public void modificarEmail(String nuevoEmail, int idEmail) throws ServiceException {
 
         try {
             connection.setAutoCommit(false);
 
             try {
-                Email email = buscarEmail(id);
-                if (clienteDAO.obtenerEmails().contains(nuevoEmail)) { throw new ServiceException("El email ya está registrado en la base de  datos"); }
+                Email email = buscarEmail(idEmail);
+                if (clienteDAO.obtenerNombreEmails().contains(nuevoEmail)) { throw new ServiceException("El email ya está registrado en la base de  datos"); }
 
                 email.setEmail(nuevoEmail);
                 clienteDAO.modificarEmail(email);
@@ -146,7 +146,7 @@ public class ClienteService implements IClienteService {
 
             return email;
 
-        } catch (DAOException e) { throw new ServiceException("Error Service: Fallo durante la eliminación del cliente", e); }
+        } catch (DAOException e) { throw new ServiceException("Error Service: Fallo durante la busqueda del email con id: "+ id, e); }
 
     }
 

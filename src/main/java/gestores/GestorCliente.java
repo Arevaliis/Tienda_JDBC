@@ -178,21 +178,33 @@ public class GestorCliente {
         JOptionPane.showMessageDialog( null,  "Cliente modificado con éxito",  "Modificar Cliente",  JOptionPane.INFORMATION_MESSAGE);
     }
 
+    /**
+     * Muestra el menú de opciones relacionadas con la gestión de emails
+     * y ejecuta la acción correspondiente según la opción elegida.
+     *
+     * @param clientesService servicio de clientes utilizado para realizar las operaciones
+     * @throws ValidationException si ocurre un error en la validación de los datos introducidos
+     */
     private static void menuEmail(ClienteService clientesService) throws ValidationException {
         int opc = ConsoleUI.ingresarNumero(Mensajes.MENU_EMAIL, "Menu Email");
 
         switch (opc) {
-            case 1 -> agregarEmail(clientesService); // todo verificar si email existe. y id existe
+            case 1 -> agregarEmail(clientesService);
             case 2 -> modificarEmail(clientesService);
             case 3 -> cambiarIdClienteEmail(clientesService);
             case 4 -> verEmailPorCliente(clientesService);
             case 5 -> eliminarEmail(clientesService);
 
-            case 0 -> {}
             default -> throw new IllegalArgumentException("Debe ingresar un número comprendido entre 1 y 5");
         }
     }
 
+    /**
+     * Solicita los datos necesarios y agrega un nuevo email a un cliente.
+     *
+     * @param clientesService servicio de clientes utilizado para realizar la operación
+     * @throws ValidationException si el email introducido no es válido
+     */
     private static void agregarEmail(ClienteService clientesService) throws ValidationException {
         String email = ConsoleUI.ingresarEmail();
         int idCliente = ConsoleUI.ingresarNumero("Ingrese el id del cliente: ", "Ingresar Email");
@@ -202,14 +214,25 @@ public class GestorCliente {
 
     }
 
+    /**
+     * Solicita los datos necesarios y modifica un email existente.
+     *
+     * @param clientesService servicio de clientes utilizado para realizar la operación
+     * @throws ValidationException si el email introducido no es válido
+     */
     private static void modificarEmail(ClienteService clientesService) throws ValidationException {
         String email = ConsoleUI.ingresarEmail();
-        int id = ConsoleUI.ingresarNumero("Ingrese el id: ", "Modificar Email");
+        int id = ConsoleUI.ingresarNumero("Ingrese el id del email: ", "Modificar Email");
 
         clientesService.modificarEmail(email, id);
         JOptionPane.showMessageDialog( null,  "Email modificado con éxito",  "Modificar Email",  JOptionPane.INFORMATION_MESSAGE);
     }
 
+    /**
+     * Cambia el cliente asociado a un email existente.
+     *
+     * @param clientesService servicio de clientes utilizado para realizar la operación
+     */
     private static void cambiarIdClienteEmail(ClienteService clientesService) {
         int idCliente = ConsoleUI.ingresarNumero("Ingrese el id del cliente: ", "Modificar Email");
         int idEmail = ConsoleUI.ingresarNumero("Ingrese el id del email: ", "Modificar Email");
@@ -219,15 +242,25 @@ public class GestorCliente {
 
     }
 
+    /**
+     * Muestra todos los emails asociados a un cliente específico.
+     *
+     * @param clientesService servicio de clientes utilizado para realizar la consulta
+     */
     private static void verEmailPorCliente(ClienteService clientesService) {
-        List<Email> email = clientesService.verEmailsPorCliente(ConsoleUI.ingresarNumero("Ingrese el id del cliente: ", "Ver Emails Cliente"));
-        List<String> mensaje = email.stream()
+        List<Email> emails = clientesService.verEmailsPorCliente(ConsoleUI.ingresarNumero("Ingrese el id del cliente: ", "Ver Emails Cliente"));
+        List<String> mensaje = emails.stream()
                                     .map(Email::toString)
                                     .toList();
 
         JOptionPane.showMessageDialog( null,  String.join("\n", mensaje),  "Emails Cliente",  JOptionPane.INFORMATION_MESSAGE );
     }
 
+    /**
+     * Elimina un email de la base de datos a partir de su identificador.
+     *
+     * @param clientesService servicio de clientes utilizado para realizar la operación
+     */
     private static void eliminarEmail(ClienteService clientesService) {
         int id = ConsoleUI.ingresarNumero("Ingrese el id del email: ", "Modificar Email");
         clientesService.eliminarEmail(id);

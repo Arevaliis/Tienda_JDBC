@@ -125,7 +125,7 @@ public class ClienteDAO implements IClienteDAO {
     }
 
     @Override
-    public List<String> obtenerEmails() throws DAOException {
+    public List<String> obtenerNombreEmails() throws DAOException {
         String sql = "SELECT email FROM email";
 
         try (PreparedStatement selectTodosEmails = connection.prepareStatement(sql);

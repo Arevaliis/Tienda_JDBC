@@ -39,6 +39,9 @@ public class Mensajes {
             Seleccione una opción del 0 al 6:""";
 
 
+    /**
+     * Mensaje del menú de gestión de emails de clientes.
+     */
     public final static String MENU_EMAIL = """
              ==================================
                 SISTEMA DE GESTIÓN EMAIL

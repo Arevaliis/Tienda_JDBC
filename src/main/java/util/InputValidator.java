@@ -25,7 +25,16 @@ public class InputValidator {
         return Integer.parseInt(opc);
     }
 
-
+    /**
+     * Valida que una cadena sea una palabra válida. No puede estar vacía, solo puede contener letras (incluyendo acentos y ñ)
+     * y espacios, y por ultimo, debe tener al menos 3 caracteres
+     *
+     * Además, devuelve la palabra con la primera letra en mayúscula.
+     *
+     * @param palabra texto a validar
+     * @return palabra validada con la primera letra en mayúscula
+     * @throws ValidationException si la palabra está vacía, contiene caracteres no válidos o tiene menos de 3 caracteres
+     */
     public static String verificarPalabra(String palabra) throws ValidationException {
 
         if (palabra.isEmpty()){ throw new ValidationException("Debe ingresar una palabra. No puede dejar el campo vacío."); }
@@ -35,6 +44,14 @@ public class InputValidator {
         return palabra.substring(0, 1).toUpperCase() + palabra.substring(1);
     }
 
+    /**
+     * Valida que una cadena tenga formato de email correcto. No puede estar vacío y
+     * debe cumplir un formato básico (texto@texto.dominio)
+     *
+     * @param email dirección de correo electrónico a validar
+     * @return email validado
+     * @throws ValidationException si el email está vacío o no cumple el formato requerido
+     */
     public static String verificarEmail(String email) throws ValidationException {
 
         if (email.isEmpty()){throw new ValidationException("Debe ingresar un email. No puede dejar el campo vacío.");}

@@ -90,6 +90,12 @@ public class ConsoleUI {
         );
     }
 
+    /**
+     * Solicita al usuario que ingrese un email mediante
+     *
+     * @return email validado introducido por el usuario
+     * @throws ValidationException si el campo está vacío o el formato del email no es válido
+     */
     public static String ingresarEmail() throws ValidationException {
         String palabra = JOptionPane.showInputDialog(null, "Ingrese el email del cliente: ", "Ingresar Email", JOptionPane.INFORMATION_MESSAGE);
         return InputValidator.verificarEmail(palabra.trim());
