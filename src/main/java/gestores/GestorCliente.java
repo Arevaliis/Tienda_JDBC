@@ -86,8 +86,10 @@ public class GestorCliente {
      * @throws ValidationException si los datos del cliente no son válidos
      */
     private static void crearCliente(ClienteService clientesService) throws ServiceException, ValidationException {
+        String nombre = ConsoleUI.ingresarPalabra("Ingrese el nombre del cliente: ", "Crear Cliente");
+        String apellido = ConsoleUI.ingresarPalabra("Ingrese el apellido del cliente: ", "Crear Cliente");
 
-        clientesService.insertarCliente(ConsoleUI.crearCliente());
+        clientesService.insertarCliente(nombre, apellido);
         JOptionPane.showMessageDialog( null,  "Nuevo cliente agregado con éxito",  "Crear cliente",  JOptionPane.INFORMATION_MESSAGE );
     }
 

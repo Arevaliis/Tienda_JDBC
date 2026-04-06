@@ -17,12 +17,13 @@ public class InputValidator {
     public static int verificarNumeroIngresado(String opc) {
 
         if (opc == null){ return -1; }
-
         if (opc.isEmpty()){ throw new NumberFormatException("Debe ingresar una opción. No puede dejar el campo vacío."); }
         if (!opc.matches("^[0-9]+$")) { throw new NumberFormatException("La opción ingresada debe ser un número entero válido."); }
-        if (Integer.parseInt(opc) < 0) { throw new NumberFormatException("Debe ingresar un valor mayor que 0"); }
 
-        return Integer.parseInt(opc);
+        int numero = Integer.parseInt(opc);
+        if (numero < 0) { throw new NumberFormatException("Debe ingresar un valor mayor que 0"); }
+
+        return numero;
     }
 
     /**
@@ -58,5 +59,25 @@ public class InputValidator {
         if (!email.matches("^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$")){throw new ValidationException("El formato del email no es correcto.");}
 
         return email;
+    }
+
+    /**
+     * Valida que una cadena represente un número decimal válido y lo convierte a tipo double. No puede estar vacío, debe ser decimal y
+     * debe ser mayor a 0.00
+     *
+     * @param numero cadena que representa el número decimal a validar
+     * @return valor convertido a tipo double si es válido
+     * @throws NumberFormatException si el valor está vacío, tiene formato inválido o es negativo
+     */
+    public static double verificarDecimalIngresado(String numero) {
+
+        if (numero.isEmpty()) { throw new NumberFormatException("Debe ingresar un número decimal. No puede estar vacío."); }
+
+        double decimal = Double.parseDouble(numero);
+        if (decimal < 0) { throw new NumberFormatException("El valor no puede ser negativo."); }
+
+        if (!numero.matches("^[0-9]+(\\.[0-9]+)?$")) { throw new NumberFormatException("Debe ingresar un número decimal válido."); }
+
+        return decimal;
     }
 }

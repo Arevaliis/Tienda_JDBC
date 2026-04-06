@@ -1,7 +1,6 @@
 package util;
 
 import exception.ValidationException;
-import model.Cliente;
 
 import javax.swing.JOptionPane;
 
@@ -41,19 +40,6 @@ public class ConsoleUI {
         String numero = JOptionPane.showInputDialog(null, mensaje, titulo, JOptionPane.QUESTION_MESSAGE);
 
         return InputValidator.verificarNumeroIngresado(numero);
-    }
-
-    /**
-     * Crea un objeto Cliente solicitando sus datos por consola gráfica.
-     *
-     * @return nuevo objeto Cliente con nombre y apellido introducidos por el usuario
-     * @throws ValidationException si los datos introducidos no son válidos
-     */
-    public static Cliente crearCliente() throws ValidationException {
-        String nombre = ingresarPalabra("Ingrese el nombre del cliente: ", "Crear Cliente");
-        String apellido = ingresarPalabra("Ingrese el apellido del cliente: ", "Crear Cliente");
-
-        return new Cliente(nombre, apellido);
     }
 
     /**
@@ -99,5 +85,18 @@ public class ConsoleUI {
     public static String ingresarEmail() throws ValidationException {
         String palabra = JOptionPane.showInputDialog(null, "Ingrese el email del cliente: ", "Ingresar Email", JOptionPane.INFORMATION_MESSAGE);
         return InputValidator.verificarEmail(palabra.trim());
+    }
+
+    /**
+     * Solicita al usuario un número decimal
+     *
+     * @param mensaje texto que se muestra al usuario para indicar qué debe introducir
+     * @param titulo  título de la ventana de entrada
+     * @return número decimal validado introducido por el usuario
+     * @throws NumberFormatException si el valor introducido no es un número decimal válido
+     */
+    public static double ingresarDecimal(String mensaje, String titulo) {
+        String decimal = JOptionPane.showInputDialog(null, mensaje, titulo, JOptionPane.QUESTION_MESSAGE);
+        return InputValidator.verificarDecimalIngresado(decimal);
     }
 }

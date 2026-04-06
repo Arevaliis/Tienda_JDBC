@@ -1,6 +1,7 @@
 package app;
 
 import gestores.GestorCliente;
+import gestores.GestorProducto;
 import util.ConsoleUI;
 import util.Mensajes;
 
@@ -40,14 +41,14 @@ public class Main {
      * Solicita al usuario una opción del menú principal y ejecuta la acción correspondiente.
      *
      * @return el número de la opción seleccionada por el usuario
-     * @throws IllegalArgumentException si la opción no está entre 1-4
+     * @throws IllegalArgumentException si la opción no está entre 0-3
      */
     private static int ejecutarOpcion() {
         int opc = ConsoleUI.ingresarNumero(Mensajes.MENU_INICIAL, "Menu Inicial");
 
         switch (opc){
             case 1 -> GestorCliente.ejecutarGestorClientes();
-            case 2 -> System.out.println("Gestor Productos"); // TODO IMPLEMENTAR
+            case 2 -> GestorProducto.ejecutarMenuProducto();
             case 3 -> System.out.println("Gestor Pedidos"); // TODO IMPLEMENTAR
 
             case 0, -1-> JOptionPane.showMessageDialog(null, "Saliendo", "Salir", JOptionPane.INFORMATION_MESSAGE);

@@ -28,7 +28,7 @@ public class Mensajes {
                 SISTEMA DE GESTIÓN CLIENTES
             ==================================
             
-                1. Crear Cliente
+                1. Crear cliente
                 2. Ver cliente por ID
                 3. Listar todos los clientes
                 4. Modificar cliente
@@ -56,4 +56,20 @@ public class Mensajes {
 
              Seleccione una opción del 0 al 5:""";
 
+    /**
+     * Mensaje del menú de gestión de productos.
+     */
+    public final static String MENU_PRODUCTOS = """
+            ==================================
+                SISTEMA DE GESTIÓN PRODUCTOS
+            ==================================
+            
+                1. Crear producto
+                2. Ver producto por ID
+                3. Listar todos los productos
+                4. Modificar producto
+                5. Eliminar productos
+                0. Salir
+            
+            Seleccione una opción del 0 al 5:""";
 }

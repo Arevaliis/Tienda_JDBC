@@ -22,8 +22,9 @@ public class ClienteService implements IClienteService {
     }
 
     @Override
-    public void insertarCliente(Cliente cliente) throws ServiceException {
+    public void insertarCliente(String nombre, String apellido) throws ServiceException {
         try {
+            Cliente cliente = new Cliente(nombre, apellido);
             clienteDAO.insertarCliente(cliente);
 
         } catch (DAOException e) { throw new ServiceException("Error Service: Fallo durante la inserción del cliente", e); }

@@ -14,10 +14,11 @@ public interface IClienteService {
     /**
      * Inserta un nuevo cliente en el sistema.
      *
-     * @param cliente objeto Cliente que se desea insertar
+     * @param nombre nombre del cliente a insertar
+     * @param apellido apellido del cliente a insertar
      * @throws ServiceException si ocurre un error en la capa de servicio o persistencia
      */
-    void insertarCliente(Cliente cliente) throws ServiceException;
+    void insertarCliente(String nombre, String apellido) throws ServiceException;
 
     /**
      * Busca un cliente en el sistema a partir de su identificador.
