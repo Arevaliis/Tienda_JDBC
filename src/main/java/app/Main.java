@@ -6,9 +6,6 @@ import util.Mensajes;
 
 import javax.swing.JOptionPane;
 
-// TODO AL INSERTAR SIMBOLOS EN ID SALE ERROR EN FEO
-
-
 /**
  * Clase principal de la aplicación.
  * Se encarga de iniciar el sistema y controlar el flujo del menú principal.
@@ -25,7 +22,7 @@ public class Main {
         while (seguir) {
             try {
 
-                if (ejecutarOpcion() == 0 ) { return; }
+                if (ejecutarOpcion() <= 0 ) { return; }
                 seguir = ConsoleUI.confirmarContinuacion("¿Desea seguir en el gestor? S/N: ", "Seguir Menu Principal");
 
             } catch (IllegalArgumentException e) {
@@ -53,7 +50,7 @@ public class Main {
             case 2 -> System.out.println("Gestor Productos"); // TODO IMPLEMENTAR
             case 3 -> System.out.println("Gestor Pedidos"); // TODO IMPLEMENTAR
 
-            case 0 -> JOptionPane.showMessageDialog(null, "Saliendo", "Salir", JOptionPane.INFORMATION_MESSAGE);
+            case 0, -1-> JOptionPane.showMessageDialog(null, "Saliendo", "Salir", JOptionPane.INFORMATION_MESSAGE);
             default -> throw new IllegalArgumentException("Debe ingresar un número comprendido entre 0-3");
         }
 

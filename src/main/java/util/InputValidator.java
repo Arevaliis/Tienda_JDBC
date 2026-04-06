@@ -16,7 +16,7 @@ public class InputValidator {
      */
     public static int verificarNumeroIngresado(String opc) {
 
-        if (opc == null){ return 0; }
+        if (opc == null){ return -1; }
 
         if (opc.isEmpty()){ throw new NumberFormatException("Debe ingresar una opción. No puede dejar el campo vacío."); }
         if (!opc.matches("^[0-9]+$")) { throw new NumberFormatException("La opción ingresada debe ser un número entero válido."); }
@@ -27,8 +27,8 @@ public class InputValidator {
 
     /**
      * Valida que una cadena sea una palabra válida. No puede estar vacía, solo puede contener letras (incluyendo acentos y ñ)
-     * y espacios, y por ultimo, debe tener al menos 3 caracteres
-     *
+     * y espacios, y por último, debe tener al menos 3 caracteres
+     * <p>
      * Además, devuelve la palabra con la primera letra en mayúscula.
      *
      * @param palabra texto a validar

@@ -106,7 +106,7 @@ public class ClienteDAO implements IClienteDAO {
         try (PreparedStatement delete = connection.prepareStatement(sql)){
             delete.setInt(1, id);
 
-            if (delete.executeUpdate() == 0){throw new DAOException("No se ha podido eliminar al cliente con id " + id);}
+            if (delete.executeUpdate() == 0){ throw new DAOException("No se ha podido eliminar al cliente con id " + id);}
 
         } catch (SQLException e) { throw new DAOException("Error DAO: Fallo durante el delete del cliente", e); }
     }

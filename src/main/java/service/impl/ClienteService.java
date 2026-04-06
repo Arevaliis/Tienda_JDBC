@@ -62,7 +62,7 @@ public class ClienteService implements IClienteService {
         Cliente cliente;
 
         try{
-            cliente = clienteDAO.buscarClienteID(id);
+            cliente = buscarClienteID(id);
             cliente.setNombre(nombre);
             clienteDAO.modificarNombreCliente(cliente);
 
@@ -74,7 +74,7 @@ public class ClienteService implements IClienteService {
         Cliente cliente;
 
         try{
-            cliente = clienteDAO.buscarClienteID(id);
+            cliente = buscarClienteID(id);
             cliente.setApellido(apellido);
             clienteDAO.modificarApellidoCliente(cliente);
 
@@ -85,6 +85,8 @@ public class ClienteService implements IClienteService {
     @Override
     public void eliminarCliente(int id) throws ServiceException {
         try {
+            if (buscarClienteID(id) == null){ return ;}
+
             clienteDAO.eliminarCliente(id);
 
         } catch (DAOException e) { throw new ServiceException("Error Service: Fallo durante la eliminación del cliente", e); }
@@ -200,6 +202,8 @@ public class ClienteService implements IClienteService {
     @Override
     public void eliminarEmail(int id) throws ServiceException {
         try {
+            if (buscarEmail(id) == null){ return ;}
+
             clienteDAO.eliminarEmail(id);
 
         } catch (DAOException e) { throw new ServiceException("Error Service: Fallo durante la eliminación de email con id: " + id, e); }
