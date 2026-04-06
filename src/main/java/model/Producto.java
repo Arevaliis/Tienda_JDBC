@@ -8,8 +8,8 @@ import java.util.Objects;
  */
 public class Producto {
     private int id;
-    private final String nombre;
-    private final String descripcion;
+    private String nombre;
+    private String descripcion;
     private double precio;
     private int stock;
 
@@ -45,6 +45,12 @@ public class Producto {
         this.stock = stock;
     }
 
+    /**
+     * Obtiene el ID del producto.
+     *
+     * @return ID del producto
+     */
+    public int getId() { return id;}
 
     /**
      * Obtiene el nombre del producto.
@@ -68,18 +74,32 @@ public class Producto {
     public double getPrecio() { return precio; }
 
     /**
-     * Modifica el precio del producto.
-     *
-     * @param precio nuevo precio
-     */
-    public void setPrecio(double precio) { this.precio = precio; }
-
-    /**
      * Obtiene el stock del producto.
      *
      * @return cantidad en stock
      */
     public int getStock() { return stock; }
+
+    /**
+     * Modifica el nombre del producto.
+     *
+     * @param nombre nuevo nombre
+     */
+    public void setNombre(String nombre) { this.nombre = nombre; }
+
+    /**
+     * Modifica la descripcion del producto.
+     *
+     * @param descripcion nueva descripción
+     */
+    public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
+
+    /**
+     * Modifica el precio del producto.
+     *
+     * @param precio nuevo precio
+     */
+    public void setPrecio(double precio) { this.precio = precio; }
 
     /**
      * Modifica el stock del producto.

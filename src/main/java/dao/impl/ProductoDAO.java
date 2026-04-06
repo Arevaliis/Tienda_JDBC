@@ -83,7 +83,20 @@ public class ProductoDAO implements IProductoDAO {
 
     @Override
     public void actualizarProducto(Producto producto) throws DAOException{
+        String sql = "UPDATE producto " +
+                     "SET nombre = ?, descripcion = ?, precio = ?, stock = ? " +
+                     "WHERE id = ?";
 
+        try(PreparedStatement update = connection.prepareStatement(sql)) {
+            update.setString(1, producto.getNombre());
+            update.setString(2, producto.getDescripcion());
+            update.setDouble(3, producto.getPrecio());
+            update.setInt(4, producto.getStock());
+            update.setInt(5, producto.getId());
+
+            if (update.executeUpdate() == 0){ throw new DAOException("No se ha podido actualizar el producto"); }
+
+        } catch (SQLException e) { throw new DAOException("Error DAO: Fallo al hacer update del producto", e); }
     }
 
     @Override

@@ -130,16 +130,6 @@ public class GestorProducto {
     }
 
     /**
-     * Muestra el menú de modificación de productos.
-     * <p>
-     * Permite seleccionar qué atributo del producto se desea modificar.
-     *
-     * @param productoService servicio encargado de gestionar productos
-     */
-    private static void menuModificarProducto(ProductoService productoService) {
-    }
-
-    /**
      * Elimina un producto del sistema a partir de su identificador.
      * <p>
      * Solicita el ID al usuario, lo valida y delega la operación al servicio.
@@ -152,5 +142,90 @@ public class GestorProducto {
 
         productoService.eliminarProducto(id);
         JOptionPane.showMessageDialog( null,  "Producto eliminado de la base de datos",  "Eliminar Producto",  JOptionPane.INFORMATION_MESSAGE );
+    }
+
+    /**
+     * Muestra el menú de modificación de productos.
+     * <p>
+     * Permite seleccionar qué atributo del producto se desea modificar.
+     *
+     * @param productoService servicio encargado de gestionar productos
+     */
+    private static void menuModificarProducto(ProductoService productoService) throws ValidationException {
+
+        int opc = ConsoleUI.seleccionarOpcion( new String[]{"Nombre", "Descripcion", "Precio", "Stock"},  "Modificar Producto" ) + 1;
+
+        switch (opc) {
+            case 1 -> modificarNombreProducto(productoService);
+            case 2 -> modificarDescripcionProdcto(productoService);
+            case 3 -> modificarPrecioProducto(productoService);
+            case 4 -> modificarStockProducto(productoService);
+
+            default -> { }
+        }
+    }
+
+    /**
+     * Modifica el nombre de un producto existente.
+     *
+     * @param productoService servicio que gestiona las operaciones de producto
+     * @throws ValidationException si ocurre un error de validación en la entrada
+     */
+    private static void modificarNombreProducto(ProductoService productoService) throws ValidationException {
+        int id = ConsoleUI.ingresarNumero("Ingrese el id del producto", "Modificar Nombre");
+        if (id == -1) { return; }
+
+        String nombre = ConsoleUI.ingresarPalabra("Ingrese el nombre del producto:", "Modificar Nombre");
+        productoService.modificarNombre(id, nombre);
+
+        JOptionPane.showMessageDialog(null,  "Nombre producto actualizado correctamente",  "Modificar Nombre",  JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    /**
+     * Modifica la descripción de un producto existente.
+     *
+     * @param productoService servicio que gestiona las operaciones de producto
+     * @throws ValidationException si ocurre un error de validación en la entrada
+     */
+    private static void modificarDescripcionProdcto(ProductoService productoService) throws ValidationException {
+        int id = ConsoleUI.ingresarNumero("Ingrese el id del producto", "Modificar Descripción");
+        if (id == -1) { return; }
+
+        String descripcion = ConsoleUI.ingresarPalabra("Ingrese la descripción del producto:", "Modificar Descripción");
+        productoService.modificarDescripcion(id, descripcion);
+
+        JOptionPane.showMessageDialog(null,  "Descripción del producto actualizada correctamente",  "Modificar Descripción",  JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    /**
+     * Modifica el precio de un producto existente.
+     *
+     * @param productoService servicio que gestiona las operaciones de producto
+     */
+    private static void modificarPrecioProducto(ProductoService productoService) {
+        int id = ConsoleUI.ingresarNumero("Ingrese el id del producto", "Modificar Precio");
+        if (id == -1) { return; }
+
+        double precio = ConsoleUI.ingresarDecimal("Ingrese el precio del producto: ", "Modificar Precio");
+        productoService.modificarPrecio(id, precio);
+
+        JOptionPane.showMessageDialog(null,  "Precio del producto actualizado correctamente",  "Modificar Precio",  JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    /**
+     * Modifica el stock de un producto existente.
+     *
+     * @param productoService servicio que gestiona las operaciones de producto
+     */
+    private static void modificarStockProducto(ProductoService productoService) {
+        int id = ConsoleUI.ingresarNumero("Ingrese el id del producto", "Modificar Stock");
+        if (id == -1) { return; }
+
+        int stock = ConsoleUI.ingresarNumero("Ingrese el stock del producto: ", "Modificar Stock");
+        if (stock == -1) {return;}
+
+        productoService.modificarStock(id, stock);
+
+        JOptionPane.showMessageDialog(null,  "Stock del producto actualizado correctamente",  "Modificar Stock",  JOptionPane.INFORMATION_MESSAGE);
     }
 }

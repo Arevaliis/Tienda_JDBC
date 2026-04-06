@@ -53,22 +53,56 @@ public class ProductoService implements IProductoService {
 
     @Override
     public void modificarNombre(int id, String nombre) throws ServiceException {
+        try {
+            Producto producto = verProductoPorID(id);
+            if ( producto == null){ return; }
 
+            producto.setNombre(nombre);
+            productoDAO.actualizarProducto(producto);
+
+        } catch (DAOException e) { throw new ServiceException("Error Service: Fallo a la hora de modificar el nombre del producto.", e); }
     }
 
     @Override
     public void modificarDescripcion(int id, String descripcion) throws ServiceException {
+        try {
+            Producto producto = verProductoPorID(id);
+            if (producto == null) { return; }
 
+            producto.setDescripcion(descripcion);
+            productoDAO.actualizarProducto(producto);
+
+        } catch (DAOException e) {
+            throw new ServiceException("Error Service: Fallo a la hora de modificar la descripción del producto.", e);
+        }
     }
 
     @Override
     public void modificarPrecio(int id, double precio) throws ServiceException {
+        try {
+            Producto producto = verProductoPorID(id);
+            if (producto == null) { return; }
 
+            producto.setPrecio(precio);
+            productoDAO.actualizarProducto(producto);
+
+        } catch (DAOException e) {
+            throw new ServiceException("Error Service: Fallo a la hora de modificar el precio del producto.", e);
+        }
     }
 
     @Override
     public void modificarStock(int id, int stock) throws ServiceException {
+        try {
+            Producto producto = verProductoPorID(id);
+            if (producto == null) { return; }
 
+            producto.setStock(stock);
+            productoDAO.actualizarProducto(producto);
+
+        } catch (DAOException e) {
+            throw new ServiceException("Error Service: Fallo a la hora de modificar el stock del producto.", e);
+        }
     }
 
     @Override
