@@ -21,11 +21,11 @@ public interface IPedidoDAO {
     /**
      * Busca un pedido por su identificador.
      *
-     * @param id_pedido identificador del pedido
+     * @param idPedido identificador del pedido
      * @return pedido encontrado
      * @throws DAOException si ocurre un error o no se encuentra el pedido
      */
-    Pedido buscarPedidoID(int id_pedido) throws DAOException;
+    Pedido buscarPedidoID(int idPedido) throws DAOException;
 
     /**
      * Obtiene todos los pedidos almacenados.
@@ -38,11 +38,11 @@ public interface IPedidoDAO {
     /**
      * Obtiene los pedidos asociados a un cliente.
      *
-     * @param id_cliente identificador del cliente
+     * @param idCliente identificador del cliente
      * @return lista de pedidos del cliente
      * @throws DAOException si ocurre un error durante la consulta
      */
-    List<Pedido> listarPedidosPorCliente(int id_cliente) throws DAOException;
+    List<Pedido> listarPedidosPorCliente(int idCliente) throws DAOException;
 
     /**
      * Actualiza un pedido existente.
@@ -55,9 +55,9 @@ public interface IPedidoDAO {
     /**
      * Elimina un pedido por su identificador.
      *
-     * @param id_pedido identificador del pedido
+     * @param idPedido identificador del pedido
      * @throws DAOException sí ocurre un error durante la eliminación
      */
-    void eliminarPedido(int id_pedido) throws DAOException;
+    void eliminarPedido(int idPedido) throws DAOException;
 
 }

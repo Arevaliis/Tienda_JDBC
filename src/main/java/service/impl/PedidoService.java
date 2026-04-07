@@ -9,6 +9,8 @@ import service.interfaces.IPedidoService;
 
 import java.sql.Connection;
 import java.sql.Timestamp;
+import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 
 public class PedidoService implements IPedidoService {
@@ -23,48 +25,104 @@ public class PedidoService implements IPedidoService {
     }
 
     @Override
-    public void crearPedido(int id_cliente) throws ServiceException {
+    public void crearPedido(int idCliente) throws ServiceException {
         try{
-            pedidoDAO.crearPedido( new Pedido(id_cliente));
+            pedidoDAO.crearPedido( new Pedido(idCliente));
 
         } catch (DAOException e) { throw new ServiceException("Error Service: Fallo durante insert pedido", e); }
     }
 
     @Override
-    public Pedido buscarPedidoID(int id_pedido) throws ServiceException {
+    public Pedido buscarPedidoID(int idPedido) throws ServiceException {
         try{
-            Pedido pedido_id_cliente = pedidoDAO.buscarPedidoID(id_pedido);
-            if(pedido_id_cliente == null){ throw new ServiceException("No existe el pedido con id: " + id_pedido ); }
+            Pedido pedidoIdCliente = pedidoDAO.buscarPedidoID(idPedido);
+            if(pedidoIdCliente == null){ throw new ServiceException("No existe el pedido con id: " + idPedido ); }
 
-            Cliente cliente = clienteService.buscarClienteID(pedido_id_cliente.getId_cliente());
+            Cliente cliente = clienteService.buscarClienteID(pedidoIdCliente.getId_cliente());
 
-            return new Pedido( pedido_id_cliente.getId(), cliente, pedido_id_cliente.getFecha());
+            return new Pedido( pedidoIdCliente.getId(), cliente, pedidoIdCliente.getFecha());
 
         } catch (DAOException e) { throw new ServiceException("Error Service: Fallo durante insert pedido", e); }
     }
 
     @Override
     public List<Pedido> listarPedidos() {
-        return List.of();
+        try{
+            List<Pedido> pedidoIdCliente = pedidoDAO.listarPedidos();
+            if(pedidoIdCliente.isEmpty()){ throw new ServiceException("No hay registro alguno de pedidos en la base de datos." ); }
+
+            List<Pedido> pedidos = new ArrayList<>();
+
+            for (Pedido pedido: pedidoIdCliente){
+
+                Cliente cliente = clienteService.buscarClienteID(pedido.getId_cliente());
+
+                pedidos.add( new Pedido( pedido.getId(),
+                                         cliente,
+                                         pedido.getFecha())
+                );
+            }
+
+           return pedidos;
+
+        } catch (DAOException e) { throw new ServiceException("Error Service: Fallo durante insert pedido", e); }
     }
 
     @Override
-    public List<Pedido> listarPedidosPorCliente(int id_cliente) throws ServiceException {
-        return List.of();
+    public List<Pedido> listarPedidosPorCliente(int idCliente) throws ServiceException {
+
+        try{
+            List<Pedido> pedidosCliente = pedidoDAO.listarPedidosPorCliente(idCliente);
+            if(pedidosCliente.isEmpty()){ throw new ServiceException("No hay registro alguno de pedidos en la base de datos del cliente con id: " + idCliente ); }
+
+            List<Pedido> pedidos = new ArrayList<>();
+
+            for (Pedido pedido: pedidosCliente){
+
+                Cliente cliente = clienteService.buscarClienteID(pedido.getId_cliente());
+
+                pedidos.add(
+                            new Pedido( pedido.getId(),
+                                        cliente,
+                                        pedido.getFecha())
+                );
+            }
+
+            return pedidos;
+
+        } catch (DAOException e) { throw new ServiceException("Error Service: Fallo durante insert pedido", e); }
     }
 
     @Override
-    public void modificarIdCliente(int id_cliente, int id_pedido) throws ServiceException {
+    public void modificarIdCliente(int idCliente, int idPedido) throws ServiceException {
+        try{
+            Pedido pedido = buscarPedidoID(idPedido);
+            Cliente cliente = clienteService.buscarClienteID(idCliente);
 
+            pedido.setId_cliente(cliente.getId());
+            pedidoDAO.actualizarPedido(pedido);
+
+        } catch (DAOException e) { throw new ServiceException("Error Service: Fallo durante update de pedido", e); }
     }
 
     @Override
-    public void modificarFecha(Timestamp fecha, int id_pedido) throws ServiceException {
+    public void modificarFecha(int idPedido) throws ServiceException {
+        try{
+            Pedido pedido = pedidoDAO.buscarPedidoID(idPedido);
+            if(pedido == null){ throw new ServiceException("No existe el pedido con id: " + idPedido ); }
 
+            pedido.setFecha( Timestamp.from(Instant.now()) );
+            pedidoDAO.actualizarPedido(pedido);
+
+        } catch (DAOException e) { throw new ServiceException("Error Service: Fallo durante update de pedido", e); }
     }
 
     @Override
-    public void eliminarPedido(int id_pedido) throws ServiceException {
+    public void eliminarPedido(int idPedido) throws ServiceException {
+        try {
+            buscarPedidoID(idPedido);
+            pedidoDAO.eliminarPedido(idPedido);
 
+        } catch (DAOException e) { throw new ServiceException("Error Service: Fallo durante delete de pedido", e); }
     }
 }

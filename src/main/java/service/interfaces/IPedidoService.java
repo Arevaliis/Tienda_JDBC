@@ -2,7 +2,6 @@ package service.interfaces;
 
 import exception.ServiceException;
 import model.Pedido;
-import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -14,19 +13,19 @@ public interface IPedidoService {
     /**
      * Crea un nuevo pedido.
      *
-     * @param id_cliente identificador del cliente asociado
+     * @param idCliente identificador del cliente asociado
      * @throws ServiceException sí ocurre un error durante la creación
      */
-    void crearPedido(int id_cliente) throws ServiceException;
+    void crearPedido(int idCliente) throws ServiceException;
 
     /**
      * Busca un pedido por su identificador.
      *
-     * @param id_pedido identificador del pedido
+     * @param idPedido identificador del pedido
      * @return pedido encontrado
      * @throws ServiceException si ocurre un error o no se encuentra el pedido
      */
-    Pedido buscarPedidoID(int id_pedido) throws ServiceException;
+    Pedido buscarPedidoID(int idPedido) throws ServiceException;
 
     /**
      * Obtiene la lista de todos los pedidos.
@@ -38,35 +37,34 @@ public interface IPedidoService {
     /**
      * Obtiene todos los pedidos de un cliente específico.
      *
-     * @param id_cliente identificador del cliente
+     * @param idCliente identificador del cliente
      * @return lista de pedidos del cliente
      * @throws ServiceException si ocurre un error durante la consulta
      */
-    List<Pedido> listarPedidosPorCliente(int id_cliente) throws ServiceException;
+    List<Pedido> listarPedidosPorCliente(int idCliente) throws ServiceException;
 
     /**
      * Modifica el cliente asociado a un pedido.
      *
-     * @param id_cliente nuevo id del cliente
-     * @param id_pedido identificador del pedido
+     * @param idCliente nuevo id del cliente
+     * @param idPedido identificador del pedido
      * @throws ServiceException sí ocurre un error durante la modificación
      */
-    void modificarIdCliente(int id_cliente, int id_pedido) throws ServiceException;
+    void modificarIdCliente(int idCliente, int idPedido) throws ServiceException;
 
     /**
-     * Modifica la fecha de un pedido.
+     * Modifica la fecha de un pedido por la fecha actual.
      *
-     * @param fecha nueva fecha del pedido
-     * @param id_pedido identificador del pedido
+     * @param idPedido identificador del pedido
      * @throws ServiceException sí ocurre un error durante la modificación
      */
-    void modificarFecha(Timestamp fecha, int id_pedido) throws ServiceException;
+    void modificarFecha(int idPedido) throws ServiceException;
 
     /**
      * Elimina un pedido por su identificador.
      *
-     * @param id_pedido identificador del pedido
+     * @param idPedido identificador del pedido
      * @throws ServiceException sí ocurre un error durante la eliminación
      */
-    void eliminarPedido(int id_pedido) throws ServiceException;
+    void eliminarPedido(int idPedido) throws ServiceException;
 }

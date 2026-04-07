@@ -12,6 +12,9 @@ import util.Mensajes;
 import javax.swing.JOptionPane;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.util.List;
 
 /**
  * Gestor encargado de la interfaz de usuario para la gestión de pedidos.
@@ -82,10 +85,10 @@ public class GestorPedido {
      * @param pedidoService servicio de pedidos
      */
     private static void crearPedido(PedidoService pedidoService) {
-        int id_cliente = ConsoleUI.ingresarNumero("Ingrese el id del cliente para el pedido: ", "Ingresar Pedido");
-        if (id_cliente == -1) { return; }
+        int idCliente = ConsoleUI.ingresarNumero("Ingrese el id del cliente para el pedido: ", "Ingresar Pedido");
+        if (idCliente == -1) { return; }
 
-        pedidoService.crearPedido(id_cliente);
+        pedidoService.crearPedido(idCliente);
 
         JOptionPane.showMessageDialog( null,  "Pedido ingresado con éxito",  "Ingresar Pedido",  JOptionPane.INFORMATION_MESSAGE );
     }
@@ -96,10 +99,10 @@ public class GestorPedido {
      * @param pedidoService servicio de pedidos
      */
     private static void buscarPedidoID(PedidoService pedidoService) {
-        int id_pedido = ConsoleUI.ingresarNumero("Ingrese el id del pedido: ", "Buscar Pedido Por ID");
-        if (id_pedido == -1){ return;}
+        int idPedido = ConsoleUI.ingresarNumero("Ingrese el id del pedido: ", "Buscar Pedido Por ID");
+        if (idPedido == -1){ return;}
 
-        Pedido pedido = pedidoService.buscarPedidoID(id_pedido);
+        Pedido pedido = pedidoService.buscarPedidoID(idPedido);
         JOptionPane.showMessageDialog( null,  pedido,  "Ver Pedido",  JOptionPane.INFORMATION_MESSAGE );
     }
 
@@ -109,6 +112,12 @@ public class GestorPedido {
      * @param pedidoService servicio de pedidos
      */
     private static void listarPedidos(PedidoService pedidoService) {
+        List<Pedido> pedidos = pedidoService.listarPedidos();
+        List<String> mensaje = pedidos.stream()
+                                      .map(Object::toString)
+                                      .toList();
+
+        JOptionPane.showMessageDialog( null,  String.join("\n", mensaje),  "Pedidos Registrados",  JOptionPane.INFORMATION_MESSAGE );
     }
 
     /**
@@ -117,6 +126,15 @@ public class GestorPedido {
      * @param pedidoService servicio de pedidos
      */
     private static void listarPedidosPorCliente(PedidoService pedidoService) {
+        int idCliente = ConsoleUI.ingresarNumero("Ingrese el id del cliente: ", "Ver Pedidos Cliente");
+        if (idCliente == -1){ return; }
+
+        List<Pedido> pedidos = pedidoService.listarPedidosPorCliente(idCliente);
+        List<String> mensaje = pedidos.stream()
+                                      .map(Object::toString)
+                                      .toList();
+
+        JOptionPane.showMessageDialog( null,  String.join("\n", mensaje),  "Pedidos Registrados",  JOptionPane.INFORMATION_MESSAGE );
     }
 
     /**
@@ -125,6 +143,45 @@ public class GestorPedido {
      * @param pedidoService servicio de pedidos
      */
     private static void menuModificarPedido(PedidoService pedidoService) {
+        int opc = ConsoleUI.seleccionarOpcion( new String[]{"ID Cliente", "Fecha Actual"},  "Modificar Pedido" ) + 1;
+
+        switch (opc) {
+            case 1 -> modificarIdCliente(pedidoService);
+            case 2 -> modificarFecha(pedidoService);
+
+            default -> { }
+        }
+    }
+
+    /**
+     * Modifica el ID del cliente asociado a un pedido existente.
+     *
+     * @param pedidoService servicio de pedidos encargado de la lógica de negocio
+     */
+    private static void modificarIdCliente(PedidoService pedidoService) {
+        int idPedido = ConsoleUI.ingresarNumero("Ingrese el id del pedido: ", "Modificar ID Cliente de Pedido");
+        if (idPedido == -1 ){ return; }
+
+        int idCliente = ConsoleUI.ingresarNumero("Ingrese el id del cliente: ", "Modificar ID Cliente de Pedido");
+        if (idCliente == -1 ){ return; }
+
+        pedidoService.modificarIdCliente(idCliente, idPedido);
+        JOptionPane.showMessageDialog( null,  "ID cliente modificado",  "Modificar ID Cliente de Pedido",  JOptionPane.INFORMATION_MESSAGE );
+
+    }
+
+    /**
+     * Modifica la fecha de un pedido existente.
+     *
+     * @param pedidoService servicio de pedidos encargado de la lógica de negocio
+     */
+    private static void modificarFecha(PedidoService pedidoService) {
+        int idPedido = ConsoleUI.ingresarNumero("Ingrese el id del pedido: ", "Modificar Fecha de Pedido");
+        if (idPedido == -1 ){ return; }
+
+        pedidoService.modificarFecha(idPedido);
+        JOptionPane.showMessageDialog( null,  "Nueva fecha: " + Timestamp.from(Instant.now() ),  "Modificar Fecha de Pedido",  JOptionPane.INFORMATION_MESSAGE );
+
     }
 
     /**
@@ -133,5 +190,11 @@ public class GestorPedido {
      * @param pedidoService servicio de pedidos
      */
     private static void eliminarPedido(PedidoService pedidoService) {
+        int idPedido = ConsoleUI.ingresarNumero("Ingrese el id del pedido: ", "Eliminar Pedido");
+        if (idPedido == -1 ){ return; }
+
+        pedidoService.eliminarPedido(idPedido);
+        JOptionPane.showMessageDialog( null,  "Pedido Eliminado",  "Eliminar Pedido",  JOptionPane.INFORMATION_MESSAGE );
+
     }
 }
