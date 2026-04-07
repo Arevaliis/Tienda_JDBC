@@ -1,6 +1,7 @@
 package app;
 
 import gestores.GestorCliente;
+import gestores.GestorPedido;
 import gestores.GestorProducto;
 import util.ConsoleUI;
 import util.Mensajes;
@@ -49,7 +50,7 @@ public class Main {
         switch (opc){
             case 1 -> GestorCliente.ejecutarGestorClientes();
             case 2 -> GestorProducto.ejecutarMenuProducto();
-            case 3 -> System.out.println("Gestor Pedidos"); // TODO IMPLEMENTAR
+            case 3 -> GestorPedido.ejecutarMenuPedido();
 
             case 0, -1-> JOptionPane.showMessageDialog(null, "Saliendo", "Salir", JOptionPane.INFORMATION_MESSAGE);
             default -> throw new IllegalArgumentException("Debe ingresar un número comprendido entre 0-3");
