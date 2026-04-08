@@ -1,6 +1,7 @@
 package app;
 
 import gestores.GestorCliente;
+import gestores.GestorDetallesPedidio;
 import gestores.GestorPedido;
 import gestores.GestorProducto;
 import util.ConsoleUI;
@@ -51,9 +52,10 @@ public class Main {
             case 1 -> GestorCliente.ejecutarGestorClientes();
             case 2 -> GestorProducto.ejecutarMenuProducto();
             case 3 -> GestorPedido.ejecutarMenuPedido();
+            case 4 -> GestorDetallesPedidio.ejecutarMenuPedidoDetalles();
 
             case 0, -1-> JOptionPane.showMessageDialog(null, "Saliendo", "Salir", JOptionPane.INFORMATION_MESSAGE);
-            default -> throw new IllegalArgumentException("Debe ingresar un número comprendido entre 0-3");
+            default -> throw new IllegalArgumentException("Debe ingresar un número comprendido entre 0-4");
         }
 
         return opc;

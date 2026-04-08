@@ -16,12 +16,17 @@ import java.util.List;
 public class PedidoService implements IPedidoService {
     private final Connection connection;
     private final PedidoDAO pedidoDAO;
-    private final ClienteService clienteService;
+    private ClienteService clienteService;
 
     public PedidoService(Connection connection, ClienteService clienteService) {
         this.connection = connection;
         this.pedidoDAO = new PedidoDAO(connection);
         this.clienteService = clienteService;
+    }
+
+    public PedidoService(Connection connection) {
+        this.connection = connection;
+        this.pedidoDAO = new PedidoDAO(connection);
     }
 
     @Override

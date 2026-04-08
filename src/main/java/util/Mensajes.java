@@ -90,4 +90,24 @@ public class Mensajes {
                 0. Salir
             
             Seleccione una opción del 0 al 6:""";
+
+
+    /**
+     * Mensaje del menú de gestión de los detalles de los pedidos.
+     */
+    public final static String MENU_DETALLES_PEDIDO = """
+            ==========================================
+                SISTEMA DE GESTIÓN DETALLES PEDIDOS
+            ==========================================
+            
+                    1. Crear detalles de pedido
+                    2. Ver pedido por ID
+                    3. Listar todos los pedido
+                    4. Listar pedidos por cliente
+                    5. Modificar pedido
+                    6. Eliminar pedido
+                    7. Detalles Pedido
+                    0. Salir
+            
+            Seleccione una opción del 0 al 7:""";
 }
