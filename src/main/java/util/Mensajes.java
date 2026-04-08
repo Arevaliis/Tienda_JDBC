@@ -16,9 +16,10 @@ public class Mensajes {
                     1. Clientes
                     2. Productos
                     3. Pedidos
+                    4. Detalles pedido
                     0. Salir
             
-            Seleccione una opción del 0 al 3:""";
+            Seleccione una opción del 0 al 4:""";
 
     /**
      * Mensaje del menú de gestión de clientes.
@@ -96,18 +97,18 @@ public class Mensajes {
      * Mensaje del menú de gestión de los detalles de los pedidos.
      */
     public final static String MENU_DETALLES_PEDIDO = """
-            ==========================================
-                SISTEMA DE GESTIÓN DETALLES PEDIDOS
-            ==========================================
-            
-                    1. Crear detalles de pedido
-                    2. Ver pedido por ID
-                    3. Listar todos los pedido
-                    4. Listar pedidos por cliente
-                    5. Modificar pedido
-                    6. Eliminar pedido
-                    7. Detalles Pedido
-                    0. Salir
-            
-            Seleccione una opción del 0 al 7:""";
+        ==========================================
+            SISTEMA DE GESTIÓN DETALLES PEDIDOS
+        ==========================================
+        
+                1. Agregar detalle de pedido
+                2. Listar detalles por pedido
+                3. Obtener detalle concreto
+                4. Modificar cantidad de producto
+                5. Eliminar detalle
+                6. Eliminar detalles por pedido
+                7. Calcular total del pedido
+                0. Salir
+        
+        Seleccione una opción del 0 al 7:""";
 }
