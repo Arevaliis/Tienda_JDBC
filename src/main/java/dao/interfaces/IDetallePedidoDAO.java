@@ -25,7 +25,7 @@ public interface IDetallePedidoDAO {
      * @return Lista de detalles
      * @throws DAOException Si ocurre un error en la base de datos
      */
-    List<DetallePedido> listarPedido(int idPedido) throws DAOException;
+    List<DetallePedido> listarDetallesPedido(int idPedido) throws DAOException;
 
     /**
      * Obtiene un detalle concreto por su clave primaria.
@@ -35,7 +35,7 @@ public interface IDetallePedidoDAO {
      * @return DetallePedido o null si no existe
      * @throws DAOException Si ocurre un error en la base de datos
      */
-    DetallePedido listarDetallesPorId(int idPedido, int idProducto) throws DAOException;
+    DetallePedido listarDetallePorId(int idPedido, int idProducto) throws DAOException;
 
     /**
      * Actualiza la cantidad de un producto en un pedido.

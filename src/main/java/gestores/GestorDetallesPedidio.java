@@ -2,6 +2,9 @@ package gestores;
 
 import exception.ServiceException;
 import exception.ValidationException;
+import model.Cliente;
+import model.DetallePedido;
+import model.Pedido;
 import service.impl.DetallePedidoService;
 import util.ConsoleUI;
 import util.DatabaseConnection;
@@ -10,6 +13,7 @@ import util.Mensajes;
 import javax.swing.*;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 
 public class GestorDetallesPedidio {
 
@@ -59,9 +63,31 @@ public class GestorDetallesPedidio {
     }
 
     private static void agregarDetallePedido(DetallePedidoService detallePedidoService) {
+        int idPedido = ConsoleUI.ingresarNumero("Ingrese el id del pedido: ", "Ingresar Detalle Pedido");
+        if (idPedido == -1) { return; }
+
+        int idProducto= ConsoleUI.ingresarNumero("Ingrese el id del producto: ", "Ingresar Detalle Pedido");
+        if (idProducto == -1) { return; }
+
+        int cantidad = ConsoleUI.ingresarNumero("Ingrese la cantidad: ", "Ingresar Detalle Pedido");
+        if (cantidad == -1) { return; }
+
+        detallePedidoService.insertarDetallePedido(idPedido, idProducto, cantidad);
+        JOptionPane.showMessageDialog( null,  "Detalle Pedido ingresado con éxito",  "Ingresar Detalle Pedido",  JOptionPane.INFORMATION_MESSAGE );
+
+
     }
 
     private static void listarDetallesPorPedido(DetallePedidoService detallePedidoService) {
+        int idPedido = ConsoleUI.ingresarNumero("Ingrese el id del pedido: ", "Ver Detalles Pedido");
+        if (idPedido == -1) { return; }
+
+        List<DetallePedido> detallesPedido = detallePedidoService.listarDetallesPedido(idPedido);
+        List<String> mensaje = detallesPedido.stream()
+                                              .map(DetallePedido::toString)
+                                              .toList();
+
+        JOptionPane.showMessageDialog( null,  String.join("\n", mensaje),  "Ver Detalles Pedido",  JOptionPane.INFORMATION_MESSAGE );
     }
 
     private static void obtenerDetalleConcreto(DetallePedidoService detallePedidoService) {

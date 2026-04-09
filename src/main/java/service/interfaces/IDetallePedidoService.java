@@ -1,5 +1,6 @@
 package service.interfaces;
 
+import exception.DAOException;
 import exception.ServiceException;
 import model.DetallePedido;
 
@@ -14,10 +15,12 @@ public interface IDetallePedidoService {
     /**
      * Inserta un nuevo detalle de pedido.
      *
-     * @param detalle Objeto DetallePedido a insertar
-     * @throws ServiceException Si ocurre un error en la lógica de negocio o acceso a datos
+     * @param id_pedido   Identificador del pedido
+     * @param id_producto Identificador del producto
+     * @param cantidad    Cantidad del producto en el pedido
+     * @throws DAOException Si ocurre un error en la base de datos
      */
-    void insertarDetallePedido(DetallePedido detalle) throws ServiceException;
+    void insertarDetallePedido(int id_pedido, int id_producto, int cantidad) throws ServiceException;
 
     /**
      * Obtiene todos los detalles de un pedido.
@@ -26,7 +29,7 @@ public interface IDetallePedidoService {
      * @return Lista de detalles del pedido
      * @throws ServiceException Si ocurre un error en la operación
      */
-    List<DetallePedido> listarPedido(int idPedido) throws ServiceException;
+    List<DetallePedido> listarDetallesPedido(int idPedido) throws ServiceException;
 
     /**
      * Obtiene un detalle concreto de un pedido por su clave compuesta.
@@ -36,7 +39,7 @@ public interface IDetallePedidoService {
      * @return DetallePedido encontrado
      * @throws ServiceException Si ocurre un error en la operación
      */
-    DetallePedido listarDetallesPorId(int idPedido, int idProducto) throws ServiceException;
+    DetallePedido listarDetallePorId(int idPedido, int idProducto) throws ServiceException;
 
     /**
      * Modifica la cantidad de un producto dentro de un pedido.
