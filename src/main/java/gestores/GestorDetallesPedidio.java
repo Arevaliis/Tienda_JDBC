@@ -33,9 +33,7 @@ public class GestorDetallesPedidio {
                 } catch (IllegalArgumentException | ServiceException | ValidationException e) {
                     JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 
-                } catch (NullPointerException ignored) {
-                    seguir = ConsoleUI.confirmarContinuacion("¿Desea seguir en la sección de pedidos? S/N: ", "Seguir Menu Pedidos");
-                }
+                } catch (NullPointerException ignored) {}
             }
 
         } catch (SQLException e) {

@@ -23,7 +23,7 @@ public class DetallePedidoService implements IDetallePedidoService {
     public DetallePedidoService(Connection connection) {
         this.connection = connection;
         this.detallePedidoDAO = new DetallePedidoDAO(connection);
-        this.pedidoService = new PedidoService(connection);
+        this.pedidoService = new PedidoService(connection, new ClienteService(connection));
         this.productoService = new ProductoService(connection);
     }
 
@@ -61,7 +61,6 @@ public class DetallePedidoService implements IDetallePedidoService {
         } catch ( SQLException e) { throw new ServiceException("Error al configurar la transacción de detalle pedido", e); }
     }
 
-    // TODO SOLUCIONAR NULL EXCEPTION
     @Override
     public List<DetallePedido> listarDetallesPedido(int idPedido) throws ServiceException {
         try{
@@ -77,7 +76,7 @@ public class DetallePedidoService implements IDetallePedidoService {
                 Producto producto = productoService.verProductoPorID(detalle.getIdProducto());
 
                 detallesDePedidoConInstancia.add(
-                        new DetallePedido(pedido, producto, detalle.getCantidad(), detalle.getPrecioUnitario() )
+                                                new DetallePedido(pedido, producto, detalle.getCantidad(), detalle.getPrecioUnitario() )
                 );
             }
 

@@ -24,11 +24,6 @@ public class PedidoService implements IPedidoService {
         this.clienteService = clienteService;
     }
 
-    public PedidoService(Connection connection) {
-        this.connection = connection;
-        this.pedidoDAO = new PedidoDAO(connection);
-    }
-
     @Override
     public void crearPedido(int idCliente) throws ServiceException {
         try{
@@ -45,7 +40,7 @@ public class PedidoService implements IPedidoService {
 
             Cliente cliente = clienteService.buscarClienteID(pedidoIdCliente.getId_cliente());
 
-            return new Pedido( pedidoIdCliente.getId(), cliente, pedidoIdCliente.getFecha());
+            return new Pedido( idPedido, cliente, pedidoIdCliente.getFecha());
 
         } catch (DAOException e) { throw new ServiceException("Error Service: Fallo durante insert pedido", e); }
     }
