@@ -62,7 +62,24 @@ public class DetallePedidoDAO implements IDetallePedidoDAO {
 
     @Override
     public DetallePedido listarDetallePorId(int idPedido, int idProducto) throws DAOException {
-        return null;
+        String sql = "SELECT id_pedido, id_producto, cantidad, precio_unitario FROM detalle_pedido WHERE id_pedido = ? and id_producto = ?";
+
+        try (PreparedStatement selectDetallePedido = connection.prepareStatement(sql)){
+            selectDetallePedido.setInt(1, idPedido);
+            selectDetallePedido.setInt(2, idProducto);
+
+            try(ResultSet resultado = selectDetallePedido.executeQuery()){
+
+                if (! resultado.next()) { return null; }
+
+                return new DetallePedido(
+                                         resultado.getInt("id_pedido"),
+                                         resultado.getInt("id_producto"),
+                                         resultado.getInt("cantidad"),
+                                         resultado.getDouble("precio_unitario")
+                );
+            }
+        } catch (SQLException e) { throw new DAOException("Error DAO: Fallo durante select de los detalles del pedido con id: " + idPedido, e); }
     }
 
     @Override

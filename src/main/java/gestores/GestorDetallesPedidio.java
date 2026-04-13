@@ -89,6 +89,14 @@ public class GestorDetallesPedidio {
     }
 
     private static void obtenerDetalleConcreto(DetallePedidoService detallePedidoService) {
+        int idPedido = ConsoleUI.ingresarNumero("Ingrese el id del pedido: ", "Ingresar Detalle Pedido");
+        if (idPedido == -1) { return; }
+
+        int idProducto= ConsoleUI.ingresarNumero("Ingrese el id del producto: ", "Ingresar Detalle Pedido");
+        if (idProducto == -1) { return; }
+
+        DetallePedido detallePedido = detallePedidoService.listarDetallePorId(idPedido, idProducto);
+        JOptionPane.showMessageDialog( null,  detallePedido,  "Ver Detalle Pedido",  JOptionPane.INFORMATION_MESSAGE );
     }
 
     private static void modificarCantidadProducto(DetallePedidoService detallePedidoService) {
