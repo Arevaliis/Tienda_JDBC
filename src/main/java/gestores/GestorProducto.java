@@ -2,11 +2,13 @@ package gestores;
 
 import exception.ServiceException;
 import exception.ValidationException;
+import model.Cliente;
 import model.Producto;
 import service.impl.ProductoService;
 import util.ConsoleUI;
 import util.DatabaseConnection;
 import util.Mensajes;
+import util.TablaViewer;
 
 import javax.swing.JOptionPane;
 import java.sql.Connection;
@@ -108,8 +110,20 @@ public class GestorProducto {
         int id = ConsoleUI.ingresarNumero("Ingrese el id del producto", "Ver Producto");
         if (id == -1){ return;}
 
-        Producto producto = productoService.verProductoPorID(id);
-        JOptionPane.showMessageDialog( null,  producto,  "Ingresar Producto",  JOptionPane.INFORMATION_MESSAGE );
+        Producto producto = productoService.buscarProductoPorId(id);
+        String[] columnas = {"id", "Nombre", "Descripcion", "Precio", "Stock"};
+
+        String [][] datosCliente = {
+                {
+                    String.valueOf(producto.getId()),
+                    producto.getNombre(),
+                    producto.getDescripcion(),
+                    String.valueOf(producto.getPrecio()),
+                    String.valueOf(producto.getStock())
+                }
+        };
+
+        TablaViewer.crearTabla(datosCliente, columnas, "Ver Producto", 650, 75);
     }
 
     /**
@@ -122,11 +136,25 @@ public class GestorProducto {
      */
     private static void listarProducto(ProductoService productoService) {
         List<Producto> productos = productoService.listarProductos();
-        List<String> mensaje = productos.stream()
-                .map(Object::toString)
-                .toList();
 
-        JOptionPane.showMessageDialog( null,  String.join("\n", mensaje),  "Productos Registrados",  JOptionPane.INFORMATION_MESSAGE );
+        String[] columnas = {"id", "Nombre", "Descripcion", "Precio", "Stock"};
+        String [][] datosClientes = new String[productos.size()][columnas.length];
+
+        for (int i = 0; i < productos.size(); i++) {
+            Producto producto = productos.get(i);
+
+            String [] datosProducto = {
+                            String.valueOf(producto.getId()),
+                            producto.getNombre(),
+                            producto.getDescripcion(),
+                            String.valueOf(producto.getPrecio()),
+                            String.valueOf(producto.getStock())
+            };
+
+            System.arraycopy(datosProducto, 0, datosClientes[i], 0, columnas.length);
+        }
+
+        TablaViewer.crearTabla(datosClientes, columnas, "Ver Productos", 825, 150);
     }
 
     /**

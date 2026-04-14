@@ -33,7 +33,7 @@ public class ProductoDAO implements IProductoDAO {
     }
 
     @Override
-    public Producto obtenerProductoPorId(int id) throws DAOException {
+    public Producto buscarProductoPorId(int id) throws DAOException {
         String sql = "SELECT id, nombre, descripcion, precio, stock FROM producto WHERE id = ?";
 
         try (PreparedStatement selectProducto = connection.prepareStatement(sql)) {
@@ -55,7 +55,7 @@ public class ProductoDAO implements IProductoDAO {
     }
 
     @Override
-    public List<Producto> obtenerTodos() throws DAOException{
+    public List<Producto> listarProductos() throws DAOException{
         String sql = "SELECT id, nombre, descripcion, precio, stock FROM producto";
 
         try(PreparedStatement selectProducto = connection.prepareStatement(sql);

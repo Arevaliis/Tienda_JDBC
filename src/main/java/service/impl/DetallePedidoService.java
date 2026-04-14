@@ -1,7 +1,6 @@
 package service.impl;
 
 import dao.impl.DetallePedidoDAO;
-import dao.impl.ProductoDAO;
 import exception.DAOException;
 import exception.ServiceException;
 import model.DetallePedido;
@@ -29,6 +28,7 @@ public class DetallePedidoService implements IDetallePedidoService {
 
     // TODO COMPROBAR QUE PK ES DECIR ID PEDIDO + ID PRODUCTO YA EXISTE
     // TODO "El pedido ingresado ya tiene ese producto"
+
     @Override
     public void insertarDetallePedido(int id_pedido, int id_producto, int cantidad) throws ServiceException {
 
@@ -37,7 +37,7 @@ public class DetallePedidoService implements IDetallePedidoService {
             connection.setAutoCommit(false);
 
             try {
-                Producto producto = productoService.verProductoPorID(id_producto);
+                Producto producto = productoService.buscarProductoPorId(id_producto);
 
                 int stockActual = producto.getStock();
                 int stockRestante = stockActual - cantidad;
@@ -73,7 +73,7 @@ public class DetallePedidoService implements IDetallePedidoService {
             Pedido pedido = pedidoService.buscarPedidoID(idPedido);
 
             for(DetallePedido detalle: detallesDePedidoConID){
-                Producto producto = productoService.verProductoPorID(detalle.getIdProducto());
+                Producto producto = productoService.buscarProductoPorId(detalle.getIdProducto());
 
                 detallesDePedidoConInstancia.add(
                                                 new DetallePedido(pedido, producto, detalle.getCantidad(), detalle.getPrecioUnitario() )
@@ -93,7 +93,7 @@ public class DetallePedidoService implements IDetallePedidoService {
             if(detallePedido == null) {throw new ServiceException("No existe ningún id dentro de la tabla detalle_pedido con id_pedido: " + idPedido + " y id_producto: "+ idProducto); }
 
             Pedido pedido = pedidoService.buscarPedidoID(idPedido);
-            Producto producto = productoService.verProductoPorID(idProducto);
+            Producto producto = productoService.buscarProductoPorId(idProducto);
 
             return new DetallePedido(pedido, producto, detallePedido.getCantidad(), detallePedido.getPrecioUnitario());
 
