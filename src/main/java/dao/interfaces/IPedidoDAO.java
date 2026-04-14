@@ -45,6 +45,15 @@ public interface IPedidoDAO {
     List<Pedido> listarPedidosPorCliente(int idCliente) throws DAOException;
 
     /**
+     * Obtiene los detalles asociados a un pedido
+     *
+     * @param idPedido ID del pedido
+     * @return Detalles del Pedido
+     * @throws DAOException si ocurre un error durante la consulta
+     */
+    List<Pedido> listarDetallesPedido(int idPedido) throws DAOException;
+
+    /**
      * Actualiza un pedido existente.
      *
      * @param pedido objeto pedido con los datos actualizados

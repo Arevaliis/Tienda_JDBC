@@ -79,6 +79,16 @@ public class PedidoService implements IPedidoService {
     }
 
     @Override
+    public List<Pedido> listarDetallesPedido(int idPedido) throws ServiceException {
+        try{
+            List<Pedido> pedidos = pedidoDAO.listarDetallesPedido(idPedido);
+            if(pedidos.isEmpty()){ throw new ServiceException("No hay registro alguno del pedido con id: " + idPedido ); }
+
+            return pedidos;
+
+        } catch (DAOException e) { throw new ServiceException("Error Service: Fallo durante insert pedido", e); }    }
+
+    @Override
     public void modificarIdCliente(int idCliente, int idPedido) throws ServiceException {
         try{
             Pedido pedido = buscarPedidoID(idPedido);

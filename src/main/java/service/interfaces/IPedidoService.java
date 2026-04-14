@@ -1,5 +1,6 @@
 package service.interfaces;
 
+import exception.DAOException;
 import exception.ServiceException;
 import model.Pedido;
 import java.util.List;
@@ -42,6 +43,15 @@ public interface IPedidoService {
      * @throws ServiceException si ocurre un error durante la consulta
      */
     List<Pedido> listarPedidosPorCliente(int idCliente) throws ServiceException;
+
+    /**
+     * Obtiene los detalles asociados a un pedido
+     *
+     * @param idPedido ID del pedido
+     * @return Detalles del Pedido
+     * @throws ServiceException si ocurre un error durante la consulta
+     */
+    List<Pedido> listarDetallesPedido(int idPedido) throws ServiceException;
 
     /**
      * Modifica el cliente asociado a un pedido.

@@ -86,11 +86,12 @@ public class Mensajes {
                 2. Ver pedido por ID
                 3. Listar todos los pedido
                 4. Listar pedidos por cliente
-                5. Modificar pedido
-                6. Eliminar pedido
+                5. Listar detalles pedido
+                6. Modificar pedido
+                7. Eliminar pedido
                 0. Salir
             
-            Seleccione una opción del 0 al 6:""";
+            Seleccione una opción del 0 al 7:""";
 
 
     /**
