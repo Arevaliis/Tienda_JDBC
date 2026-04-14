@@ -42,25 +42,12 @@ public class EmailDAO implements IEmailDAO {
 
             do{
                 emails.add( resultado.getString("email"));
+
             } while (resultado.next());
 
             return emails;
 
         } catch (SQLException e) { throw new DAOException("Error DAO: Fallo durante el select de los emails", e); }
-    }
-
-
-    @Override
-    public void modificarEmail(Email email) throws DAOException {
-        String sql = "UPDATE email SET email = ? WHERE id = ?";
-
-        try (PreparedStatement updateEmail = connection.prepareStatement(sql)){
-            updateEmail.setString(1, email.getEmail());
-            updateEmail.setInt(2, email.getId());
-
-            if (updateEmail.executeUpdate() == 0) { throw new DAOException("No se ha podido modificar el email del cliente."); }
-
-        } catch (SQLException e) { throw new DAOException("Error DAO: Fallo durante el update del apellido del cliente", e); }
     }
 
     @Override
@@ -75,24 +62,25 @@ public class EmailDAO implements IEmailDAO {
                 if (! resultado.next()){ return null; }
 
                 return new Email(resultado.getInt("id"),
-                        resultado.getString("email"),
-                        resultado.getInt("id_cliente"));
+                                 resultado.getString("email"),
+                                 resultado.getInt("id_cliente"));
             }
 
         } catch (SQLException e) { throw new DAOException("Error DAO: Fallo durante el select de los emails", e); }
     }
 
     @Override
-    public void cambiarIdClienteEmail(Email email) throws DAOException {
-        String sql = "UPDATE email SET id_cliente = ? WHERE id = ?";
+    public void actualizarEmail(Email email) throws DAOException {
+        String sql = "UPDATE email SET email = ?, id_cliente = ? WHERE id = ?";
 
-        try (PreparedStatement updateIdClienteEmail = connection.prepareStatement(sql)){
-            updateIdClienteEmail.setInt(1, email.getIdCliente());
-            updateIdClienteEmail.setInt(2, email.getId());
+        try (PreparedStatement update = connection.prepareStatement(sql)){
+            update.setString(1, email.getEmail());
+            update.setInt(2, email.getIdCliente());
+            update.setInt(3, email.getId());
 
-            if (updateIdClienteEmail.executeUpdate() == 0) { throw new DAOException("No se ha podido modificar el id_cliente del email"); }
+            if (update.executeUpdate() == 0) { throw new DAOException("No se ha podido modificar el email del cliente."); }
 
-        } catch (SQLException e) { throw new DAOException("Error DAO: Fallo durante el update del id_cliente de email", e); }
+        } catch (SQLException e) { throw new DAOException("Error DAO: Fallo durante el update del apellido del cliente", e); }
     }
 
     @Override
@@ -111,8 +99,8 @@ public class EmailDAO implements IEmailDAO {
                 do{
                     emails.add(
                             new Email(resultado.getInt("id"),
-                                    resultado.getString("email"),
-                                    resultado.getInt("id_cliente")));
+                                      resultado.getString("email"),
+                                      resultado.getInt("id_cliente")));
 
                 } while (resultado.next());
 

@@ -30,7 +30,10 @@ public class EmailService implements IEmailService {
             connection.setAutoCommit(false);
 
             try {
-                clienteService.buscarClienteID(idCliente); // Verifica que el ID del cliente exista en la tabla cliente
+                // Verifica que el ID del cliente exista en la tabla cliente
+                clienteService.buscarClienteID(idCliente);
+
+                // Verifica que el correo ingresado no exista en la base de datos
                 if (emailDAO.obtenerNombreEmails().contains(direccionEmail)) { throw new ServiceException("El email ya está registrado en la base de  datos"); }
 
                 emailDAO.agregarEmail(new Email(direccionEmail, idCliente));
@@ -48,17 +51,31 @@ public class EmailService implements IEmailService {
     }
 
     @Override
-    public void modificarEmail(String nuevoEmail, int idEmail) throws ServiceException {
+    public Email buscarEmail(int id) throws ServiceException {
+        try{
+            Email email = emailDAO.buscarEmail(id);
+            if (email == null){ throw new ServiceException("No existe ningún registro de email con el id: " + id); }
+
+            return email;
+
+        } catch (DAOException e) { throw new ServiceException("Error Service: Fallo durante la busqueda del email con id: "+ id, e); }
+
+    }
+
+    @Override
+    public void modificarNombreEmail(String nuevoEmail, int idEmail) throws ServiceException {
 
         try {
             connection.setAutoCommit(false);
 
             try {
                 Email email = buscarEmail(idEmail);
+
+                // Verifica que el nuevo correo ingresado no exista en la base de datos
                 if (emailDAO.obtenerNombreEmails().contains(nuevoEmail)) { throw new ServiceException("El email ya está registrado en la base de  datos"); }
 
                 email.setEmail(nuevoEmail);
-                emailDAO.modificarEmail(email);
+                emailDAO.actualizarEmail(email);
 
                 connection.commit();
 
@@ -72,19 +89,7 @@ public class EmailService implements IEmailService {
     }
 
     @Override
-    public Email buscarEmail(int id) throws ServiceException {
-        try{
-            Email email = emailDAO.buscarEmail(id);
-            if (email == null){ throw new ServiceException("No existe ningún registro de email con el id: " + id); }
-
-            return email;
-
-        } catch (DAOException e) { throw new ServiceException("Error Service: Fallo durante la busqueda del email con id: "+ id, e); }
-
-    }
-
-    @Override
-    public void cambiarIdClienteEmail(int nuevoClienteId, int id) throws ServiceException {
+    public void modificarIdClienteEmail(int nuevoClienteId, int id) throws ServiceException {
         try {
 
             connection.setAutoCommit(false);
@@ -94,7 +99,7 @@ public class EmailService implements IEmailService {
                 clienteService.buscarClienteID(nuevoClienteId);
 
                 email.setIdCliente(nuevoClienteId);
-                emailDAO.cambiarIdClienteEmail(email);
+                emailDAO.actualizarEmail(email);
 
                 connection.commit();
 
@@ -115,14 +120,13 @@ public class EmailService implements IEmailService {
             if (emailsIdInt.isEmpty()) { throw new ServiceException("No hay email registrados en la base de datos para el cliente con id: " + id); }
 
             List<Email> emailsCliente = new ArrayList<>();
+            Cliente cliente = clienteService.buscarClienteID(emailsIdInt.get(0).getIdCliente());
 
             for (Email email: emailsIdInt){
-                Cliente cliente = clienteService.buscarClienteID(email.getIdCliente());
-
                 emailsCliente.add(
-                        new Email(email.getId(),
-                                email.getEmail(),
-                                cliente));
+                                new Email(email.getId(),
+                                        email.getEmail(),
+                                        cliente));
             }
 
             return emailsCliente;

@@ -14,12 +14,13 @@ public interface IEmailDAO {
      * Inserta un nuevo email en la base de datos asociado a un cliente.
      *
      * @param email objeto Email que contiene la dirección y el id del cliente
-     * @throws DAOException si ocurre un error durante la inserción
+     * @throws DAOException sí ocurre un error durante la inserción
      */
     void agregarEmail(Email email) throws DAOException;
 
     /**
-     * Obtiene todas las direcciones de email registradas en la base de datos.
+     * Obtiene todas las direcciones de email registradas en la base de datos. Permite comprobar que el
+     * email que vamos a ingresar no se encuentra ya registrado en la base de datos.
      *
      * @return lista de emails en formato String
      * @throws DAOException si ocurre un error durante la consulta
@@ -29,10 +30,10 @@ public interface IEmailDAO {
     /**
      * Modifica la dirección de un email existente en la base de datos.
      *
-     * @param email objeto Email con el id y la nueva dirección
+     * @param email objeto Email con el ID y la nueva dirección
      * @throws DAOException si ocurre un error durante la actualización o el email no existe
      */
-    void modificarEmail(Email email) throws DAOException;
+    void actualizarEmail(Email email) throws DAOException;
 
     /**
      * Busca un email en la base de datos por su identificador.
@@ -42,14 +43,6 @@ public interface IEmailDAO {
      * @throws DAOException si ocurre un error durante la consulta
      */
     Email buscarEmail(int id) throws DAOException;
-
-    /**
-     * Cambia el cliente asociado a un email existente.
-     *
-     * @param email objeto Email que contiene el id del email y el nuevo id del cliente
-     * @throws DAOException si ocurre un error durante la actualización
-     */
-    void cambiarIdClienteEmail(Email email) throws DAOException;
 
     /**
      * Obtiene todos los emails asociados a un cliente específico.

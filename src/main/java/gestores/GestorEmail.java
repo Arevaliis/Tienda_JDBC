@@ -6,6 +6,7 @@ import service.impl.ClienteService;
 import service.impl.EmailService;
 import util.ConsoleUI;
 import util.Mensajes;
+import util.TablaViewer;
 
 import javax.swing.JOptionPane;
 import java.sql.Connection;
@@ -46,12 +47,12 @@ public class GestorEmail {
      */
     private static void agregarEmail(EmailService emailService) throws ValidationException {
         String email = ConsoleUI.ingresarEmail();
+
         int idCliente = ConsoleUI.ingresarNumero("Ingrese el id del cliente: ", "Ingresar Email");
         if (idCliente == -1){ return;}
 
         emailService.agregarEmail(email, idCliente);
         JOptionPane.showMessageDialog( null,  "Email agregado con éxito",  "Ingresar Email",  JOptionPane.INFORMATION_MESSAGE);
-
     }
 
     /**
@@ -62,10 +63,11 @@ public class GestorEmail {
      */
     private static void modificarEmail(EmailService emailService) throws ValidationException {
         String email = ConsoleUI.ingresarEmail();
+
         int id = ConsoleUI.ingresarNumero("Ingrese el id del email: ", "Modificar Email");
         if (id == -1){ return;}
 
-        emailService.modificarEmail(email, id);
+        emailService.modificarNombreEmail(email, id);
         JOptionPane.showMessageDialog( null,  "Email modificado con éxito",  "Modificar Email",  JOptionPane.INFORMATION_MESSAGE);
     }
 
@@ -81,9 +83,8 @@ public class GestorEmail {
         int idEmail = ConsoleUI.ingresarNumero("Ingrese el id del email: ", "Modificar Email");
         if (idEmail == -1){ return;}
 
-        emailService.cambiarIdClienteEmail(idCliente, idEmail);
+        emailService.modificarIdClienteEmail(idCliente, idEmail);
         JOptionPane.showMessageDialog( null,  "Cliente email modificado con éxito",  "Modificar Email",  JOptionPane.INFORMATION_MESSAGE);
-
     }
 
     /**
@@ -97,11 +98,18 @@ public class GestorEmail {
         if (id == -1){ return;}
 
         List<Email> emails = emailService.verEmailsPorCliente(id);
-        List<String> mensaje = emails.stream()
-                .map(Email::toString)
-                .toList();
 
-        JOptionPane.showMessageDialog( null,  String.join("\n", mensaje),  "Emails Cliente",  JOptionPane.INFORMATION_MESSAGE );
+        String[] columnas = {"id", "Email", "Nombre", "Apellido"};
+        String [][] datosClientes = new String[emails.size()][columnas.length];
+
+        for (int i = 0; i < emails.size(); i++) {
+            Email email = emails.get(i);
+            String[] emailDatos = {String.valueOf(email.getId()), email.getEmail(), email.getCliente().getNombre(), email.getCliente().getApellido()};
+
+            System.arraycopy(emailDatos, 0, datosClientes[i], 0, columnas.length);
+        }
+
+        TablaViewer.crearTabla(datosClientes, columnas, "Ver Email Cliente", 625, 75);
     }
 
     /**
