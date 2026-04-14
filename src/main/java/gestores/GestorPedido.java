@@ -42,7 +42,6 @@ public class GestorPedido {
 
                 } catch (IllegalArgumentException | ServiceException | ValidationException e) {
                     JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                    e.printStackTrace();
 
                 } catch (NullPointerException ignored) {
                     seguir = ConsoleUI.confirmarContinuacion("¿Desea seguir en la sección de pedidos? S/N: ", "Seguir Menu Pedidos");
@@ -72,12 +71,11 @@ public class GestorPedido {
             case 2 -> buscarPedidoID(pedidoService);
             case 3 -> listarPedidos(pedidoService);
             case 4 -> listarPedidosPorCliente(pedidoService);
-            case 5 -> listarDetallesPedido(pedidoService);
-            case 6 -> menuModificarPedido(pedidoService);
-            case 7 -> eliminarPedido(pedidoService);
+            case 5 -> menuModificarPedido(pedidoService);
+            case 6 -> eliminarPedido(pedidoService);
 
             case 0, -1 -> {}
-            default -> throw new IllegalArgumentException("Debe ingresar un número comprendido entre 0-7");
+            default -> throw new IllegalArgumentException("Debe ingresar un número comprendido entre 0-6");
         }
 
         return opc;
@@ -181,30 +179,6 @@ public class GestorPedido {
                         String.valueOf(pedido.getDetallePedido().getPrecioUnitario()),
                         String.valueOf(pedido.getFecha())
         };
-    }
-
-    /**
-     * Lista los detalles del pedido filtrados por el ID del pedido
-     *
-     * @param pedidoService servicio de pedidos
-     */
-    private static void listarDetallesPedido(PedidoService pedidoService) {
-
-        int idPedido = ConsoleUI.ingresarNumero("Ingrese el id del pedido: ", "Ver Detalles Pedidos");
-        if (idPedido == -1){ return; }
-
-        List<Pedido> pedidos = pedidoService.listarDetallesPedido(idPedido);
-
-        String[] columnas = {"id", "Nombre", "Apellido", "Producto", "Cantidad", "Precio Unitario", "Fecha"};
-        String [][] datosPedido = new String[pedidos.size()][columnas.length];
-
-        for (int i = 0; i < pedidos.size(); i++) {
-
-            String[] pedidoDatos = obtenerRegistro(pedidos, i);
-            System.arraycopy(pedidoDatos, 0, datosPedido[i], 0, columnas.length);
-        }
-
-        TablaViewer.crearTabla(datosPedido, columnas, "Ver Detalles Pedido", 950, 120);
     }
 
     /**

@@ -2,7 +2,10 @@ package dao.impl;
 
 import dao.interfaces.IDetallePedidoDAO;
 import exception.DAOException;
+import model.Cliente;
 import model.DetallePedido;
+import model.Pedido;
+import model.Producto;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -34,7 +37,25 @@ public class DetallePedidoDAO implements IDetallePedidoDAO {
 
     @Override
     public List<DetallePedido> listarDetallesPedido(int idPedido) throws DAOException {
-        String sql = "SELECT id_pedido, id_producto, cantidad, precio_unitario FROM detalle_pedido WHERE id_pedido = ?";
+        String sql =
+                "SELECT  dp.id_pedido, " +
+                        "c.id AS id_cliente, " +
+                        "c.nombre, " +
+                        "c.apellido, " +
+                        "pr.id AS id_producto, " +
+                        "pr.nombre AS nombre_producto, " +
+                        "dp.cantidad, " +
+                        "dp.precio_unitario, " +
+                        "p.fecha " +
+
+                        "FROM detalle_pedido dp " +
+
+                        "INNER JOIN pedido p ON dp.id_pedido = p.id " +
+                        "INNER JOIN cliente c ON c.id = p.id_cliente " +
+                        "INNER JOIN producto pr ON pr.id = dp.id_producto " +
+
+                        "WHERE dp.id_pedido = ? " +
+                        "ORDER BY id_producto ASC";
 
         try (PreparedStatement selectPedido = connection.prepareStatement(sql)){
             selectPedido.setInt(1, idPedido);
@@ -45,13 +66,31 @@ public class DetallePedidoDAO implements IDetallePedidoDAO {
 
                 List<DetallePedido> detallesDePedido = new ArrayList<>();
 
+                Cliente cliente = new Cliente(  resultado.getInt("id_cliente"),
+                                                resultado.getString("nombre"),
+                                                resultado.getString("apellido")
+                );
+
                 do {
-                    detallesDePedido.add(
-                                        new DetallePedido(resultado.getInt("id_pedido"),
-                                                          resultado.getInt("id_producto"),
-                                                          resultado.getInt("cantidad"),
-                                                          resultado.getDouble("precio_unitario"))
+
+                    Producto producto = new Producto( resultado.getInt("id_producto"),
+                                                      resultado.getString("nombre_producto")
                     );
+
+                    Pedido pedido = new Pedido( resultado.getInt("id_pedido"),
+                                                cliente,
+                                                resultado.getTimestamp("fecha"),
+                                    null
+                    );
+
+                    DetallePedido detallePedido = new DetallePedido(  pedido,
+                                                                      producto,
+                                                                      resultado.getInt("cantidad"),
+                                                                      resultado.getDouble("precio_unitario")
+                    );
+
+                    detallesDePedido.add( detallePedido );
+
                 } while (resultado.next());
 
                 return detallesDePedido;

@@ -65,22 +65,10 @@ public class DetallePedidoService implements IDetallePedidoService {
     public List<DetallePedido> listarDetallesPedido(int idPedido) throws ServiceException {
         try{
 
-            List<DetallePedido> detallesDePedidoConID = detallePedidoDAO.listarDetallesPedido(idPedido);
+            List<DetallePedido> detallesPedido = detallePedidoDAO.listarDetallesPedido(idPedido);
+            if (detallesPedido.isEmpty()) { throw new ServiceException("No existe ningún pedido dentro de la tabla detalle_pedido con el id de pedido: " + idPedido); }
 
-            if (detallesDePedidoConID.isEmpty()) { throw new ServiceException("No existe ningún pedido dentro de la tabla detalle_pedido con el id de pedido: " + idPedido); }
-
-            List<DetallePedido> detallesDePedidoConInstancia = new ArrayList<>();
-            Pedido pedido = pedidoService.buscarPedidoID(idPedido);
-
-            for(DetallePedido detalle: detallesDePedidoConID){
-                Producto producto = productoService.buscarProductoPorId(detalle.getIdProducto());
-
-                detallesDePedidoConInstancia.add(
-                                                new DetallePedido(pedido, producto, detalle.getCantidad(), detalle.getPrecioUnitario() )
-                );
-            }
-
-            return detallesDePedidoConInstancia;
+            return detallesPedido;
 
         } catch ( DAOException e) { throw new ServiceException("Error Service: Fallo durante select de los detalles del pedido", e); }
     }

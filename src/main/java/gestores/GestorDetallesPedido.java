@@ -2,27 +2,25 @@ package gestores;
 
 import exception.ServiceException;
 import exception.ValidationException;
-import model.Cliente;
 import model.DetallePedido;
-import model.Pedido;
 import service.impl.DetallePedidoService;
 import util.ConsoleUI;
 import util.DatabaseConnection;
 import util.Mensajes;
+import util.TablaViewer;
 
-import javax.swing.*;
+import javax.swing.JOptionPane;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
-public class GestorDetallesPedidio {
+public class GestorDetallesPedido {
 
-    public static void ejecutarMenuPedidoDetalles( ){
+    public static void ejecutarMenuPedidoDetalles(){
         boolean seguir = true;
 
         try (Connection connection = DatabaseConnection.getConnection()) {
             DetallePedidoService detallePedidoService = new DetallePedidoService(connection);
-
 
             while (seguir) {
                 try {
@@ -32,6 +30,7 @@ public class GestorDetallesPedidio {
 
                 } catch (IllegalArgumentException | ServiceException | ValidationException e) {
                     JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                    e.printStackTrace();
 
                 } catch (NullPointerException ignored) {}
             }
@@ -72,8 +71,6 @@ public class GestorDetallesPedidio {
 
         detallePedidoService.insertarDetallePedido(idPedido, idProducto, cantidad);
         JOptionPane.showMessageDialog( null,  "Detalle Pedido ingresado con éxito",  "Ingresar Detalle Pedido",  JOptionPane.INFORMATION_MESSAGE );
-
-
     }
 
     private static void listarDetallesPorPedido(DetallePedidoService detallePedidoService) {
@@ -81,11 +78,31 @@ public class GestorDetallesPedidio {
         if (idPedido == -1) { return; }
 
         List<DetallePedido> detallesPedido = detallePedidoService.listarDetallesPedido(idPedido);
-        List<String> mensaje = detallesPedido.stream()
-                                              .map(DetallePedido::toString)
-                                              .toList();
 
-        JOptionPane.showMessageDialog( null,  String.join("\n", mensaje),  "Ver Detalles Pedido",  JOptionPane.INFORMATION_MESSAGE );
+        String[] columnas = {"id_pedido", "Nombre", "Apellido", "Producto", "Cantidad", "Precio Unitario", "Fecha"};
+        String [][] datosPedido = new String[detallesPedido.size()][columnas.length];
+
+        for (int i = 0; i < detallesPedido.size(); i++) {
+
+            String[] pedidoDatos = obtenerRegistro(detallesPedido, i);
+            System.arraycopy(pedidoDatos, 0, datosPedido[i], 0, columnas.length);
+        }
+
+        TablaViewer.crearTabla(datosPedido, columnas, "Ver Detalles Pedido", 950, 120);
+    }
+
+    private static String[] obtenerRegistro(List<DetallePedido> pedidos, int i) {
+        DetallePedido detallePedido = pedidos.get(i);
+
+        return new String[]{
+                String.valueOf(detallePedido.getPedido().getId()),
+                detallePedido.getPedido().getCliente().getNombre(),
+                detallePedido.getPedido().getCliente().getApellido(),
+                detallePedido.getProducto().getNombre(),
+                String.valueOf(detallePedido.getCantidad()),
+                String.valueOf(detallePedido.getPrecioUnitario()),
+                String.valueOf(detallePedido.getPedido().getFecha())
+        };
     }
 
     private static void obtenerDetalleConcreto(DetallePedidoService detallePedidoService) {

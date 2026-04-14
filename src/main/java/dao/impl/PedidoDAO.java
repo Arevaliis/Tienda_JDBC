@@ -6,7 +6,6 @@ import model.Cliente;
 import model.DetallePedido;
 import model.Pedido;
 import model.Producto;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -136,71 +135,6 @@ public class PedidoDAO implements IPedidoDAO {
             }
 
         } catch (SQLException e) { throw new DAOException("Error DAO: Fallo durante select pedido del cliente con id: " + idCliente, e); }
-    }
-
-    @Override
-    public List<Pedido> listarDetallesPedido(int idPedido) throws DAOException {
-        String sql =
-                "SELECT  p.id, " +
-                        "c.id AS id_cliente, " +
-                        "c.nombre, " +
-                        "c.apellido, " +
-                        "pr.id AS id_producto, " +
-                        "pr.nombre AS nombre_producto, " +
-                        "dp.cantidad, " +
-                        "dp.precio_unitario, " +
-                        "p.fecha " +
-
-                        "FROM pedido p " +
-
-                        "INNER JOIN cliente c ON c.id = p.id_cliente " +
-                        "INNER JOIN detalle_pedido dp ON dp.id_pedido = p.id " +
-                        "INNER JOIN producto pr ON pr.id = dp.id_producto " +
-
-                        "WHERE p.id = ? " +
-                        "ORDER BY pr.id ASC";
-
-        try (PreparedStatement selectPedido = connection.prepareStatement(sql)){
-            selectPedido.setInt(1, idPedido);
-
-            try(ResultSet resultado = selectPedido.executeQuery()) {
-
-                if (! resultado.next()) { return new ArrayList<>(); }
-
-                List<Pedido> pedidos = new ArrayList<>();
-
-                Cliente cliente = new Cliente( resultado.getInt("id_cliente"),
-                                               resultado.getString("nombre"),
-                                               resultado.getString("apellido")
-                );
-
-                do{
-
-                    Pedido pedido = new Pedido( resultado.getInt("id"),
-                                                cliente,
-                                                resultado.getTimestamp("fecha"),
-                                    null
-                    );
-
-                    Producto producto = new Producto( resultado.getInt("id_producto"),
-                                                      resultado.getString("nombre_producto")
-                    );
-
-                    DetallePedido detallePedido = new DetallePedido(  pedido,
-                                                                      producto,
-                                                                      resultado.getInt("cantidad"),
-                                                                      resultado.getDouble("precio_unitario")
-                    );
-
-                    pedido.setDetallePedido(detallePedido);
-                    pedidos.add(pedido);
-
-                } while (resultado.next());
-
-                return pedidos;
-            }
-
-        } catch (SQLException e) { throw new DAOException("Error DAO: Fallo durante select de los detalles del pedido con id: " + idPedido, e); }
     }
 
     @Override
