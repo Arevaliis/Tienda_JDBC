@@ -1,5 +1,6 @@
 package model;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -9,6 +10,7 @@ public class Cliente {
     private int id;
     private String nombre;
     private String apellido;
+    private List<String> email;
 
     /**
      * Constructor completo de Cliente.
@@ -17,10 +19,11 @@ public class Cliente {
      * @param nombre nombre del cliente
      * @param apellido apellido del cliente
      */
-    public Cliente(int id, String nombre, String apellido) {
+    public Cliente(int id, String nombre, String apellido, List<String> email) {
         this.id = id;
         this.nombre = nombre;
         this.apellido = apellido;
+        this.email = email;
     }
 
     /**
@@ -54,6 +57,13 @@ public class Cliente {
      * @return apellido del cliente
      */
     public String getApellido() { return apellido; }
+
+    /**
+     * Devuelve el email del cliente.
+     *
+     * @return apellido del cliente
+     */
+    public String getEmail() { return email; }
 
     /**
      * Modifica el apellido del cliente.

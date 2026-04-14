@@ -185,10 +185,9 @@ public class ClienteService implements IClienteService {
             if (emailsIdInt.isEmpty()) { throw new ServiceException("No hay email registrados en la base de datos para el cliente con id: " + id); }
 
             List<Email> emailsCliente = new ArrayList<>();
+            Cliente cliente = clienteDAO.buscarClienteID(emailsIdInt.get(0).getIdCliente()); // TODO
 
             for (Email email: emailsIdInt){
-                Cliente cliente = clienteDAO.buscarClienteID(email.getIdCliente());
-
                 emailsCliente.add(
                                 new Email(email.getId(),
                                           email.getEmail(),

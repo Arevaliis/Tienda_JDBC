@@ -76,10 +76,9 @@ public class PedidoService implements IPedidoService {
             if(pedidosCliente.isEmpty()){ throw new ServiceException("No hay registro alguno de pedidos en la base de datos del cliente con id: " + idCliente ); }
 
             List<Pedido> pedidos = new ArrayList<>();
+            Cliente cliente = clienteService.buscarClienteID(pedidosCliente.get(0).getId_cliente());
 
             for (Pedido pedido: pedidosCliente){
-
-                Cliente cliente = clienteService.buscarClienteID(pedido.getId_cliente());
 
                 pedidos.add(
                             new Pedido( pedido.getId(),

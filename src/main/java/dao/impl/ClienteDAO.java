@@ -32,7 +32,10 @@ public class ClienteDAO implements IClienteDAO {
 
     @Override
     public Cliente buscarClienteID(int id) throws DAOException{
-        String sql = "SELECT id, nombre, apellido FROM cliente WHERE id = ?";
+        String sql = "SELECT c.id, c.nombre, c.apellido, e.email " +
+                     "FROM cliente c " +
+                     "INNER JOIN email e ON e.id_cliente = c.id " +
+                     "WHERE c.id = ? ";
 
         try (PreparedStatement selectCliente = connection.prepareStatement(sql)){
             selectCliente.setInt(1, id);
@@ -43,7 +46,8 @@ public class ClienteDAO implements IClienteDAO {
 
                 return new Cliente( resultado.getInt("id"),
                                     resultado.getString("nombre"),
-                                    resultado.getString("apellido"));
+                                    resultado.getString("apellido"),
+                        (List<String>) resultado.getArray("email"));
             }
 
         } catch (SQLException e) { throw new DAOException("Error DAO: Fallo durante select de cliente", e); }
@@ -51,7 +55,10 @@ public class ClienteDAO implements IClienteDAO {
 
     @Override
     public List<Cliente> mostrarTodosClientes() throws DAOException{
-        String sql = "SELECT id, nombre, apellido FROM cliente";
+        String sql = "SELECT c.id, c.nombre, c.apellido, e.email " +
+                     "FROM cliente c " +
+                     "INNER JOIN email e ON e.id_cliente = c.id " +
+                     "ORDER BY c.id ASC";
 
         try (PreparedStatement selectTodosCliente = connection.prepareStatement(sql);
             ResultSet resultado = selectTodosCliente.executeQuery()){
@@ -62,9 +69,13 @@ public class ClienteDAO implements IClienteDAO {
 
                 do {
                     clientes.add(
-                            new Cliente(resultado.getInt("id"),
-                                        resultado.getString("nombre"),
-                                        resultado.getString("apellido")));
+                            new Cliente( resultado.getInt("id"),
+                                         resultado.getString("nombre"),
+                                         resultado.getString("apellido"),
+                          (List<String>) resultado.getArray("email")
+
+                            )
+                    );
 
                 } while (resultado.next());
 

@@ -7,6 +7,7 @@ import service.impl.ClienteService;
 import util.ConsoleUI;
 import util.DatabaseConnection;
 import util.Mensajes;
+import util.TablaViewer;
 
 import javax.swing.JOptionPane;
 import java.sql.Connection;
@@ -17,6 +18,7 @@ import java.util.List;
  * Clase encargada de gestionar la interacción del usuario con el módulo de clientes.
  */
 public class GestorCliente {
+    private static final String[] columnas = {"id", "Nombre", "Apellido", "email"};
 
     /**
      * Inicia el gestor de clientes
@@ -100,28 +102,37 @@ public class GestorCliente {
      * @throws ServiceException si ocurre un error al buscar el cliente
      */
     private static void buscarCliente(ClienteService clientesService)  throws ServiceException {
-
         int id = ConsoleUI.ingresarNumero("Ingrese el id del cliente: ", "Buscar Cliente Por ID");
         if (id == -1){ return;}
 
         Cliente cliente = clientesService.buscarClienteID( id );
-        JOptionPane.showMessageDialog( null,  cliente,  "Ver Cliente",  JOptionPane.INFORMATION_MESSAGE );
+        String [][] datosCliente = {
+                { String.valueOf(cliente.getId()), cliente.getNombre(), cliente.getApellido(), cliente.getEmail()}
+        };
+
+        TablaViewer.crearTabla(datosCliente, columnas, "Ver Cliente");
+
     }
 
     /**
-     * Muestra por pantalla la lista de todos los clientes registrados en el sistema.
+     * Muestra por pantalla la tabla con todos los clientes registrados en el sistema.
      *
      * @param clientesService servicio encargado de gestionar clientes
      * @throws ServiceException sí ocurre un error al obtener los clientes
      */
     private static void listarClientes(ClienteService clientesService) throws ServiceException {
-
         List<Cliente> clientes = clientesService.mostrarTodosClientes();
-        List<String> mensaje = clientes.stream()
-                                        .map(Object::toString)
-                                        .toList();
 
-        JOptionPane.showMessageDialog( null,  String.join("\n", mensaje),  "Clientes Registrados",  JOptionPane.INFORMATION_MESSAGE );
+        String [][] datosClientes = new String[clientes.size()][columnas.length];
+
+        for (int i = 0; i < clientes.size(); i++) {
+            Cliente cliente = clientes.get(i);
+            String[] clienteDatos = {String.valueOf(cliente.getId()), cliente.getNombre(), cliente.getApellido(), cliente.getEmail()};
+
+            System.arraycopy(clienteDatos, 0, datosClientes[i], 0, columnas.length);
+        }
+
+        TablaViewer.crearTabla(datosClientes, columnas, "Ver Clientes");
     }
 
     /**
