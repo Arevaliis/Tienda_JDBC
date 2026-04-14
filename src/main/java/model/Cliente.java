@@ -1,6 +1,5 @@
 package model;
 
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -10,16 +9,30 @@ public class Cliente {
     private int id;
     private String nombre;
     private String apellido;
-    private List<String> email;
+    private String email;
 
     /**
-     * Constructor completo de Cliente.
+     * Constructor Cliente procedente de la base de datos
      *
      * @param id identificador único del cliente
      * @param nombre nombre del cliente
      * @param apellido apellido del cliente
      */
-    public Cliente(int id, String nombre, String apellido, List<String> email) {
+    public Cliente(int id, String nombre, String apellido) {
+        this.id = id;
+        this.nombre = nombre;
+        this.apellido = apellido;
+    }
+
+    /**
+     * Constructor completo de Cliente con email.
+     *
+     * @param id identificador único del cliente
+     * @param nombre nombre del cliente
+     * @param apellido apellido del cliente
+     * @param email email del cliente
+     */
+    public Cliente(int id, String nombre, String apellido, String email) {
         this.id = id;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -27,7 +40,7 @@ public class Cliente {
     }
 
     /**
-     * Constructor para creación de cliente sin ID (por ejemplo antes de persistir en BD).
+     * Constructor para creación de cliente en la base de datos.
      *
      * @param nombre nombre del cliente
      * @param apellido apellido del cliente

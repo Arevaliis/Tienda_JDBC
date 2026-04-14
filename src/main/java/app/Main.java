@@ -43,7 +43,7 @@ public class Main {
      * Solicita al usuario una opción del menú principal y ejecuta la acción correspondiente.
      *
      * @return el número de la opción seleccionada por el usuario
-     * @throws IllegalArgumentException si la opción no está entre 0-3
+     * @throws IllegalArgumentException si la opción no está entre 0-4
      */
     private static int ejecutarOpcion() {
         int opc = ConsoleUI.ingresarNumero(Mensajes.MENU_INICIAL, "Menu Inicial");

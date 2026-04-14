@@ -10,11 +10,9 @@ import java.sql.Connection;
 import java.util.List;
 
 public class ClienteService implements IClienteService {
-    private final Connection connection;
     private final ClienteDAO clienteDAO;
 
     public ClienteService(Connection connection) {
-        this.connection = connection;
         this.clienteDAO = new ClienteDAO(connection);
     }
 
@@ -42,11 +40,11 @@ public class ClienteService implements IClienteService {
     }
 
     @Override
-    public List<Cliente> mostrarTodosClientes() throws ServiceException {
+    public List<Cliente> listarClientes() throws ServiceException {
         List<Cliente> clientes;
 
         try{
-            clientes = clienteDAO.mostrarTodosClientes();
+            clientes = clienteDAO.listarClientes();
 
             if (clientes.isEmpty()){throw new ServiceException("No existe registro de clientes en la base de datos");}
 
@@ -62,7 +60,7 @@ public class ClienteService implements IClienteService {
         try{
             cliente = buscarClienteID(id);
             cliente.setNombre(nombre);
-            clienteDAO.modificarNombreCliente(cliente);
+            clienteDAO.actualizarCliente(cliente);
 
         } catch (DAOException e) { throw new ServiceException("Error Service: Fallo durante la modificación del nombre de cliente", e); }
     }
@@ -74,7 +72,7 @@ public class ClienteService implements IClienteService {
         try{
             cliente = buscarClienteID(id);
             cliente.setApellido(apellido);
-            clienteDAO.modificarApellidoCliente(cliente);
+            clienteDAO.actualizarCliente(cliente);
 
         } catch (DAOException e) { throw new ServiceException("Error Service: Fallo durante la modificación del apellido de cliente", e); }
     }

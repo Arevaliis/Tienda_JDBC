@@ -14,12 +14,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PedidoService implements IPedidoService {
-    private final Connection connection;
     private final PedidoDAO pedidoDAO;
-    private ClienteService clienteService;
+    private final ClienteService clienteService;
 
     public PedidoService(Connection connection, ClienteService clienteService) {
-        this.connection = connection;
         this.pedidoDAO = new PedidoDAO(connection);
         this.clienteService = clienteService;
     }

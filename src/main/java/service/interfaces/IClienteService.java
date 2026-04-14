@@ -30,10 +30,10 @@ public interface IClienteService {
     /**
      * Obtiene una lista con todos los clientes registrados en el sistema.
      *
-     * @return lista de clientes
+     * @return lista de clientes con email o null si no tienen email.
      * @throws ServiceException si ocurre un error al recuperar los datos
      */
-    List<Cliente> mostrarTodosClientes() throws ServiceException;
+    List<Cliente> listarClientes() throws ServiceException;
 
     /**
      * Modifica el nombre de un cliente existente.

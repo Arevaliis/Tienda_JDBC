@@ -28,28 +28,21 @@ public interface IClienteDAO {
     Cliente buscarClienteID(int id) throws DAOException;
 
     /**
-     * Obtiene todos los clientes almacenados en la base de datos.
+     * Obtiene todos los clientes almacenados en la base de datos con sus emails o null si no tienen.
      *
      * @return lista de clientes
      * @throws DAOException si ocurre un error durante la consulta
      */
-    List<Cliente> mostrarTodosClientes() throws DAOException;
+    List<Cliente> listarClientes() throws DAOException;
 
     /**
-     * Actualiza el nombre de un cliente en la base de datos.
+     * Actualiza un cliente en la base de datos.
      *
-     * @param cliente objeto Cliente que contiene el id y el nuevo nombre
+     * @param cliente objeto Cliente que contiene el campo modificado
      * @throws DAOException si ocurre un error durante la actualización o el cliente no existe
      */
-    void modificarNombreCliente(Cliente cliente) throws DAOException;
+    void actualizarCliente(Cliente cliente) throws DAOException;
 
-    /**
-     * Actualiza el apellido de un cliente en la base de datos.
-     *
-     * @param cliente objeto Cliente que contiene el ID y el nuevo apellido
-     * @throws DAOException si ocurre un error durante la actualización o el cliente no existe
-     */
-    void modificarApellidoCliente(Cliente cliente) throws DAOException;
 
     /**
      * Elimina un cliente de la base de datos por su identificador.

@@ -33,7 +33,7 @@ public class InputValidator {
      * Además, devuelve la palabra con la primera letra en mayúscula.
      *
      * @param palabra texto a validar
-     * @return palabra validada con la primera letra en mayúscula
+     * @return palabra validada con la primera letra en mayúscula y el resto en minúscula
      * @throws ValidationException si la palabra está vacía, contiene caracteres no válidos o tiene menos de 3 caracteres
      */
     public static String verificarPalabra(String palabra) throws ValidationException {
@@ -42,7 +42,7 @@ public class InputValidator {
         if (!palabra.matches("^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$")) { throw new ValidationException("La palabra ingresada no es válida. Solo puede contener letras."); }
         if (palabra.length() < 3){ throw new ValidationException("Debe tener al menos 3 caracteres"); }
 
-        return palabra.substring(0, 1).toUpperCase() + palabra.substring(1);
+        return palabra.substring(0, 1).toUpperCase() + palabra.substring(1).toLowerCase();
     }
 
     /**

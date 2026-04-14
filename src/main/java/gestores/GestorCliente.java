@@ -18,7 +18,6 @@ import java.util.List;
  * Clase encargada de gestionar la interacción del usuario con el módulo de clientes.
  */
 public class GestorCliente {
-    private static final String[] columnas = {"id", "Nombre", "Apellido", "email"};
 
     /**
      * Inicia el gestor de clientes
@@ -107,23 +106,26 @@ public class GestorCliente {
         if (id == -1){ return;}
 
         Cliente cliente = clientesService.buscarClienteID( id );
+        String[] columnas = {"id", "Nombre", "Apellido"};
+
         String [][] datosCliente = {
                 { String.valueOf(cliente.getId()), cliente.getNombre(), cliente.getApellido(), cliente.getEmail()}
         };
 
-        TablaViewer.crearTabla(datosCliente, columnas, "Ver Cliente");
+        TablaViewer.crearTabla(datosCliente, columnas, "Ver Cliente", 300, 75);
 
     }
 
     /**
-     * Muestra por pantalla la tabla con todos los clientes registrados en el sistema.
+     * Muestra por pantalla la tabla con todos los clientes registrados en el sistema además muestra el email del cliente o null si no tiene.
      *
      * @param clientesService servicio encargado de gestionar clientes
      * @throws ServiceException sí ocurre un error al obtener los clientes
      */
     private static void listarClientes(ClienteService clientesService) throws ServiceException {
-        List<Cliente> clientes = clientesService.mostrarTodosClientes();
+        List<Cliente> clientes = clientesService.listarClientes();
 
+        String[] columnas = {"id", "Nombre", "Apellido", "email"};
         String [][] datosClientes = new String[clientes.size()][columnas.length];
 
         for (int i = 0; i < clientes.size(); i++) {
@@ -133,7 +135,7 @@ public class GestorCliente {
             System.arraycopy(clienteDatos, 0, datosClientes[i], 0, columnas.length);
         }
 
-        TablaViewer.crearTabla(datosClientes, columnas, "Ver Clientes");
+        TablaViewer.crearTabla(datosClientes, columnas, "Ver Clientes", 625, 150);
     }
 
     /**
@@ -164,7 +166,7 @@ public class GestorCliente {
         switch (opc) {
             case 1 -> modificarNombreCliente(clientesService);
             case 2 -> modificarApellidoCliente(clientesService);
-            default -> { }
+            default -> {}
         }
     }
 
