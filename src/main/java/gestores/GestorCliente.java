@@ -33,7 +33,7 @@ public class GestorCliente {
             while (seguir) {
                 try {
 
-                    if (ejecutarOpcion(clientesService) <= 0) { return; }
+                    if (ejecutarOpcion(connection ,clientesService) <= 0) { return; }
                     seguir = ConsoleUI.confirmarContinuacion("¿Desea seguir en la sección de clientes? S/N: ", "Seguir Menu Clientes");
 
                 } catch (IllegalArgumentException | ServiceException | ValidationException e) {
@@ -53,13 +53,14 @@ public class GestorCliente {
      * Muestra el menú de clientes, solicita una opción al usuario y ejecuta la acción correspondiente.
      *
      * @param clientesService servicio encargado de la lógica de negocio de clientes
+     * @param connection connection base de datos
      * @return opción seleccionada por el usuario
      *
      * @throws ServiceException si ocurre un error en la capa de servicio
      * @throws ValidationException si los datos introducidos no son válidos
      * @throws IllegalArgumentException si la opción no está dentro del rango permitido
      */
-    private static int ejecutarOpcion(ClienteService clientesService)  throws ServiceException, ValidationException {
+    private static int ejecutarOpcion(Connection connection,ClienteService clientesService)  throws ServiceException, ValidationException {
 
         int opc = ConsoleUI.ingresarNumero(Mensajes.MENU_CLIENTES, "Menu Clientes");
 
@@ -69,7 +70,7 @@ public class GestorCliente {
             case 3 -> listarClientes(clientesService);
             case 4 -> menuModificar(clientesService);
             case 5 -> eliminarCliente(clientesService);
-            case 6 -> GestorEmail.menuEmail(clientesService);
+            case 6 -> GestorEmail.menuEmail(connection, clientesService);
 
             case 0, -1 -> {}
             default -> throw new IllegalArgumentException("Debe ingresar un número comprendido entre 0-6");
