@@ -46,6 +46,17 @@ public class Producto {
     }
 
     /**
+     * Constructor producto con ID y nombre para representar en tabla
+     *
+     * @param id           identificador del producto
+     * @param nombre       nombre del producto
+     */
+    public Producto(int id, String nombre) {
+        this.id = id;
+        this.nombre = nombre;
+    }
+
+    /**
      * Obtiene el ID del producto.
      *
      * @return ID del producto

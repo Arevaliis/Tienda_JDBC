@@ -12,6 +12,7 @@ public class Pedido {
     private int id_cliente;
     private Cliente cliente;
     private Timestamp fecha;
+    private DetallePedido detallePedido;
 
     /**
      * Constructor sin ID (útil para inserciones en base de datos).
@@ -36,7 +37,7 @@ public class Pedido {
     }
 
     /**
-     * Constructor completo con objeto cliente.
+     * Constructor con objeto cliente.
      *
      * @param id identificador del pedido
      * @param cliente objeto cliente
@@ -46,6 +47,21 @@ public class Pedido {
         this.id = id;
         this.cliente = cliente;
         this.fecha = fecha;
+    }
+
+    /**
+     * Constructor completo con objeto DetallesPedido
+     *
+     * @param id identificador del pedido
+     * @param cliente objeto cliente
+     * @param fecha fecha del pedido
+     * @param detallePedido Detalles del pedido
+     */
+    public Pedido(int id, Cliente cliente, Timestamp fecha, DetallePedido detallePedido) {
+        this.id = id;
+        this.cliente = cliente;
+        this.fecha = fecha;
+        this.detallePedido = detallePedido;
     }
 
     /**
@@ -77,6 +93,13 @@ public class Pedido {
     }
 
     /**
+     * @return Detalles del pedido
+     */
+    public DetallePedido getDetallePedido() {
+        return detallePedido;
+    }
+
+    /**
      * Establece el ID del cliente.
      *
      * @param id_cliente nuevo id del cliente
@@ -101,6 +124,15 @@ public class Pedido {
      */
     public void setFecha(Timestamp fecha) {
         this.fecha = fecha;
+    }
+
+    /**
+     * Establece los detalles del pedido.
+     *
+     * @param detallePedido nuevos detalles del pedido
+     */
+    public void setDetallePedido(DetallePedido detallePedido) {
+        this.detallePedido = detallePedido;
     }
 
     /**

@@ -2,7 +2,10 @@ package dao.impl;
 
 import dao.interfaces.IPedidoDAO;
 import exception.DAOException;
+import model.Cliente;
+import model.DetallePedido;
 import model.Pedido;
+import model.Producto;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -72,7 +75,86 @@ public class PedidoDAO implements IPedidoDAO {
 
     @Override
     public List<Pedido> listarPedidosPorCliente(int idCliente) throws DAOException {
-        String sql = "SELECT id, id_cliente, fecha FROM pedido WHERE id_cliente = ?";
+        String sql =
+                "SELECT  p.id, " +
+                        "c.id AS id_cliente, " +
+                        "c.nombre, " +
+                        "c.apellido, " +
+                        "pr.id AS id_producto, " +
+                        "pr.nombre AS nombre_producto, " +
+                        "dp.cantidad, " +
+                        "dp.precio_unitario, " +
+                        "p.fecha " +
+
+                        "FROM pedido p " +
+
+                        "INNER JOIN cliente c ON c.id = p.id_cliente " +
+                        "INNER JOIN detalle_pedido dp ON dp.id_pedido = p.id " +
+                        "INNER JOIN producto pr ON pr.id = dp.id_producto " +
+
+                        "WHERE p.id_cliente = ?";
+
+        try (PreparedStatement selectPedido = connection.prepareStatement(sql)){
+            selectPedido.setInt(1, idCliente);
+
+            try(ResultSet resultado = selectPedido.executeQuery()) {
+
+                if (! resultado.next()) { return new ArrayList<>(); }
+
+                List<Pedido> pedidos = new ArrayList<>();
+
+                Cliente cliente = new Cliente( resultado.getInt("id_cliente"),
+                                               resultado.getString("nombre"),
+                                               resultado.getString("apellido")
+                );
+
+                DetallePedido detallePedido = null;
+
+                do{
+                    Producto producto = new Producto( resultado.getInt("id_producto"),
+                                                      resultado.getString("nombre_producto")
+                            );
+
+                    Pedido pedido = new Pedido( resultado.getInt("id"),
+                                                cliente,
+                                                resultado.getTimestamp("fecha"),
+                                                detallePedido
+                    );
+
+                    detallePedido = new DetallePedido( pedido,
+                                                       producto,
+                                                       resultado.getInt("cantidad"),
+                                                       resultado.getDouble("precio_unitario")
+                    );
+
+                    pedido.setDetallePedido(detallePedido);
+                    pedidos.add(pedido);
+
+                } while (resultado.next());
+
+                return pedidos;
+            }
+
+        } catch (SQLException e) { throw new DAOException("Error DAO: Fallo durante select pedido del cliente con id: " + idCliente, e); }
+    }
+
+    // TODO
+    public List<Pedido> listarDetallesPedido(int idCliente) throws DAOException {
+        String sql =
+                "SELECT p.id, " +
+                        "c.id AS cliente_id, " +
+                        "pr.id AS producto_id, " +
+                        "dp.cantidad, " +
+                        "dp.precio_unitario, " +
+                        "p.fecha " +
+
+                        "FROM pedido p " +
+
+                        "INNER JOIN cliente c ON c.id = p.id_cliente " +
+                        "INNER JOIN detalle_pedido dp ON dp.id_pedido = p.id " +
+                        "INNER JOIN producto pr ON pr.id = dp.id_producto " +
+
+                        "WHERE p.id = ?";
 
         try (PreparedStatement selectPedido = connection.prepareStatement(sql)){
             selectPedido.setInt(1, idCliente);
@@ -86,8 +168,8 @@ public class PedidoDAO implements IPedidoDAO {
                 do{
                     pedidos.add(
                             new Pedido( resultado.getInt("id"),
-                                        resultado.getInt("id_cliente"),
-                                        resultado.getTimestamp("fecha")));
+                                    resultado.getInt("id_cliente"),
+                                    resultado.getTimestamp("fecha")));
 
                 } while (resultado.next());
 

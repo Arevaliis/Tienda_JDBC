@@ -8,6 +8,7 @@ import service.impl.PedidoService;
 import util.ConsoleUI;
 import util.DatabaseConnection;
 import util.Mensajes;
+import util.TablaViewer;
 
 import javax.swing.JOptionPane;
 import java.sql.Connection;
@@ -103,7 +104,13 @@ public class GestorPedido {
         if (idPedido == -1){ return;}
 
         Pedido pedido = pedidoService.buscarPedidoID(idPedido);
-        JOptionPane.showMessageDialog( null,  pedido,  "Ver Pedido",  JOptionPane.INFORMATION_MESSAGE );
+
+        String[] columnas = {"id", "Nombre", "Apellido", "Fecha"};
+        String [][] datosPedido = {
+                { String.valueOf(pedido.getId()), pedido.getCliente().getNombre(), pedido.getCliente().getApellido(), String.valueOf(pedido.getFecha())}
+        };
+
+        TablaViewer.crearTabla(datosPedido, columnas, "Ver Pedido Cliente", 625, 75);
     }
 
     /**
@@ -113,11 +120,20 @@ public class GestorPedido {
      */
     private static void listarPedidos(PedidoService pedidoService) {
         List<Pedido> pedidos = pedidoService.listarPedidos();
-        List<String> mensaje = pedidos.stream()
-                                      .map(Object::toString)
-                                      .toList();
+        String[] columnas = {"id", "Nombre", "Apellido", "Fecha"};
 
-        JOptionPane.showMessageDialog( null,  String.join("\n", mensaje),  "Pedidos Registrados",  JOptionPane.INFORMATION_MESSAGE );
+        String [][] datosPedido = new String[pedidos.size()][columnas.length];
+
+        for (int i = 0; i < pedidos.size(); i++) {
+            Pedido pedido = pedidos.get(i);
+            String[] pedidoDatos = {
+                    String.valueOf(pedido.getId()), pedido.getCliente().getNombre(), pedido.getCliente().getApellido(), String.valueOf(pedido.getFecha())
+            };
+
+            System.arraycopy(pedidoDatos, 0, datosPedido[i], 0, columnas.length);
+        }
+
+        TablaViewer.crearTabla(datosPedido, columnas, "Ver Pedido Cliente", 625, 75);
     }
 
     /**
@@ -130,11 +146,38 @@ public class GestorPedido {
         if (idCliente == -1){ return; }
 
         List<Pedido> pedidos = pedidoService.listarPedidosPorCliente(idCliente);
-        List<String> mensaje = pedidos.stream()
-                                      .map(Object::toString)
-                                      .toList();
 
-        JOptionPane.showMessageDialog( null,  String.join("\n", mensaje),  "Pedidos Registrados",  JOptionPane.INFORMATION_MESSAGE );
+        String[] columnas = {"id", "Nombre", "Apellido", "Producto", "Cantidad", "Precio Unitario", "Fecha"};
+        String [][] datosPedido = new String[pedidos.size()][columnas.length];
+
+        for (int i = 0; i < pedidos.size(); i++) {
+            String[] pedidoDatos = obtenerRegistro(pedidos, i);
+
+            System.arraycopy(pedidoDatos, 0, datosPedido[i], 0, columnas.length);
+        }
+
+        TablaViewer.crearTabla(datosPedido, columnas, "Ver Pedido Cliente", 950, 120);
+    }
+
+    /**
+     * Obtiene una fila al completo con los valores de cada columna
+     *
+     * @param pedidos Registro de un pedido
+     * @param i posición del pedido en la lista
+     * @return fila completa con sus valores
+     */
+    private static String[] obtenerRegistro(List<Pedido> pedidos, int i) {
+        Pedido pedido = pedidos.get(i);
+
+        return new String[]{
+                        String.valueOf(pedido.getId()),
+                        pedido.getCliente().getNombre(),
+                        pedido.getCliente().getApellido(),
+                        pedido.getDetallePedido().getProducto().getNombre(),
+                        String.valueOf(pedido.getDetallePedido().getCantidad()),
+                        String.valueOf(pedido.getDetallePedido().getPrecioUnitario()),
+                        String.valueOf(pedido.getFecha())
+        };
     }
 
     /**
