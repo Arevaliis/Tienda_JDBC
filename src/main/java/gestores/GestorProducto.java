@@ -2,7 +2,6 @@ package gestores;
 
 import exception.ServiceException;
 import exception.ValidationException;
-import model.Cliente;
 import model.Producto;
 import service.impl.ProductoService;
 import util.ConsoleUI;

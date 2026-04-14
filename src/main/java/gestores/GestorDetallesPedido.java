@@ -14,8 +14,18 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
+/**
+ * Clase encargada de gestionar el menú y las operaciones relacionadas con los detalles de pedido dentro de la aplicación.
+ */
 public class GestorDetallesPedido {
 
+    /**
+     * Método principal que ejecuta el menú de gestión de detalles de pedido.
+     * <p>
+     * Mantiene un bucle hasta que el usuario decide salir. Gestiona la conexión
+     * a base de datos y controla las excepciones producidas durante la ejecución.
+     * </p>
+     */
     public static void ejecutarMenuPedidoDetalles(){
         boolean seguir = true;
 
@@ -30,7 +40,6 @@ public class GestorDetallesPedido {
 
                 } catch (IllegalArgumentException | ServiceException | ValidationException e) {
                     JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                    e.printStackTrace();
 
                 } catch (NullPointerException ignored) {}
             }
@@ -40,6 +49,13 @@ public class GestorDetallesPedido {
         }
     }
 
+    /**
+     * Ejecuta la opción seleccionada por el usuario en el menú.
+     *
+     * @param detallePedidoService servicio que gestiona la lógica de detalles de pedido
+     * @return número de opción seleccionada
+     * @throws IllegalArgumentException si la opción está fuera de rango
+     */
     private static int ejecutarOpcion(DetallePedidoService detallePedidoService){
         int opc = ConsoleUI.ingresarNumero(Mensajes.MENU_DETALLES_PEDIDO, "Menu Detalles Pedido");
 
@@ -59,6 +75,11 @@ public class GestorDetallesPedido {
         return opc;
     }
 
+    /**
+     * Solicita los datos necesarios al usuario e inserta un nuevo detalle de pedido.
+     *
+     * @param detallePedidoService servicio que gestiona la inserción del detalle
+     */
     private static void agregarDetallePedido(DetallePedidoService detallePedidoService) {
         int idPedido = ConsoleUI.ingresarNumero("Ingrese el id del pedido: ", "Ingresar Detalle Pedido");
         if (idPedido == -1) { return; }
@@ -73,6 +94,11 @@ public class GestorDetallesPedido {
         JOptionPane.showMessageDialog( null,  "Detalle Pedido ingresado con éxito",  "Ingresar Detalle Pedido",  JOptionPane.INFORMATION_MESSAGE );
     }
 
+    /**
+     * Muestra en formato tabla todos los detalles asociados a un pedido concreto.
+     *
+     * @param detallePedidoService servicio que obtiene los detalles del pedido
+     */
     private static void listarDetallesPorPedido(DetallePedidoService detallePedidoService) {
         int idPedido = ConsoleUI.ingresarNumero("Ingrese el id del pedido: ", "Ver Detalles Pedido");
         if (idPedido == -1) { return; }
@@ -91,6 +117,13 @@ public class GestorDetallesPedido {
         TablaViewer.crearTabla(datosPedido, columnas, "Ver Detalles Pedido", 950, 120);
     }
 
+    /**
+     * Convierte un objeto {@link DetallePedido} en un array de Strings para su visualización.
+     *
+     * @param pedidos lista de detalles de pedido
+     * @param i índice del detalle a convertir
+     * @return array de Strings con los datos del detalle
+     */
     private static String[] obtenerRegistro(List<DetallePedido> pedidos, int i) {
         DetallePedido detallePedido = pedidos.get(i);
 
@@ -105,6 +138,11 @@ public class GestorDetallesPedido {
         };
     }
 
+    /**
+     * Obtiene y muestra un detalle de pedido concreto a partir de su id de pedido y producto.
+     *
+     * @param detallePedidoService servicio que realiza la consulta
+     */
     private static void obtenerDetalleConcreto(DetallePedidoService detallePedidoService) {
         int idPedido = ConsoleUI.ingresarNumero("Ingrese el id del pedido: ", "Ingresar Detalle Pedido");
         if (idPedido == -1) { return; }
@@ -116,15 +154,39 @@ public class GestorDetallesPedido {
         JOptionPane.showMessageDialog( null,  detallePedido,  "Ver Detalle Pedido",  JOptionPane.INFORMATION_MESSAGE );
     }
 
+    /**
+     * Permite modificar la cantidad de un producto dentro de un detalle de pedido.
+     *
+     * @param detallePedidoService servicio encargado de la actualización
+     */
     private static void modificarCantidadProducto(DetallePedidoService detallePedidoService) {
+
     }
 
+    /**
+     * Elimina un detalle de pedido específico.
+     *
+     * @param detallePedidoService servicio encargado de la eliminación
+     */
     private static void eliminarDetalle(DetallePedidoService detallePedidoService) {
+
     }
 
+    /**
+     * Elimina todos los detalles asociados a un pedido concreto.
+     *
+     * @param detallePedidoService servicio encargado de la eliminación
+     */
     private static void eliminarDetallesPorPedido(DetallePedidoService detallePedidoService) {
+
     }
 
+    /**
+     * Calcula y muestra el importe total de un pedido sumando todos sus detalles.
+     *
+     * @param detallePedidoService servicio encargado del cálculo
+     */
     private static void calcularTotalPedido(DetallePedidoService detallePedidoService) {
+
     }
 }

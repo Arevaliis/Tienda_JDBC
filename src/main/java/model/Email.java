@@ -99,7 +99,7 @@ import java.util.Objects;
     }
 
     /**
-     * Genera el código hash basado en el id del email.
+     * Genera el código hash basado en el ID del email.
      *
      * @return hash del objeto
      */

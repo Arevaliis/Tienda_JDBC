@@ -1,6 +1,5 @@
 package service.interfaces;
 
-import exception.DAOException;
 import exception.ServiceException;
 import model.Pedido;
 import java.util.List;
