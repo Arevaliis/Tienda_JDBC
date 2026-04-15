@@ -40,12 +40,10 @@ public interface IDetallePedidoDAO {
     /**
      * Actualiza la cantidad de un producto en un pedido.
      *
-     * @param idPedido   ID del pedido
-     * @param idProducto ID del producto
-     * @param cantidad   Nueva cantidad
+     * @param detallePedido objeto DetallePedido con la nueva cantidad
      * @throws DAOException Si ocurre un error en la base de datos
      */
-    void modificarCantidadProducto(int idPedido, int idProducto, int cantidad) throws DAOException;
+    void modificarCantidadProducto(DetallePedido detallePedido) throws DAOException;
 
     /**
      * Elimina un detalle concreto de un pedido.

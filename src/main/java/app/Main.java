@@ -10,6 +10,10 @@ import util.Mensajes;
 import javax.swing.JOptionPane;
 
 // TODO En buscarCliente devolver un cliente con los emails en una lista y despues iterar la lista, crear constructor para recibir la lista
+// TODO -> COMPROBAR QUE PASA CUANDO ELIMINAMOS PEDIDO O PRODUCTO (PK) QUE SEA FK EN DETALLE PEDIDOS.
+// TODO -> AL INSERT NO PASAR PRECIO SI NO COGERLO DE LA TABLA PRODUCTO
+// TODO OJO MODIFICAR CANTIDAD TANTO + COMO -
+// TODO TANTO INSERT COMO MODIFICAR DEBERIA COGER LA INSTANCIA DE PRODUCTO DENTRO DE DETALLE PEDIDO
 
 /**
  * Clase principal de la aplicación.

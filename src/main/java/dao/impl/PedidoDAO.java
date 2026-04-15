@@ -81,6 +81,9 @@ public class PedidoDAO implements IPedidoDAO {
                         "c.apellido, " +
                         "pr.id AS id_producto, " +
                         "pr.nombre AS nombre_producto, " +
+                        "pr.descripcion, " +
+                        "pr.precio, " +
+                        "pr.stock, " +
                         "dp.cantidad, " +
                         "dp.precio_unitario, " +
                         "p.fecha " +
@@ -111,8 +114,11 @@ public class PedidoDAO implements IPedidoDAO {
 
                 do{
                     Producto producto = new Producto( resultado.getInt("id_producto"),
-                                                      resultado.getString("nombre_producto")
-                            );
+                                                        resultado.getString("nombre_producto"),
+                                                        resultado.getString("descripcion"),
+                                                        resultado.getInt("cantidad"),
+                                                        resultado.getInt("stock")
+                    );
 
                     Pedido pedido = new Pedido( resultado.getInt("id"),
                                                 cliente,

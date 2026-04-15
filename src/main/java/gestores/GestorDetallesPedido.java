@@ -40,6 +40,7 @@ public class GestorDetallesPedido {
 
                 } catch (IllegalArgumentException | ServiceException | ValidationException e) {
                     JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                    e.printStackTrace();
 
                 } catch (NullPointerException ignored) {}
             }

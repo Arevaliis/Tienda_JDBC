@@ -4,50 +4,45 @@ import dao.impl.DetallePedidoDAO;
 import exception.DAOException;
 import exception.ServiceException;
 import model.DetallePedido;
-import model.Pedido;
 import model.Producto;
 import service.interfaces.IDetallePedidoService;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class DetallePedidoService implements IDetallePedidoService {
     private final Connection connection;
     private final DetallePedidoDAO detallePedidoDAO;
-    private final PedidoService pedidoService;
     private final ProductoService productoService;
 
     public DetallePedidoService(Connection connection) {
         this.connection = connection;
         this.detallePedidoDAO = new DetallePedidoDAO(connection);
-        this.pedidoService = new PedidoService(connection, new ClienteService(connection));
         this.productoService = new ProductoService(connection);
     }
 
-    // TODO COMPROBAR QUE PK ES DECIR ID PEDIDO + ID PRODUCTO YA EXISTE
-    // TODO "El pedido ingresado ya tiene ese producto"
-
     @Override
-    public void insertarDetallePedido(int id_pedido, int id_producto, int cantidad) throws ServiceException {
+    public void insertarDetallePedido(int idPedido, int idProducto, int cantidad) throws ServiceException {
 
         try{
 
             connection.setAutoCommit(false);
 
             try {
-                Producto producto = productoService.buscarProductoPorId(id_producto);
+                DetallePedido detallePedido = detallePedidoDAO.listarDetallePorId(idPedido, idProducto);
+                if (detallePedido != null){ throw new ServiceException("El pedido ingresado ya tiene ese producto agregado. Si lo desea puede modificar la cantidad"); }
+
+                Producto producto = productoService.buscarProductoPorId(idProducto);
 
                 int stockActual = producto.getStock();
                 int stockRestante = stockActual - cantidad;
 
                 if (stockRestante < 0){ throw new ServiceException("No hay suficiente stock del producto. Stock actual: " + stockActual); }
 
-                productoService.modificarStock(id_producto, stockRestante);
+                productoService.modificarStock(idProducto, stockRestante);
 
-                DetallePedido detallePedido = new DetallePedido(id_pedido, id_producto, cantidad, producto.getPrecio());
-
+                detallePedido = new DetallePedido(idPedido, idProducto, cantidad, producto.getPrecio());
                 detallePedidoDAO.insertar(detallePedido);
 
                 connection.commit();
@@ -88,7 +83,35 @@ public class DetallePedidoService implements IDetallePedidoService {
 
     @Override
     public void modificarCantidadProducto(int idPedido, int idProducto, int cantidad) throws ServiceException {
+        try{
 
+            connection.setAutoCommit(false);
+
+            try {
+                DetallePedido detallePedido = detallePedidoDAO.listarDetallePorId(idPedido, idProducto);
+                if (detallePedido != null){ throw new ServiceException("El pedido ingresado ya tiene ese producto agregado. Si lo desea puede modificar la cantidad"); }
+
+                Producto producto = productoService.buscarProductoPorId(idProducto);
+
+                int stockActual = producto.getStock();
+                int stockRestante = stockActual - cantidad;
+
+                if (stockRestante < 0){ throw new ServiceException("No hay suficiente stock del producto. Stock actual: " + stockActual); }
+
+                productoService.modificarStock(idProducto, stockRestante);
+
+                detallePedido = new DetallePedido(idPedido, idProducto, cantidad, producto.getPrecio());
+                detallePedidoDAO.insertar(detallePedido);
+
+                connection.commit();
+
+            } catch ( SQLException | DAOException e) {
+                connection.rollback();
+                throw new ServiceException("Error Service: Fallo durante insert detalle pedido", e);
+
+            } finally { connection.setAutoCommit(true); }
+
+        } catch ( SQLException e) { throw new ServiceException("Error al configurar la transacción de detalle pedido", e); }
     }
 
     @Override

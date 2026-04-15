@@ -1,8 +1,5 @@
 package model;
 
-// TODO -> COMPROBAR QUE PASA CUANDO ELIMINAMOS PEDIDO O PRODUCTO (PK) QUE SEA FK EN DETALLE PEDIDOS.
-// TODO -> AL INSERT NO PASAR PRECIO SI NO COGERLO DE LA TABLA PRODUCTO
-
 import java.util.Objects;
 
 /**
@@ -11,7 +8,6 @@ import java.util.Objects;
  * y el precio unitario aplicado en ese momento.
  */
 public class DetallePedido {
-    private int id;
     private int idPedido;
     private int idProducto;
     private Pedido pedido;
@@ -20,24 +16,7 @@ public class DetallePedido {
     private double precioUnitario;
 
     /**
-     * Constructor básico sin precio unitario.
-     *
-     * @param id         ID del pedido
-     * @param idPedido   ID del pedido
-     * @param idProducto ID del producto
-     * @param cantidad   Cantidad del producto
-     * @param precioUnitario Precio por unidad del producto
-     */
-    public DetallePedido(int id, int idPedido, int idProducto, int cantidad, double precioUnitario) {
-        this.id = id;
-        this.idPedido = idPedido;
-        this.idProducto = idProducto;
-        this.cantidad = cantidad;
-        this.precioUnitario = precioUnitario;
-    }
-
-    /**
-     * Constructor con precio unitario para ingresar en la base de datos.
+     * Constructor para ingresar en la base de datos.
      *
      * @param idPedido        ID del pedido
      * @param idProducto      ID del producto
@@ -52,7 +31,7 @@ public class DetallePedido {
     }
 
     /**
-     * Constructor completo usando objetos para recuperar información de la base de datos.
+     * Constructor completo usando objetos.
      *
      * @param pedido          Pedido asociado
      * @param producto        Producto asociado

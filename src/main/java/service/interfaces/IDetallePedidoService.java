@@ -15,12 +15,12 @@ public interface IDetallePedidoService {
     /**
      * Inserta un nuevo detalle de pedido.
      *
-     * @param id_pedido   Identificador del pedido
-     * @param id_producto Identificador del producto
+     * @param idPedido   Identificador del pedido
+     * @param idProducto Identificador del producto
      * @param cantidad    Cantidad del producto en el pedido
      * @throws DAOException Si ocurre un error en la base de datos
      */
-    void insertarDetallePedido(int id_pedido, int id_producto, int cantidad) throws ServiceException;
+    void insertarDetallePedido(int idPedido, int idProducto, int cantidad) throws ServiceException;
 
     /**
      * Obtiene todos los detalles de un pedido.

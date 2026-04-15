@@ -44,6 +44,9 @@ public class DetallePedidoDAO implements IDetallePedidoDAO {
                         "c.apellido, " +
                         "pr.id AS id_producto, " +
                         "pr.nombre AS nombre_producto, " +
+                        "pr.descripcion, " +
+                        "pr.precio, " +
+                        "pr.stock, " +
                         "dp.cantidad, " +
                         "dp.precio_unitario, " +
                         "p.fecha " +
@@ -55,7 +58,7 @@ public class DetallePedidoDAO implements IDetallePedidoDAO {
                         "INNER JOIN producto pr ON pr.id = dp.id_producto " +
 
                         "WHERE dp.id_pedido = ? " +
-                        "ORDER BY id_producto ASC";
+                        "ORDER BY pr.id ASC";
 
         try (PreparedStatement selectPedido = connection.prepareStatement(sql)){
             selectPedido.setInt(1, idPedido);
@@ -74,7 +77,10 @@ public class DetallePedidoDAO implements IDetallePedidoDAO {
                 do {
 
                     Producto producto = new Producto( resultado.getInt("id_producto"),
-                                                      resultado.getString("nombre_producto")
+                                                        resultado.getString("nombre_producto"),
+                                                        resultado.getString("descripcion"),
+                                                        resultado.getInt("cantidad"),
+                                                        resultado.getInt("stock")
                     );
 
                     Pedido pedido = new Pedido( resultado.getInt("id_pedido"),
@@ -108,6 +114,9 @@ public class DetallePedidoDAO implements IDetallePedidoDAO {
                         "c.apellido, " +
                         "pr.id AS id_producto, " +
                         "pr.nombre AS nombre_producto, " +
+                        "pr.descripcion, " +
+                        "pr.precio, " +
+                        "pr.stock, " +
                         "dp.cantidad, " +
                         "dp.precio_unitario, " +
                         "p.fecha " +
@@ -118,8 +127,8 @@ public class DetallePedidoDAO implements IDetallePedidoDAO {
                         "INNER JOIN cliente c ON c.id = p.id_cliente " +
                         "INNER JOIN producto pr ON pr.id = dp.id_producto " +
 
-                        "WHERE dp.id_pedido = ? and dp.id_producto = ? " +
-                        "ORDER BY id_producto ASC";
+                        "WHERE dp.id_pedido = ? and pr.id = ? " +
+                        "ORDER BY pr.id ASC";
 
         try (PreparedStatement selectPedido = connection.prepareStatement(sql)){
             selectPedido.setInt(1, idPedido);
@@ -135,7 +144,10 @@ public class DetallePedidoDAO implements IDetallePedidoDAO {
                 );
 
                 Producto producto = new Producto( resultado.getInt("id_producto"),
-                                                  resultado.getString("nombre_producto")
+                                                  resultado.getString("nombre_producto"),
+                                                  resultado.getString("descripcion"),
+                                                  resultado.getInt("cantidad"),
+                                                  resultado.getInt("stock")
                 );
 
                 Pedido pedido = new Pedido( resultado.getInt("id_pedido"),
@@ -155,8 +167,17 @@ public class DetallePedidoDAO implements IDetallePedidoDAO {
     }
 
     @Override
-    public void modificarCantidadProducto(int idPedido, int idProducto, int cantidad) throws DAOException {
+    public void modificarCantidadProducto(DetallePedido detallePedido) throws DAOException {
+        String sql = "UPDATE detalle_pedido SET cantidad = ? WHERE id_pedido = ? AND id_producto = ?";
 
+        try (PreparedStatement update = connection.prepareStatement(sql)) {
+            update.setInt(1, detallePedido.getCantidad());
+            update.setInt(2, detallePedido.getIdPedido());
+            update.setInt(3, detallePedido.getIdProducto());
+
+            if (update.executeUpdate() == 0) { throw new DAOException("No se ha podido actualizar la cantidad del detalle de pedido."); }
+
+        } catch (SQLException e) { throw new DAOException("Error DAO: Fallo durante la modificación de la cantidad del detalle del pedido", e); }
     }
 
     @Override
