@@ -151,7 +151,23 @@ public class GestorDetallesPedido {
         if (idProducto == -1) { return; }
 
         DetallePedido detallePedido = detallePedidoService.listarDetallePorId(idPedido, idProducto);
-        JOptionPane.showMessageDialog( null,  detallePedido,  "Ver Detalle Pedido",  JOptionPane.INFORMATION_MESSAGE );
+
+        String[] columnas = {"id_pedido", "Nombre", "Apellido", "id_producto" ,"Producto", "Cantidad", "Precio Unitario", "Fecha"};
+
+        String [][] datosPedido = {
+                {
+                    String.valueOf(detallePedido.getPedido().getId()),
+                    detallePedido.getPedido().getCliente().getNombre(),
+                    detallePedido.getPedido().getCliente().getApellido(),
+                    String.valueOf(detallePedido.getProducto().getId()),
+                    detallePedido.getProducto().getNombre(),
+                    String.valueOf(detallePedido.getCantidad()),
+                    String.valueOf(detallePedido.getPrecioUnitario()),
+                    String.valueOf(detallePedido.getPedido().getFecha())
+                }
+        };
+
+        TablaViewer.crearTabla(datosPedido, columnas, "Ver Detalle Pedido", 1000, 80);
     }
 
     /**

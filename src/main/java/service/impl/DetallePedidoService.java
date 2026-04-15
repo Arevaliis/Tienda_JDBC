@@ -76,14 +76,12 @@ public class DetallePedidoService implements IDetallePedidoService {
     @Override
     public DetallePedido listarDetallePorId(int idPedido, int idProducto) throws ServiceException {
         try {
+
             DetallePedido detallePedido = detallePedidoDAO.listarDetallePorId(idPedido, idProducto);
 
             if(detallePedido == null) {throw new ServiceException("No existe ningún id dentro de la tabla detalle_pedido con id_pedido: " + idPedido + " y id_producto: "+ idProducto); }
 
-            Pedido pedido = pedidoService.buscarPedidoID(idPedido);
-            Producto producto = productoService.buscarProductoPorId(idProducto);
-
-            return new DetallePedido(pedido, producto, detallePedido.getCantidad(), detallePedido.getPrecioUnitario());
+            return detallePedido;
 
         } catch ( DAOException e) { throw new ServiceException("Error Service: Fallo durante select de un detalle del pedido", e); }
     }

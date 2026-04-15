@@ -9,6 +9,8 @@ import util.Mensajes;
 
 import javax.swing.JOptionPane;
 
+// TODO En buscarCliente devolver un cliente con los emails en una lista y despues iterar la lista, crear constructor para recibir la lista
+
 /**
  * Clase principal de la aplicación.
  * Se encarga de iniciar el sistema y controlar el flujo del menú principal.
