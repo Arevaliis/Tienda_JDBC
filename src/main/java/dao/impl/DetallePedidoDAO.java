@@ -172,8 +172,8 @@ public class DetallePedidoDAO implements IDetallePedidoDAO {
 
         try (PreparedStatement update = connection.prepareStatement(sql)) {
             update.setInt(1, detallePedido.getCantidad());
-            update.setInt(2, detallePedido.getIdPedido());
-            update.setInt(3, detallePedido.getIdProducto());
+            update.setInt(2, detallePedido.getPedido().getId());
+            update.setInt(3, detallePedido.getProducto().getId());
 
             if (update.executeUpdate() == 0) { throw new DAOException("No se ha podido actualizar la cantidad del detalle de pedido."); }
 
@@ -182,12 +182,27 @@ public class DetallePedidoDAO implements IDetallePedidoDAO {
 
     @Override
     public void eliminarDetallesPedido(int idPedido, int idProducto) throws DAOException {
+        String sql = "DELETE FROM detalle_pedido WHERE id_pedido = ? AND id_producto = ?";
 
+        try (PreparedStatement delete = connection.prepareStatement(sql)) {
+            delete.setInt(1, idPedido);
+            delete.setInt(2, idProducto);
+
+            if (delete.executeUpdate() == 0) { throw new DAOException("No se ha podido eliminar el detalle de pedido."); }
+
+        } catch (SQLException e) { throw new DAOException("Error DAO: Fallo durante la eliminación del detalle del pedido", e); }
     }
 
     @Override
     public void eliminarPorPedido(int idPedido) throws DAOException {
+        String sql = "DELETE FROM detalle_pedido WHERE id_pedido = ?";
 
+        try (PreparedStatement delete = connection.prepareStatement(sql)) {
+            delete.setInt(1, idPedido);
+
+            if (delete.executeUpdate() == 0) { throw new DAOException("No se ha podido eliminar los detalles de pedido con id: " + idPedido); }
+
+        } catch (SQLException e) { throw new DAOException("Error DAO: Fallo durante la eliminación de los detalles del pedido", e); }
     }
 
     @Override

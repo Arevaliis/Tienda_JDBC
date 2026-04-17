@@ -88,20 +88,34 @@ public class DetallePedidoService implements IDetallePedidoService {
             connection.setAutoCommit(false);
 
             try {
+
+                if ( cantidad <= 0) { throw new ServiceException("No puede ingresar una cantidad menor o igual a 0"); }
+
                 DetallePedido detallePedido = detallePedidoDAO.listarDetallePorId(idPedido, idProducto);
-                if (detallePedido != null){ throw new ServiceException("El pedido ingresado ya tiene ese producto agregado. Si lo desea puede modificar la cantidad"); }
+                if (detallePedido == null){ throw new ServiceException("El producto que desea modificar no se encuentra en el pedido"); }
 
-                Producto producto = productoService.buscarProductoPorId(idProducto);
+                Producto producto = detallePedido.getProducto();
 
-                int stockActual = producto.getStock();
-                int stockRestante = stockActual - cantidad;
+                int stockActualProducto = producto.getStock();
+                int cantidadActualPedido = detallePedido.getCantidad();
 
-                if (stockRestante < 0){ throw new ServiceException("No hay suficiente stock del producto. Stock actual: " + stockActual); }
+                int diferenciaEntreCantidades = cantidad - cantidadActualPedido;
+                if (diferenciaEntreCantidades == 0) { throw new ServiceException("La cantidad ingresada es igual a la actual."); }
 
-                productoService.modificarStock(idProducto, stockRestante);
+                // Modificamos la cantidad en detalle_pedido
+                detallePedido.setCantidad(cantidad);
 
-                detallePedido = new DetallePedido(idPedido, idProducto, cantidad, producto.getPrecio());
-                detallePedidoDAO.insertar(detallePedido);
+                // Aumentar la cantidad
+                if (diferenciaEntreCantidades > 0 ){
+                    if (stockActualProducto - cantidad < 0){ throw new ServiceException("No hay suficiente stock del producto. Stock actual: " + stockActualProducto); }
+                    producto.setStock(stockActualProducto - diferenciaEntreCantidades);
+                }
+
+                // Restar la cantidad
+                if (diferenciaEntreCantidades < 0 ){ producto.setStock(stockActualProducto + (diferenciaEntreCantidades * -1) ); }
+
+                productoService.modificarStock(producto.getId(), producto.getStock());
+                detallePedidoDAO.modificarCantidadProducto(detallePedido);
 
                 connection.commit();
 
@@ -116,12 +130,57 @@ public class DetallePedidoService implements IDetallePedidoService {
 
     @Override
     public void eliminarDetallesPedido(int idPedido, int idProducto) throws ServiceException {
+        try{
 
+            connection.setAutoCommit(false);
+
+            try {
+                DetallePedido detallePedido = detallePedidoDAO.listarDetallePorId(idPedido, idProducto);
+
+                Producto producto = detallePedido.getProducto();
+                int nuevoStock = detallePedido.getProducto().getStock() + detallePedido.getCantidad();
+
+                productoService.modificarStock(producto.getId(), nuevoStock);
+                detallePedidoDAO.eliminarDetallesPedido(idPedido, idProducto);
+
+                connection.commit();
+
+            } catch ( SQLException | DAOException e) {
+                connection.rollback();
+                throw new ServiceException("Error Service: Fallo durante delete detalle pedido", e);
+
+            } finally { connection.setAutoCommit(true); }
+
+        } catch ( SQLException e) { throw new ServiceException("Error al configurar la transacción de detalle pedido", e); }
     }
 
     @Override
     public void eliminarPorPedido(int idPedido) throws ServiceException {
+        try{
 
+            connection.setAutoCommit(false);
+
+            try {
+                List<DetallePedido> detallePedidos = detallePedidoDAO.listarDetallesPedido(idPedido);
+
+                for (DetallePedido detallePedido: detallePedidos){
+                    Producto producto = detallePedido.getProducto();
+                    int nuevoStock = detallePedido.getProducto().getStock() + detallePedido.getCantidad();
+
+                    productoService.modificarStock(producto.getId(), nuevoStock);
+                }
+
+                detallePedidoDAO.eliminarPorPedido(idPedido);
+
+                connection.commit();
+
+            } catch ( SQLException | DAOException e) {
+                connection.rollback();
+                throw new ServiceException("Error Service: Fallo durante delete detalle pedido", e);
+
+            } finally { connection.setAutoCommit(true); }
+
+        } catch ( SQLException e) { throw new ServiceException("Error al configurar la transacción de detalle pedido", e); }
     }
 
     @Override

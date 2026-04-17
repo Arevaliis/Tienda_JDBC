@@ -177,7 +177,17 @@ public class GestorDetallesPedido {
      * @param detallePedidoService servicio encargado de la actualización
      */
     private static void modificarCantidadProducto(DetallePedidoService detallePedidoService) {
+        int idPedido = ConsoleUI.ingresarNumero("Ingrese el id del pedido: ", "Modificar Cantidad Pedido");
+        if (idPedido == -1) { return; }
 
+        int idProducto= ConsoleUI.ingresarNumero("Ingrese el id del producto: ", "Modificar Cantidad Pedido");
+        if (idProducto == -1) { return; }
+
+        int cantidad = ConsoleUI.ingresarNumero("Ingrese la cantidad del pedido: ", "Modificar Cantidad Pedido");
+        if (cantidad == -1) { return; }
+
+        detallePedidoService.modificarCantidadProducto(idPedido, idProducto, cantidad);
+        JOptionPane.showMessageDialog( null,  "Cantidad Pedido modificado con éxito",  "Modificar Cantidad Pedido",  JOptionPane.INFORMATION_MESSAGE );
     }
 
     /**
@@ -186,7 +196,14 @@ public class GestorDetallesPedido {
      * @param detallePedidoService servicio encargado de la eliminación
      */
     private static void eliminarDetalle(DetallePedidoService detallePedidoService) {
+        int idPedido = ConsoleUI.ingresarNumero("Ingrese el id del pedido: ", "Eliminar Detalle Pedido");
+        if (idPedido == -1) { return; }
 
+        int idProducto= ConsoleUI.ingresarNumero("Ingrese el id del producto: ", "Eliminar Detalle Pedido");
+        if (idProducto == -1) { return; }
+
+        detallePedidoService.eliminarDetallesPedido(idPedido, idProducto);
+        JOptionPane.showMessageDialog( null,  "Eliminación detalle de pedido realizada con éxito",  "Eliminar Detalle Pedido",  JOptionPane.INFORMATION_MESSAGE );
     }
 
     /**
@@ -195,7 +212,11 @@ public class GestorDetallesPedido {
      * @param detallePedidoService servicio encargado de la eliminación
      */
     private static void eliminarDetallesPorPedido(DetallePedidoService detallePedidoService) {
+        int idPedido = ConsoleUI.ingresarNumero("Ingrese el id del pedido: ", "Eliminar Detalles Pedido");
+        if (idPedido == -1) { return; }
 
+        detallePedidoService.eliminarPorPedido(idPedido);
+        JOptionPane.showMessageDialog( null,  "Eliminación de los detalles del pedido realizada con éxito",  "Eliminar Detalles Pedido",  JOptionPane.INFORMATION_MESSAGE );
     }
 
     /**
