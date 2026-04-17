@@ -225,6 +225,12 @@ public class GestorDetallesPedido {
      * @param detallePedidoService servicio encargado del cálculo
      */
     private static void calcularTotalPedido(DetallePedidoService detallePedidoService) {
+        int idPedido = ConsoleUI.ingresarNumero("Ingrese el id del pedido: ", "Calcular Total Pedido");
+        if (idPedido == -1) { return; }
 
+        double total = detallePedidoService.obtenerTotalPedido(idPedido);
+        String mensaje = "El total del pedido con id " + idPedido + " es de: " + total + "€" ;
+
+        JOptionPane.showMessageDialog( null, mensaje,  "Calcular Total Pedido",  JOptionPane.INFORMATION_MESSAGE );
     }
 }

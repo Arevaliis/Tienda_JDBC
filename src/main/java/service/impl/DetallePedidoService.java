@@ -185,6 +185,11 @@ public class DetallePedidoService implements IDetallePedidoService {
 
     @Override
     public double obtenerTotalPedido(int idPedido) throws ServiceException {
-        return 0;
+        try{
+            detallePedidoDAO.listarDetallesPedido(idPedido);
+
+            return detallePedidoDAO.obtenerTotalPedido(idPedido);
+
+        } catch ( DAOException e) { throw new ServiceException("Error Service: Fallo durante delete detalle pedido", e); }
     }
 }

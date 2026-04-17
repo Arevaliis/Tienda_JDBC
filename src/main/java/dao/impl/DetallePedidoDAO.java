@@ -207,6 +207,22 @@ public class DetallePedidoDAO implements IDetallePedidoDAO {
 
     @Override
     public double obtenerTotalPedido(int idPedido) throws DAOException {
-        return 0;
+        String sql = "SELECT sum(cantidad * precio_unitario) AS total " +
+                     "FROM detalle_pedido " +
+                     "WHERE id_pedido = ?;";
+
+        try (PreparedStatement sumTotal = connection.prepareStatement(sql)) {
+            sumTotal.setInt(1, idPedido);
+
+            try(ResultSet resultado = sumTotal.executeQuery()){
+
+                if (! resultado.next()) { throw new DAOException("No se ha podido calcular el total del pedido con id: " + idPedido); }
+
+                return resultado.getDouble("total");
+            }
+
+
+        } catch (SQLException e) { throw new DAOException("Error DAO: Fallo durante la eliminación de los detalles del pedido", e); }
+
     }
 }
