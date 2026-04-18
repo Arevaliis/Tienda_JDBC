@@ -6,7 +6,6 @@ import exception.ServiceException;
 import model.Cliente;
 import model.Email;
 import service.interfaces.IEmailService;
-
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;

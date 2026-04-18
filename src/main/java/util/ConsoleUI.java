@@ -1,7 +1,6 @@
 package util;
 
 import exception.ValidationException;
-
 import javax.swing.JOptionPane;
 
 /**

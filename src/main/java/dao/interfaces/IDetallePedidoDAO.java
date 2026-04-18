@@ -70,4 +70,12 @@ public interface IDetallePedidoDAO {
      * @throws DAOException Si ocurre un error en la base de datos
      */
     double obtenerTotalPedido(int idPedido) throws DAOException;
+
+    /**
+     * Obtiene todos los detalles de todos los pedidos.
+     *
+     * @return Lista con todos los detalles de todos los pedidos
+     * @throws DAOException Si ocurre un error en la base de datos
+     */
+    List<DetallePedido> listarDetallesPedidos() throws DAOException;
 }

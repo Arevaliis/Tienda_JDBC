@@ -6,7 +6,6 @@ import exception.ServiceException;
 import model.DetallePedido;
 import model.Producto;
 import service.interfaces.IDetallePedidoService;
-
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
@@ -193,6 +192,7 @@ public class DetallePedidoService implements IDetallePedidoService {
         } catch ( DAOException e) { throw new ServiceException("Error Service: Fallo durante delete detalle pedido", e); }
     }
 
+    @Override
     public List<DetallePedido> listarDetallesPedido() throws ServiceException {
         try{
 

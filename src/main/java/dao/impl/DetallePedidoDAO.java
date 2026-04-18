@@ -6,7 +6,6 @@ import model.Cliente;
 import model.DetallePedido;
 import model.Pedido;
 import model.Producto;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -224,6 +223,7 @@ public class DetallePedidoDAO implements IDetallePedidoDAO {
 
     }
 
+    @Override
     public List<DetallePedido> listarDetallesPedidos() throws DAOException {
         String sql =
                 "SELECT  dp.id_pedido, " +

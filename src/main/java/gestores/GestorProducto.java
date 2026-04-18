@@ -2,7 +2,6 @@ package gestores;
 
 import exception.ServiceException;
 import exception.ValidationException;
-import model.Cliente;
 import model.Producto;
 import service.impl.ProductoService;
 import util.*;
@@ -255,6 +254,11 @@ public class GestorProducto {
         JOptionPane.showMessageDialog(null,  "Stock del producto actualizado correctamente",  "Modificar Stock",  JOptionPane.INFORMATION_MESSAGE);
     }
 
+    /**
+     * Exporta la lista de productos a un archivo JSON.
+     *
+     * @param productoService servicio encargado de obtener la lista de productos
+     */
     private static void exportarProductos(ProductoService productoService) {
         List<Producto> productos = productoService.listarProductos();
 

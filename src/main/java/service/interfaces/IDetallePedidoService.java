@@ -3,7 +3,6 @@ package service.interfaces;
 import exception.DAOException;
 import exception.ServiceException;
 import model.DetallePedido;
-
 import java.util.List;
 
 /**
@@ -76,4 +75,12 @@ public interface IDetallePedidoService {
      * @throws ServiceException Si ocurre un error en la operación
      */
     double obtenerTotalPedido(int idPedido) throws ServiceException;
+
+    /**
+     * Obtiene todos los detalles de todos los pedidos.
+     *
+     * @return Lista con todos los detalles de todos los pedidos
+     * @throws ServiceException Si ocurre un error en la operación
+     */
+    List<DetallePedido> listarDetallesPedido() throws ServiceException;
 }

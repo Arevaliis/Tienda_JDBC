@@ -204,6 +204,11 @@ public class GestorCliente {
         JOptionPane.showMessageDialog( null,  "Cliente modificado con éxito",  "Modificar Cliente",  JOptionPane.INFORMATION_MESSAGE);
     }
 
+    /**
+     * Exporta la lista de clientes a un archivo JSON.
+     *
+     * @param clientesService servicio encargado de obtener la lista de clientes
+     */
     private static void exportarClientes( ClienteService clientesService ) {
         List<Cliente> clientes = clientesService.listarClientes();
 

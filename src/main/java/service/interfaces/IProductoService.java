@@ -2,7 +2,6 @@ package service.interfaces;
 
 import exception.ServiceException;
 import model.Producto;
-
 import java.util.List;
 
 /**

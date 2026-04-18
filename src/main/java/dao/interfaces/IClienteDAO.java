@@ -2,7 +2,6 @@ package dao.interfaces;
 
 import exception.DAOException;
 import model.Cliente;
-
 import java.util.List;
 
 /**

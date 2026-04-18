@@ -3,7 +3,6 @@ package gestores;
 import exception.ServiceException;
 import exception.ValidationException;
 import model.Pedido;
-import model.Producto;
 import service.impl.ClienteService;
 import service.impl.PedidoService;
 import util.*;
@@ -242,6 +241,11 @@ public class GestorPedido {
 
     }
 
+    /**
+     * Exporta la lista de pedidos a un archivo JSON.
+     *
+     * @param pedidoService servicio encargado de obtener la lista de pedidos
+     */
     private static void exportarPedidos(PedidoService pedidoService) {
         List<Pedido> pedidos = pedidoService.listarPedidos();
 

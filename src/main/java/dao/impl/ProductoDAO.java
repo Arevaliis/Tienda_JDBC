@@ -3,7 +3,6 @@ package dao.impl;
 import dao.interfaces.IProductoDAO;
 import exception.DAOException;
 import model.Producto;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

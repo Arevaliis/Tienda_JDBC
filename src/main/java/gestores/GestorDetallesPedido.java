@@ -231,6 +231,11 @@ public class GestorDetallesPedido {
         JOptionPane.showMessageDialog( null, mensaje,  "Calcular Total Pedido",  JOptionPane.INFORMATION_MESSAGE );
     }
 
+    /**
+     * Exporta la lista de Detalles Pedidos a un archivo JSON.
+     *
+     * @param detallePedidoService servicio encargado de obtener la lista de Detalles Pedidos
+     */
     private static void exportarDetallesPedidos(DetallePedidoService detallePedidoService) {
         List<DetallePedido> detallePedidos = detallePedidoService.listarDetallesPedido();
 

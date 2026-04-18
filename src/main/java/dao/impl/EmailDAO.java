@@ -3,7 +3,6 @@ package dao.impl;
 import dao.interfaces.IEmailDAO;
 import exception.DAOException;
 import model.Email;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

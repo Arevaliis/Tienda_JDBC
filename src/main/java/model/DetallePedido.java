@@ -111,15 +111,6 @@ public class DetallePedido {
     }
 
     /**
-     * Establece el precio unitario.
-     *
-     * @param precioUnitario Nuevo precio por unidad
-     */
-    public void setPrecioUnitario(double precioUnitario) {
-        this.precioUnitario = precioUnitario;
-    }
-
-    /**
      * Compara dos detalles de pedido.
      * Se consideran iguales si tienen el mismo idPedido e idProducto.
      *

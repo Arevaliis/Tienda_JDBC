@@ -2,7 +2,6 @@ package dao.interfaces;
 
 import exception.DAOException;
 import model.Email;
-
 import java.util.List;
 
 /**

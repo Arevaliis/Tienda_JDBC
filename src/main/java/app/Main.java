@@ -9,11 +9,8 @@ import util.Mensajes;
 
 import javax.swing.JOptionPane;
 
-// TODO En buscarCliente devolver un cliente con los emails en una lista y despues iterar la lista, crear constructor para recibir la lista
 // TODO -> COMPROBAR QUE PASA CUANDO ELIMINAMOS PEDIDO O PRODUCTO (PK) QUE SEA FK EN DETALLE PEDIDOS. CASCADE ??
-
 // TODO Informes o listados (por ejemplo, top ventas, registros ordenados)
-// TODO Importación/exportación de datos
 
 /**
  * Clase principal de la aplicación.

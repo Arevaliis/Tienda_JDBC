@@ -5,7 +5,6 @@ import exception.DAOException;
 import exception.ServiceException;
 import model.Cliente;
 import service.interfaces.IClienteService;
-
 import java.sql.Connection;
 import java.util.List;
 
