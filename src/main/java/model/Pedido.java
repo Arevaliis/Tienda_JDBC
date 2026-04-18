@@ -2,16 +2,25 @@ package model;
 
 import java.sql.Timestamp;
 import java.util.Objects;
+import com.google.gson.annotations.Expose;
+
 
 /**
  * Clase que representa un pedido en el sistema.
  * Contiene la información básica del pedido y su relación con el cliente.
  */
 public class Pedido {
+    @Expose
     private int id;
+
     private int id_cliente;
+
+    @Expose
     private Cliente cliente;
+
+    @Expose
     private Timestamp fecha;
+
     private DetallePedido detallePedido;
 
     /**

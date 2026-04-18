@@ -1,5 +1,7 @@
 package model;
 
+import com.google.gson.annotations.Expose;
+
 import java.util.Objects;
 
 /**
@@ -7,10 +9,19 @@ import java.util.Objects;
  * Contiene información básica como nombre, descripción, precio y stock.
  */
 public class Producto {
+    @Expose
     private int id;
+
+    @Expose
     private String nombre;
+
+    @Expose
     private String descripcion;
+
+    @Expose
     private double precio;
+
+    @Expose
     private int stock;
 
     /**

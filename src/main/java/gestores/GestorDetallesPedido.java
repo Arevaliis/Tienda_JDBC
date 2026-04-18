@@ -4,10 +4,7 @@ import exception.ServiceException;
 import exception.ValidationException;
 import model.DetallePedido;
 import service.impl.DetallePedidoService;
-import util.ConsoleUI;
-import util.DatabaseConnection;
-import util.Mensajes;
-import util.TablaViewer;
+import util.*;
 
 import javax.swing.JOptionPane;
 import java.sql.Connection;
@@ -40,7 +37,6 @@ public class GestorDetallesPedido {
 
                 } catch (IllegalArgumentException | ServiceException | ValidationException e) {
                     JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                    e.printStackTrace();
 
                 } catch (NullPointerException ignored) {}
             }
@@ -68,9 +64,10 @@ public class GestorDetallesPedido {
             case 5 -> eliminarDetalle(detallePedidoService);
             case 6 -> eliminarDetallesPorPedido(detallePedidoService);
             case 7 -> calcularTotalPedido(detallePedidoService);
+            case 8 -> exportarDetallesPedidos(detallePedidoService);
 
             case 0, -1 -> {}
-            default -> throw new IllegalArgumentException("Debe ingresar un número comprendido entre 0 y 7");
+            default -> throw new IllegalArgumentException("Debe ingresar un número comprendido entre 0 y 8");
         }
 
         return opc;
@@ -232,5 +229,14 @@ public class GestorDetallesPedido {
         String mensaje = "El total del pedido con id " + idPedido + " es de: " + total + "€" ;
 
         JOptionPane.showMessageDialog( null, mensaje,  "Calcular Total Pedido",  JOptionPane.INFORMATION_MESSAGE );
+    }
+
+    private static void exportarDetallesPedidos(DetallePedidoService detallePedidoService) {
+        List<DetallePedido> detallePedidos = detallePedidoService.listarDetallesPedido();
+
+        ExportardorJSON<DetallePedido> exportador = new ExportardorJSON<>();
+        exportador.exportarJSON(detallePedidos, "detalles_pedidos.json");
+
+        JOptionPane.showMessageDialog( null,  "Detalles de los pedidos exportados con éxito",  "Detalles de los pedidos",  JOptionPane.INFORMATION_MESSAGE);
     }
 }

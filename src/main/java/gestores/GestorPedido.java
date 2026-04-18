@@ -3,12 +3,10 @@ package gestores;
 import exception.ServiceException;
 import exception.ValidationException;
 import model.Pedido;
+import model.Producto;
 import service.impl.ClienteService;
 import service.impl.PedidoService;
-import util.ConsoleUI;
-import util.DatabaseConnection;
-import util.Mensajes;
-import util.TablaViewer;
+import util.*;
 
 import javax.swing.JOptionPane;
 import java.sql.Connection;
@@ -73,13 +71,15 @@ public class GestorPedido {
             case 4 -> listarPedidosPorCliente(pedidoService);
             case 5 -> menuModificarPedido(pedidoService);
             case 6 -> eliminarPedido(pedidoService);
+            case 7 -> exportarPedidos(pedidoService);
 
             case 0, -1 -> {}
-            default -> throw new IllegalArgumentException("Debe ingresar un número comprendido entre 0-6");
+            default -> throw new IllegalArgumentException("Debe ingresar un número comprendido entre 0-7");
         }
 
         return opc;
     }
+
     /**
      * Crea un nuevo pedido asociado a un cliente.
      *
@@ -240,5 +240,14 @@ public class GestorPedido {
         pedidoService.eliminarPedido(idPedido);
         JOptionPane.showMessageDialog( null,  "Pedido Eliminado",  "Eliminar Pedido",  JOptionPane.INFORMATION_MESSAGE );
 
+    }
+
+    private static void exportarPedidos(PedidoService pedidoService) {
+        List<Pedido> pedidos = pedidoService.listarPedidos();
+
+        ExportardorJSON<Pedido> exportador = new ExportardorJSON<>();
+        exportador.exportarJSON(pedidos, "pedidos.json");
+
+        JOptionPane.showMessageDialog( null,  "Pedidos exportados con éxito",  "Pedidos Clientes",  JOptionPane.INFORMATION_MESSAGE);
     }
 }

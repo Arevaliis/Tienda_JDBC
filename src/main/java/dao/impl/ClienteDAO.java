@@ -31,7 +31,7 @@ public class ClienteDAO implements IClienteDAO {
 
     @Override
     public Cliente buscarClienteID(int id) throws DAOException{
-        String sql = "SELECT id, nombre, apellido FROM cliente WHERE id = ?";
+        String sql = "SELECT id, nombre, apellido FROM cliente WHERE id = ? ORDER BY id ASC";
 
         try (PreparedStatement selectCliente = connection.prepareStatement(sql)){
             selectCliente.setInt(1, id);

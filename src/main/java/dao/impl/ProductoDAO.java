@@ -56,7 +56,7 @@ public class ProductoDAO implements IProductoDAO {
 
     @Override
     public List<Producto> listarProductos() throws DAOException{
-        String sql = "SELECT id, nombre, descripcion, precio, stock FROM producto";
+        String sql = "SELECT id, nombre, descripcion, precio, stock FROM producto ORDER BY id ASC";
 
         try(PreparedStatement selectProducto = connection.prepareStatement(sql);
             ResultSet resultado = selectProducto.executeQuery()) {

@@ -192,4 +192,15 @@ public class DetallePedidoService implements IDetallePedidoService {
 
         } catch ( DAOException e) { throw new ServiceException("Error Service: Fallo durante delete detalle pedido", e); }
     }
+
+    public List<DetallePedido> listarDetallesPedido() throws ServiceException {
+        try{
+
+            List<DetallePedido> detallesPedido = detallePedidoDAO.listarDetallesPedidos();
+            if (detallesPedido.isEmpty()) { throw new ServiceException("No existe ningún pedido."); }
+
+            return detallesPedido;
+
+        } catch ( DAOException e) { throw new ServiceException("Error Service: Fallo durante select de los detalles del pedido", e); }
+    }
 }

@@ -79,14 +79,13 @@ public class DetallePedidoDAO implements IDetallePedidoDAO {
                     Producto producto = new Producto( resultado.getInt("id_producto"),
                                                         resultado.getString("nombre_producto"),
                                                         resultado.getString("descripcion"),
-                                                        resultado.getInt("cantidad"),
+                                                        resultado.getInt("precio"),
                                                         resultado.getInt("stock")
                     );
 
                     Pedido pedido = new Pedido( resultado.getInt("id_pedido"),
                                                 cliente,
-                                                resultado.getTimestamp("fecha"),
-                                    null
+                                                resultado.getTimestamp("fecha")
                     );
 
                     DetallePedido detallePedido = new DetallePedido(  pedido,
@@ -146,14 +145,13 @@ public class DetallePedidoDAO implements IDetallePedidoDAO {
                 Producto producto = new Producto( resultado.getInt("id_producto"),
                                                   resultado.getString("nombre_producto"),
                                                   resultado.getString("descripcion"),
-                                                  resultado.getInt("cantidad"),
+                                                  resultado.getInt("precio"),
                                                   resultado.getInt("stock")
                 );
 
                 Pedido pedido = new Pedido( resultado.getInt("id_pedido"),
                                             cliente,
-                                            resultado.getTimestamp("fecha"),
-                                null
+                                            resultado.getTimestamp("fecha")
                 );
 
                 return new DetallePedido(  pedido,
@@ -224,5 +222,69 @@ public class DetallePedidoDAO implements IDetallePedidoDAO {
 
         } catch (SQLException e) { throw new DAOException("Error DAO: Fallo durante la eliminación de los detalles del pedido", e); }
 
+    }
+
+    public List<DetallePedido> listarDetallesPedidos() throws DAOException {
+        String sql =
+                "SELECT  dp.id_pedido, " +
+                        "c.id AS id_cliente, " +
+                        "c.nombre, " +
+                        "c.apellido, " +
+                        "pr.id AS id_producto, " +
+                        "pr.nombre AS nombre_producto, " +
+                        "pr.descripcion, " +
+                        "pr.precio, " +
+                        "pr.stock, " +
+                        "dp.cantidad, " +
+                        "dp.precio_unitario, " +
+                        "p.fecha " +
+
+                        "FROM detalle_pedido dp " +
+
+                        "INNER JOIN pedido p ON dp.id_pedido = p.id " +
+                        "INNER JOIN cliente c ON c.id = p.id_cliente " +
+                        "INNER JOIN producto pr ON pr.id = dp.id_producto " +
+
+                        "ORDER BY pr.id ASC";
+
+        try (PreparedStatement selectPedido = connection.prepareStatement(sql);
+             ResultSet resultado = selectPedido.executeQuery()){
+
+            if (! resultado.next()) { return new ArrayList<>(); }
+
+            List<DetallePedido> detallesDePedido = new ArrayList<>();
+
+            do {
+                Cliente cliente = new Cliente(  resultado.getInt("id_cliente"),
+                        resultado.getString("nombre"),
+                        resultado.getString("apellido")
+                );
+
+                Producto producto = new Producto( resultado.getInt("id_producto"),
+                        resultado.getString("nombre_producto"),
+                        resultado.getString("descripcion"),
+                        resultado.getInt("precio"),
+                        resultado.getInt("stock")
+                );
+
+                Pedido pedido = new Pedido( resultado.getInt("id_pedido"),
+                        cliente,
+                        resultado.getTimestamp("fecha")
+                );
+
+                DetallePedido detallePedido = new DetallePedido(
+                        pedido,
+                        producto,
+                        resultado.getInt("cantidad"),
+                        resultado.getDouble("precio_unitario")
+                );
+
+                detallesDePedido.add( detallePedido );
+
+            } while (resultado.next());
+
+            return detallesDePedido;
+
+        } catch (SQLException e) { throw new DAOException("Error DAO: Fallo durante select de los detalles de todos los pedidos", e); }
     }
 }

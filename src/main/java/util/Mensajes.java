@@ -34,10 +34,11 @@ public class Mensajes {
                 3. Listar todos los clientes
                 4. Modificar cliente
                 5. Eliminar cliente
-                6. Gestión Emails
+                6. Gestión emails
+                7. Exportar clientes
                 0. Volver al menú principal
             
-            Seleccione una opción del 0 al 6:""";
+            Seleccione una opción del 0 al 7:""";
 
 
     /**
@@ -70,9 +71,10 @@ public class Mensajes {
                 3. Listar todos los productos
                 4. Modificar producto
                 5. Eliminar producto
+                6. Exportar productos
                 0. Volver al menú principal
             
-            Seleccione una opción del 0 al 5:""";
+            Seleccione una opción del 0 al 6:""";
 
     /**
      * Mensaje del menú de gestión de pedidos.
@@ -88,9 +90,10 @@ public class Mensajes {
                 4. Listar pedidos por cliente
                 5. Modificar pedido
                 6. Eliminar pedido
+                7. Exportar pedidos
                 0. Salir
             
-            Seleccione una opción del 0 al 6:""";
+            Seleccione una opción del 0 al 7:""";
 
 
     /**
@@ -108,7 +111,8 @@ public class Mensajes {
                 5. Eliminar detalle de pedido
                 6. Eliminar detalles de pedido
                 7. Calcular total del pedido
+                8. Exportar detalles pedidos
                 0. Salir
         
-        Seleccione una opción del 0 al 7:""";
+        Seleccione una opción del 0 al 8:""";
 }

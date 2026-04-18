@@ -4,10 +4,7 @@ import exception.ServiceException;
 import exception.ValidationException;
 import model.Cliente;
 import service.impl.ClienteService;
-import util.ConsoleUI;
-import util.DatabaseConnection;
-import util.Mensajes;
-import util.TablaViewer;
+import util.*;
 
 import javax.swing.JOptionPane;
 import java.sql.Connection;
@@ -61,7 +58,7 @@ public class GestorCliente {
      * @throws ValidationException si los datos introducidos no son válidos
      * @throws IllegalArgumentException si la opción no está dentro del rango permitido
      */
-    private static int ejecutarOpcion(Connection connection,ClienteService clientesService)  throws ServiceException, ValidationException {
+    private static int ejecutarOpcion(Connection connection, ClienteService clientesService)  throws ServiceException, ValidationException {
 
         int opc = ConsoleUI.ingresarNumero(Mensajes.MENU_CLIENTES, "Menu Clientes");
 
@@ -72,9 +69,10 @@ public class GestorCliente {
             case 4 -> menuModificar(clientesService);
             case 5 -> eliminarCliente(clientesService);
             case 6 -> GestorEmail.menuEmail(connection, clientesService);
+            case 7 -> exportarClientes(clientesService);
 
             case 0, -1 -> {}
-            default -> throw new IllegalArgumentException("Debe ingresar un número comprendido entre 0-6");
+            default -> throw new IllegalArgumentException("Debe ingresar un número comprendido entre 0-7");
         }
 
         return opc;
@@ -204,5 +202,14 @@ public class GestorCliente {
         clientesService.modificarApellidoCliente(apellido, id);
 
         JOptionPane.showMessageDialog( null,  "Cliente modificado con éxito",  "Modificar Cliente",  JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    private static void exportarClientes( ClienteService clientesService ) {
+        List<Cliente> clientes = clientesService.listarClientes();
+
+        ExportardorJSON<Cliente> exportador = new ExportardorJSON<>();
+        exportador.exportarJSON(clientes, "clientes.json");
+
+        JOptionPane.showMessageDialog( null,  "Clientes exportados con éxito",  "Exportar Clientes",  JOptionPane.INFORMATION_MESSAGE);
     }
 }

@@ -1,5 +1,7 @@
 package model;
 
+import com.google.gson.annotations.Expose;
+
 import java.util.Objects;
 
 /**
@@ -10,9 +12,17 @@ import java.util.Objects;
 public class DetallePedido {
     private int idPedido;
     private int idProducto;
+
+    @Expose
     private Pedido pedido;
+
+    @Expose
     private Producto producto;
+
+    @Expose
     private int cantidad;
+
+    @Expose
     private double precioUnitario;
 
     /**
@@ -71,9 +81,7 @@ public class DetallePedido {
     }
 
     /** @return ID del producto */
-    public int getIdProducto() {
-        return idProducto;
-    }
+    public int getIdProducto() { return idProducto; }
 
     /**
      * Asigna el pedido.

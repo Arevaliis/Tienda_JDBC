@@ -2,12 +2,10 @@ package gestores;
 
 import exception.ServiceException;
 import exception.ValidationException;
+import model.Cliente;
 import model.Producto;
 import service.impl.ProductoService;
-import util.ConsoleUI;
-import util.DatabaseConnection;
-import util.Mensajes;
-import util.TablaViewer;
+import util.*;
 
 import javax.swing.JOptionPane;
 import java.sql.Connection;
@@ -71,9 +69,10 @@ public class GestorProducto {
             case 3 -> listarProducto(productoService);
             case 4 -> menuModificarProducto(productoService);
             case 5 -> eliminarProducto(productoService);
+            case 6 -> exportarProductos(productoService);
 
             case 0, -1 -> {}
-            default -> throw new IllegalArgumentException("Debe ingresar un número comprendido entre 0-5");
+            default -> throw new IllegalArgumentException("Debe ingresar un número comprendido entre 0-6");
         }
 
         return opc;
@@ -254,5 +253,14 @@ public class GestorProducto {
         productoService.modificarStock(id, stock);
 
         JOptionPane.showMessageDialog(null,  "Stock del producto actualizado correctamente",  "Modificar Stock",  JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    private static void exportarProductos(ProductoService productoService) {
+        List<Producto> productos = productoService.listarProductos();
+
+        ExportardorJSON<Producto> exportador = new ExportardorJSON<>();
+        exportador.exportarJSON(productos, "productos.json");
+
+        JOptionPane.showMessageDialog( null,  "Productos exportados con éxito",  "Productos Clientes",  JOptionPane.INFORMATION_MESSAGE);
     }
 }

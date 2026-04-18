@@ -1,0 +1,22 @@
+[
+  {
+    "pedido": {
+      "id": 3,
+      "cliente": {
+        "id": 2,
+        "nombre": "Ana",
+        "apellido": "García"
+      },
+      "fecha": "Apr 7, 2026, 7:01:22 PM"
+    },
+    "producto": {
+      "id": 5,
+      "nombre": "Fax",
+      "descripcion": "Fax para enviar documentos",
+      "precio": 5.0,
+      "stock": 95
+    },
+    "cantidad": 5,
+    "precioUnitario": 100.0
+  }
+]

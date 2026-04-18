@@ -1,14 +1,23 @@
 package model;
 
+import com.google.gson.annotations.Expose;
+
 import java.util.Objects;
 
 /**
  * Clase que representa un cliente del sistema.
  */
 public class Cliente {
+    @Expose
     private int id;
+
+    @Expose
     private String nombre;
+
+    @Expose
     private String apellido;
+
+    @Expose
     private String email;
 
     /**
@@ -121,8 +130,6 @@ public class Cliente {
      */
     @Override
     public String toString() {
-        return "id=" + id +
-                ", nombre='" + nombre + '\'' +
-                ", apellido='" + apellido;
+        return "{id:" + id + ", nombre:" + nombre + "...}";
     }
 }
