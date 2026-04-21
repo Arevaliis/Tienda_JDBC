@@ -63,15 +63,6 @@ public interface IDetallePedidoDAO {
     void eliminarPorPedido(int idPedido) throws DAOException;
 
     /**
-     * Calcula el total de un pedido.
-     *
-     * @param idPedido ID del pedido
-     * @return Importe total
-     * @throws DAOException Si ocurre un error en la base de datos
-     */
-    double obtenerTotalPedido(int idPedido) throws DAOException;
-
-    /**
      * Obtiene todos los detalles de todos los pedidos.
      *
      * @return Lista con todos los detalles de todos los pedidos

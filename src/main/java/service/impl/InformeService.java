@@ -1,5 +1,6 @@
 package service.impl;
 
+import dao.impl.DetallePedidoDAO;
 import dao.impl.PedidoDAO;
 import dao.impl.ProductoDAO;
 import exception.DAOException;
@@ -16,11 +17,13 @@ public class InformeService implements IInformeService {
     private final Connection connection;
     private final ProductoDAO productoDAO;
     private final PedidoDAO pedidoDAO;
+    private final DetallePedidoDAO detallePedidoDAO;
 
     public InformeService(Connection connection) {
         this.connection = connection;
         this.productoDAO = new ProductoDAO(connection);
         this.pedidoDAO = new PedidoDAO(connection);
+        this.detallePedidoDAO = new DetallePedidoDAO(connection);
     }
 
     @Override
@@ -51,7 +54,11 @@ public class InformeService implements IInformeService {
 
     @Override
     public double obtenerTotalFacturado() throws ServiceException {
-        return 0;
+        double total = detallePedidoDAO.obtenerTotalVendido();
+
+        if (total <= 0) {throw new ServiceException("No hay ventas registradas en la base de datos"); }
+
+        return total;
     }
 
     @Override

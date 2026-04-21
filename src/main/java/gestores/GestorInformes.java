@@ -77,6 +77,11 @@ public class GestorInformes {
         return opc;
     }
 
+    /**
+     * Muestra en una tabla el producto más vendido del sistema.
+     *
+     * @param informeService servicio encargado de obtener los datos del informe
+     */
     private static void obtenerProductoMasVendido(InformeService informeService){
         ProductoInforme productoInforme = informeService.obtenerProductoMasVendido();
         Producto producto = productoInforme.getProducto();
@@ -95,6 +100,11 @@ public class GestorInformes {
         TablaViewer.crearTabla(datosPedido, columnas, "Producto Mas Vendido", 1000, 80);
     }
 
+    /**
+     * Muestra en una tabla el cliente con más pedidos realizados.
+     *
+     * @param informeService servicio encargado de obtener los datos del informe
+     */
     private static void obtenerClienteConMasPedidos(InformeService informeService){
         ClienteInforme clienteInforme = informeService.obtenerClienteConMasPedidos();
         Cliente cliente = clienteInforme.getCliente();
@@ -113,15 +123,28 @@ public class GestorInformes {
         TablaViewer.crearTabla(datos, columnas, "Cliente Con Mas Compras", 1000, 80);
     }
 
+    /**
+     * Muestra el total facturado en el sistema mediante un cuadro de diálogo.
+     *
+     * @param informeService servicio encargado de calcular el total facturado
+     */
     private static void obtenerTotalFacturado(InformeService informeService){
+        double total = informeService.obtenerTotalFacturado();
+        String mensaje = "El total total facturado es de " + total + "€" ;
 
+        JOptionPane.showMessageDialog( null, mensaje,  "Calcular Total Facturado",  JOptionPane.INFORMATION_MESSAGE );
     }
 
+    /**
+     * Muestra una tabla con los 5 productos más vendidos del sistema.
+     *
+     * @param informeService servicio encargado de obtener los datos del informe
+     */
     private static void top5ProductosMasVendidos(InformeService informeService){
         List<ProductoInforme> productosInformes = informeService.top5ProductosMasVendidos();
 
         String[] columnas = {"id", "Nombre", "Descripcion", "Total Vendido"};
-        String[][] datosPedido = new String[productosInformes.size()][columnas.length];;
+        String[][] datosPedido = new String[productosInformes.size()][columnas.length];
 
 
         for (int i = 0; i < productosInformes.size(); i++) {

@@ -203,27 +203,6 @@ public class DetallePedidoDAO implements IDetallePedidoDAO {
     }
 
     @Override
-    public double obtenerTotalPedido(int idPedido) throws DAOException {
-        String sql = "SELECT sum(cantidad * precio_unitario) AS total " +
-                     "FROM detalle_pedido " +
-                     "WHERE id_pedido = ?;";
-
-        try (PreparedStatement sumTotal = connection.prepareStatement(sql)) {
-            sumTotal.setInt(1, idPedido);
-
-            try(ResultSet resultado = sumTotal.executeQuery()){
-
-                if (! resultado.next()) { throw new DAOException("No se ha podido calcular el total del pedido con id: " + idPedido); }
-
-                return resultado.getDouble("total");
-            }
-
-
-        } catch (SQLException e) { throw new DAOException("Error DAO: Fallo durante la eliminación de los detalles del pedido", e); }
-
-    }
-
-    @Override
     public List<DetallePedido> listarDetallesPedidos() throws DAOException {
         String sql =
                 "SELECT  dp.id_pedido, " +
@@ -286,5 +265,50 @@ public class DetallePedidoDAO implements IDetallePedidoDAO {
             return detallesDePedido;
 
         } catch (SQLException e) { throw new DAOException("Error DAO: Fallo durante select de los detalles de todos los pedidos", e); }
+    }
+
+    /**
+     * Calcula el total de un pedido.
+     *
+     * @param idPedido ID del pedido
+     * @return Importe total
+     * @throws DAOException Si ocurre un error en la base de datos
+     */
+    public double obtenerTotalPedido(int idPedido) throws DAOException {
+        String sql = "SELECT sum(cantidad * precio_unitario) AS total " +
+                "FROM detalle_pedido " +
+                "WHERE id_pedido = ?;";
+
+        try (PreparedStatement sumTotal = connection.prepareStatement(sql)) {
+            sumTotal.setInt(1, idPedido);
+
+            try(ResultSet resultado = sumTotal.executeQuery()){
+
+                if (! resultado.next()) { throw new DAOException("No se ha podido calcular el total del pedido con id: " + idPedido); }
+
+                return resultado.getDouble("total");
+            }
+
+
+        } catch (SQLException e) { throw new DAOException("Error DAO: Fallo durante la eliminación de los detalles del pedido", e); }
+    }
+
+    /**
+     * Calcula el total vendido.
+     *
+     * @return Importe total
+     * @throws DAOException Si ocurre un error en la base de datos
+     */
+    public double obtenerTotalVendido() throws DAOException {
+        String sql = "SELECT sum(cantidad * precio_unitario) AS total FROM detalle_pedido";
+
+        try (PreparedStatement sumTotal = connection.prepareStatement(sql);
+             ResultSet resultado = sumTotal.executeQuery()){
+
+                if (! resultado.next()) { throw new DAOException("No se ha podido calcular el total de ventas"); }
+
+                return resultado.getDouble("total");
+
+        } catch (SQLException e) { throw new DAOException("Error DAO: Fallo durante la eliminación de los detalles del pedido", e);}
     }
 }
