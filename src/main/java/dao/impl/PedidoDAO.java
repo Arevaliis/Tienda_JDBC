@@ -2,10 +2,8 @@ package dao.impl;
 
 import dao.interfaces.IPedidoDAO;
 import exception.DAOException;
-import model.Cliente;
-import model.DetallePedido;
-import model.Pedido;
-import model.Producto;
+import model.*;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -169,5 +167,35 @@ public class PedidoDAO implements IPedidoDAO {
             if (delete.executeUpdate() == 0){ throw new DAOException("No se ha podido eliminar el pedido"); }
 
         } catch (SQLException e) { throw new DAOException("Error DAO: Fallo al hacer delete del pedido", e); }
+    }
+
+    /**
+     * Obtiene el cliente con más compras
+     *
+     * @return Cliente con más compras
+     * @throws DAOException si ocurre un error durante la consulta en la base de datos
+     */
+    public ClienteInforme buscarClienteConMasPedidos() throws DAOException{
+        String sql =
+                "SELECT c.id, c.nombre, c.apellido, COUNT(p.id_cliente) AS total_comprado " +
+                        "FROM public.pedido p " +
+                        "INNER JOIN cliente c ON c.id = p.id_cliente " +
+                        "GROUP BY c.id, c.nombre, c.apellido " +
+                        "ORDER BY total_comprado DESC " +
+                        "LIMIT 1";
+
+        try (PreparedStatement selectPedido = connection.prepareStatement(sql);
+             ResultSet resultado = selectPedido.executeQuery()){
+
+            if (! resultado.next()) { return null; }
+
+            Cliente cliente = new Cliente(  resultado.getInt("id"),
+                                            resultado.getString("nombre"),
+                                            resultado.getString("apellido")
+            );
+
+            return new ClienteInforme(cliente, resultado.getInt("total_comprado"));
+
+        } catch (SQLException e) { throw new DAOException("Error DAO: Fallo durante la búsqueda del cliente con más pedidos", e); }
     }
 }

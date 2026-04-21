@@ -2,9 +2,7 @@ package gestores;
 
 import exception.ServiceException;
 import exception.ValidationException;
-import model.Pedido;
-import model.Producto;
-import model.ProductoInforme;
+import model.*;
 import service.impl.InformeService;
 import util.ConsoleUI;
 import util.DatabaseConnection;
@@ -98,7 +96,21 @@ public class GestorInformes {
     }
 
     private static void obtenerClienteConMasPedidos(InformeService informeService){
+        ClienteInforme clienteInforme = informeService.obtenerClienteConMasPedidos();
+        Cliente cliente = clienteInforme.getCliente();
 
+        String[] columnas = {"id", "Nombre", "Apellido", "Total Compras"};
+
+        String [][] datos = {
+                {
+                    String.valueOf(cliente.getId()),
+                    cliente.getNombre(),
+                    cliente.getApellido(),
+                    String.valueOf(clienteInforme.getTotalComprado())
+                }
+        };
+
+        TablaViewer.crearTabla(datos, columnas, "Cliente Con Mas Compras", 1000, 80);
     }
 
     private static void obtenerTotalFacturado(InformeService informeService){

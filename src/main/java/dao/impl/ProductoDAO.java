@@ -111,6 +111,12 @@ public class ProductoDAO implements IProductoDAO {
         } catch (SQLException e) { throw new DAOException("Error DAO: Fallo al hacer delete del producto", e); }
     }
 
+    /**
+     * Obtiene el producto más vendido
+     *
+     * @return Producto más vendido
+     * @throws DAOException si ocurre un error durante la consulta a la base de datos
+     */
     public ProductoInforme obtenerProductoTOP() throws DAOException {
         String sql =
                 "SELECT p.id, p.nombre, p.descripcion, p.precio, p.stock, SUM(dp.cantidad) AS total_vendido " +
@@ -139,6 +145,12 @@ public class ProductoDAO implements IProductoDAO {
         } catch (SQLException e) { throw new DAOException("Error DAO: Fallo durante la búsqueda del producto mas vendido", e); }
     }
 
+    /**
+     * Obtiene los 5 productos más vendidos
+     *
+     * @return Lista con los productos más vendidos
+     * @throws DAOException si ocurre un error durante la consulta a la base de datos
+     */
     public List<ProductoInforme> obtenerTop5ProductosMasVendidos() throws DAOException {
         List<ProductoInforme> productos = new ArrayList<>();
         String sql =

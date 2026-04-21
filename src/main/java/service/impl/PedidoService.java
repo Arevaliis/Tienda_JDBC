@@ -4,6 +4,7 @@ import dao.impl.PedidoDAO;
 import exception.DAOException;
 import exception.ServiceException;
 import model.Cliente;
+import model.ClienteInforme;
 import model.Pedido;
 import service.interfaces.IPedidoService;
 import java.sql.Connection;

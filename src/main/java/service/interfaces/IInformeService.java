@@ -2,6 +2,7 @@ package service.interfaces;
 
 import exception.ServiceException;
 import model.Cliente;
+import model.ClienteInforme;
 import model.Producto;
 import model.ProductoInforme;
 
@@ -24,10 +25,10 @@ public interface IInformeService {
     /**
      * Obtiene el cliente que ha realizado más pedidos.
      *
-     * @return El {@link Cliente} con mayor número de pedidos registrados
+     * @return El cliente con mayor número de pedidos registrados
      * @throws ServiceException sí ocurre un error durante el cálculo o acceso a datos
      */
-    Cliente obtenerClienteConMasPedidos() throws ServiceException;
+    ClienteInforme obtenerClienteConMasPedidos() throws ServiceException;
 
     /**
      * Calcula el total facturado en el sistema. El total se obtiene sumando el importe de todos los pedidos,

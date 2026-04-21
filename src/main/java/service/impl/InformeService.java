@@ -1,9 +1,11 @@
 package service.impl;
 
+import dao.impl.PedidoDAO;
 import dao.impl.ProductoDAO;
 import exception.DAOException;
 import exception.ServiceException;
 import model.Cliente;
+import model.ClienteInforme;
 import model.ProductoInforme;
 import service.interfaces.IInformeService;
 
@@ -13,10 +15,12 @@ import java.util.List;
 public class InformeService implements IInformeService {
     private final Connection connection;
     private final ProductoDAO productoDAO;
+    private final PedidoDAO pedidoDAO;
 
     public InformeService(Connection connection) {
         this.connection = connection;
         this.productoDAO = new ProductoDAO(connection);
+        this.pedidoDAO = new PedidoDAO(connection);
     }
 
     @Override
@@ -32,8 +36,17 @@ public class InformeService implements IInformeService {
     }
 
     @Override
-    public Cliente obtenerClienteConMasPedidos() throws ServiceException {
-        return null;
+    public ClienteInforme obtenerClienteConMasPedidos() throws ServiceException {
+        try {
+            ClienteInforme cliente = pedidoDAO.buscarClienteConMasPedidos();
+
+            if (cliente == null) { throw new ServiceException("No hay clientes con pedidos"); }
+
+            return cliente;
+
+        } catch (DAOException e) {
+            throw new ServiceException("Error Service: Fallo durante búsqueda del cliente con mas pedidos", e);
+        }
     }
 
     @Override
