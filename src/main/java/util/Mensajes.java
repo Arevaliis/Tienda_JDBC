@@ -17,9 +17,10 @@ public class Mensajes {
                     2. Productos
                     3. Pedidos
                     4. Detalles pedido
+                    5. Informes
                     0. Salir
             
-            Seleccione una opción del 0 al 4:""";
+            Seleccione una opción del 0 al 5:""";
 
     /**
      * Mensaje del menú de gestión de clientes.
@@ -115,4 +116,20 @@ public class Mensajes {
                 0. Salir
         
         Seleccione una opción del 0 al 8:""";
+
+    /**
+     * Mensaje del menú de gestión de los informes.
+     */
+    public final static String MENU_INFORMES = """
+            ====================================
+                 SISTEMA DE GESTIÓN INFORMES
+            ====================================
+            
+                    1. Producto TOP
+                    2. Cliente TOP
+                    3. Total facturado
+                    4. TOP 5 productos
+                    0. Salir
+            
+            Seleccione una opción del 0 al 4:""";
 }

@@ -1,0 +1,55 @@
+package service.impl;
+
+import dao.impl.ProductoDAO;
+import exception.DAOException;
+import exception.ServiceException;
+import model.Cliente;
+import model.ProductoInforme;
+import service.interfaces.IInformeService;
+
+import java.sql.Connection;
+import java.util.List;
+
+public class InformeService implements IInformeService {
+    private final Connection connection;
+    private final ProductoDAO productoDAO;
+
+    public InformeService(Connection connection) {
+        this.connection = connection;
+        this.productoDAO = new ProductoDAO(connection);
+    }
+
+    @Override
+    public ProductoInforme obtenerProductoMasVendido() throws ServiceException {
+        try{
+            ProductoInforme producto = productoDAO.obtenerProductoTOP();
+
+            if (producto == null){ throw new ServiceException("No se ha vendido ningún producto.");  }
+
+            return producto;
+
+        } catch (DAOException e) { throw new ServiceException("Fallo Service: No se ha podido obtener el producto mas vendido", e); }
+    }
+
+    @Override
+    public Cliente obtenerClienteConMasPedidos() throws ServiceException {
+        return null;
+    }
+
+    @Override
+    public double obtenerTotalFacturado() throws ServiceException {
+        return 0;
+    }
+
+    @Override
+    public List<ProductoInforme> top5ProductosMasVendidos() throws ServiceException {
+        try{
+            List<ProductoInforme> productos = productoDAO.obtenerTop5ProductosMasVendidos();
+
+            if (productos.isEmpty() ){ throw new ServiceException("No se ha vendido ningún producto.");  }
+
+            return productos;
+
+        } catch (DAOException e) { throw new ServiceException("Fallo Service: No se ha podido obtener el producto mas vendido", e); }
+    }
+}

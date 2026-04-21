@@ -19,7 +19,7 @@ CREATE TABLE pedido(
     fecha TIMESTAMP(0) DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT fk_id_cliente_pedido FOREIGN KEY (id_cliente) REFERENCES cliente(id)
-    ON DELETE CASCADE
+    ON DELETE RESTRICT
 );
 
 CREATE TABLE producto(
@@ -42,5 +42,5 @@ CREATE TABLE detalle_pedido(
        ON DELETE CASCADE,
 
    CONSTRAINT fk_id_producto FOREIGN KEY (id_producto) REFERENCES producto(id)
-       ON DELETE CASCADE
+       ON DELETE RESTRICT
 );

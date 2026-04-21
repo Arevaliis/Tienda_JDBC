@@ -2,7 +2,8 @@ package dao.impl;
 
 import dao.interfaces.IProductoDAO;
 import exception.DAOException;
-import model.Producto;
+import model.*;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -108,5 +109,65 @@ public class ProductoDAO implements IProductoDAO {
             if (delete.executeUpdate() == 0){ throw new DAOException("No existe el id de producto ingresado: " + id); }
 
         } catch (SQLException e) { throw new DAOException("Error DAO: Fallo al hacer delete del producto", e); }
+    }
+
+    public ProductoInforme obtenerProductoTOP() throws DAOException {
+        String sql =
+                "SELECT p.id, p.nombre, p.descripcion, p.precio, p.stock, SUM(dp.cantidad) AS total_vendido " +
+                "FROM producto p " +
+
+                "INNER JOIN detalle_pedido dp ON p.id = dp.id_producto " +
+
+                "GROUP BY p.id, p.nombre, p.descripcion, p.precio, p.stock " +
+                "ORDER BY total_vendido DESC " +
+                "LIMIT 1;";
+
+        try (PreparedStatement selectPedido = connection.prepareStatement(sql);
+             ResultSet resultado = selectPedido.executeQuery()){
+
+            if (! resultado.next()) { return null; }
+
+            Producto producto = new Producto( resultado.getInt("id"),
+                    resultado.getString("nombre"),
+                    resultado.getString("descripcion"),
+                    resultado.getDouble("precio"),
+                    resultado.getInt("stock")
+            );
+
+            return new ProductoInforme(producto, resultado.getInt("total_vendido"));
+
+        } catch (SQLException e) { throw new DAOException("Error DAO: Fallo durante la búsqueda del producto mas vendido", e); }
+    }
+
+    public List<ProductoInforme> obtenerTop5ProductosMasVendidos() throws DAOException {
+        List<ProductoInforme> productos = new ArrayList<>();
+        String sql =
+                "SELECT p.id, p.nombre, p.descripcion, p.precio, p.stock, SUM(dp.cantidad) AS total_vendido " +
+                        "FROM producto p " +
+
+                        "INNER JOIN detalle_pedido dp ON p.id = dp.id_producto " +
+
+                        "GROUP BY p.id, p.nombre, p.descripcion, p.precio, p.stock " +
+                        "ORDER BY total_vendido DESC " +
+                        "LIMIT 5;";
+
+        try (PreparedStatement selectPedido = connection.prepareStatement(sql);
+             ResultSet resultado = selectPedido.executeQuery()){
+
+            while (resultado.next()){
+
+                Producto producto = new Producto( resultado.getInt("id"),
+                        resultado.getString("nombre"),
+                        resultado.getString("descripcion"),
+                        resultado.getDouble("precio"),
+                        resultado.getInt("stock")
+                );
+
+                productos.add(new ProductoInforme(producto, resultado.getInt("total_vendido")));
+            }
+
+            return productos;
+
+        } catch (SQLException e) { throw new DAOException("Error DAO: Fallo durante la búsqueda del producto mas vendido", e); }
     }
 }

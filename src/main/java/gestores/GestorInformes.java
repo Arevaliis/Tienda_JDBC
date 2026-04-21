@@ -1,0 +1,131 @@
+package gestores;
+
+import exception.ServiceException;
+import exception.ValidationException;
+import model.Pedido;
+import model.Producto;
+import model.ProductoInforme;
+import service.impl.InformeService;
+import util.ConsoleUI;
+import util.DatabaseConnection;
+import util.Mensajes;
+import util.TablaViewer;
+
+import javax.swing.JOptionPane;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.List;
+
+/**
+ * Clase encargada de gestionar la interacción del usuario con el módulo de informes.
+ */
+public class GestorInformes {
+
+    /**
+     * Inicia el gestor de informes
+     * Establece la conexión con la base de datos y ejecuta el menú en bucle hasta que el usuario decida salir.
+     * Maneja excepciones tanto de acceso a datos {@SQLException} como de lógica de negocio {@ServiceException}.
+     */
+    public static void ejecutarGestorInformes(){
+
+        boolean seguir = true;
+
+        try (Connection connection = DatabaseConnection.getConnection()) {
+            InformeService informeService = new InformeService(connection);
+
+            while (seguir) {
+                try {
+
+                    if (ejecutarOpcion(informeService) <= 0) { return; }
+                    seguir = ConsoleUI.confirmarContinuacion("¿Desea seguir en la sección de informes? S/N: ", "Seguir Menu Informes");
+
+                } catch (IllegalArgumentException | ServiceException | ValidationException e) {
+                    JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+
+                } catch (NullPointerException ignored) {
+                    seguir = ConsoleUI.confirmarContinuacion("¿Desea seguir en la sección de informes? S/N: ", "Seguir Menu Informes");
+                }
+            }
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    /**
+     * Muestra el menú de clientes, solicita una opción al usuario y ejecuta la acción correspondiente.
+     *
+     * @param informeService servicio encargado de la lógica de negocio de informes
+     * @return opción seleccionada por el usuario
+     *
+     * @throws ServiceException si ocurre un error en la capa de servicio
+     * @throws ValidationException si los datos introducidos no son válidos
+     * @throws IllegalArgumentException si la opción no está dentro del rango permitido
+     */
+    private static int ejecutarOpcion(InformeService informeService)  throws ServiceException, ValidationException {
+
+        int opc = ConsoleUI.ingresarNumero(Mensajes.MENU_INFORMES, "Menu Informes");
+
+        switch (opc) {
+            case 1 -> obtenerProductoMasVendido(informeService);
+            case 2 -> obtenerClienteConMasPedidos(informeService);
+            case 3 -> obtenerTotalFacturado(informeService);
+            case 4 -> top5ProductosMasVendidos(informeService);
+
+            case 0, -1 -> {}
+            default -> throw new IllegalArgumentException("Debe ingresar un número comprendido entre 0-4");
+        }
+
+        return opc;
+    }
+
+    private static void obtenerProductoMasVendido(InformeService informeService){
+        ProductoInforme productoInforme = informeService.obtenerProductoMasVendido();
+        Producto producto = productoInforme.getProducto();
+
+        String[] columnas = {"id", "Nombre", "Descripcion", "Total Vendido"};
+
+        String [][] datosPedido = {
+                {
+                        String.valueOf(producto.getId()),
+                        producto.getNombre(),
+                        producto.getDescripcion(),
+                        String.valueOf(productoInforme.getTotalVendido())
+                }
+        };
+
+        TablaViewer.crearTabla(datosPedido, columnas, "Producto Mas Vendido", 1000, 80);
+    }
+
+    private static void obtenerClienteConMasPedidos(InformeService informeService){
+
+    }
+
+    private static void obtenerTotalFacturado(InformeService informeService){
+
+    }
+
+    private static void top5ProductosMasVendidos(InformeService informeService){
+        List<ProductoInforme> productosInformes = informeService.top5ProductosMasVendidos();
+
+        String[] columnas = {"id", "Nombre", "Descripcion", "Total Vendido"};
+        String[][] datosPedido = new String[productosInformes.size()][columnas.length];;
+
+
+        for (int i = 0; i < productosInformes.size(); i++) {
+            ProductoInforme productoInforme = productosInformes.get(i);
+            Producto producto = productoInforme.getProducto();
+
+            String[] registro = {
+                String.valueOf(producto.getId()),
+                producto.getNombre(),
+                producto.getDescripcion(),
+                String.valueOf(productoInforme.getTotalVendido())
+            };
+
+            System.arraycopy(registro, 0, datosPedido[i], 0, columnas.length);
+        }
+
+        TablaViewer.crearTabla(datosPedido, columnas, "Producto Mas Vendido", 1000, 80);
+    }
+}

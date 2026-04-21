@@ -1,16 +1,15 @@
 package app;
 
-import gestores.GestorCliente;
-import gestores.GestorDetallesPedido;
-import gestores.GestorPedido;
-import gestores.GestorProducto;
+import gestores.*;
 import util.ConsoleUI;
 import util.Mensajes;
 
 import javax.swing.JOptionPane;
 
-// TODO -> COMPROBAR QUE PASA CUANDO ELIMINAMOS PEDIDO O PRODUCTO (PK) QUE SEA FK EN DETALLE PEDIDOS. CASCADE ??
-// TODO Informes o listados (por ejemplo, top ventas, registros ordenados)
+// TODO -> Comprobar delete de cliente o producto que se use en otra tabla como FK
+// TODO -> Top productos más vendidos, Top clientes, Ingresos totales.
+// TODO -> Mejorar excepciones
+// TODO -> Revision proyecto
 
 /**
  * Clase principal de la aplicación.
@@ -56,9 +55,10 @@ public class Main {
             case 2 -> GestorProducto.ejecutarMenuProducto();
             case 3 -> GestorPedido.ejecutarMenuPedido();
             case 4 -> GestorDetallesPedido.ejecutarMenuPedidoDetalles();
+            case 5 -> GestorInformes.ejecutarGestorInformes();
 
             case 0, -1-> JOptionPane.showMessageDialog(null, "Saliendo", "Salir", JOptionPane.INFORMATION_MESSAGE);
-            default -> throw new IllegalArgumentException("Debe ingresar un número comprendido entre 0-4");
+            default -> throw new IllegalArgumentException("Debe ingresar un número comprendido entre 0-5");
         }
 
         return opc;
