@@ -5,7 +5,6 @@ import exception.ValidationException;
 import model.DetallePedido;
 import service.impl.DetallePedidoService;
 import util.*;
-
 import javax.swing.JOptionPane;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -17,10 +16,10 @@ import java.util.List;
 public class GestorDetallesPedido {
 
     /**
-     * Método principal que ejecuta el menú de gestión de detalles de pedido.
+     * Inicia el gestor de detalles pedido
      * <p>
-     * Mantiene un bucle hasta que el usuario decide salir. Gestiona la conexión
-     * a base de datos y controla las excepciones producidas durante la ejecución.
+     * Establece la conexión con la base de datos y ejecuta el menú en bucle hasta que el usuario decida salir.
+     * Maneja excepciones tanto de acceso a datos {@SQLException} como de lógica de negocio {@ServiceException}.
      * </p>
      */
     public static void ejecutarMenuPedidoDetalles(){
@@ -82,13 +81,8 @@ public class GestorDetallesPedido {
      */
     private static void agregarDetallePedido(DetallePedidoService detallePedidoService) {
         int idPedido = ConsoleUI.ingresarNumero("Ingrese el id del pedido: ", "Ingresar Detalle Pedido");
-        if (idPedido == -1) { return; }
-
         int idProducto= ConsoleUI.ingresarNumero("Ingrese el id del producto: ", "Ingresar Detalle Pedido");
-        if (idProducto == -1) { return; }
-
         int cantidad = ConsoleUI.ingresarNumero("Ingrese la cantidad: ", "Ingresar Detalle Pedido");
-        if (cantidad == -1) { return; }
 
         detallePedidoService.insertarDetallePedido(idPedido, idProducto, cantidad);
         JOptionPane.showMessageDialog( null,  "Detalle Pedido ingresado con éxito",  "Ingresar Detalle Pedido",  JOptionPane.INFORMATION_MESSAGE );
@@ -101,15 +95,12 @@ public class GestorDetallesPedido {
      */
     private static void listarDetallesPorPedido(DetallePedidoService detallePedidoService) {
         int idPedido = ConsoleUI.ingresarNumero("Ingrese el id del pedido: ", "Ver Detalles Pedido");
-        if (idPedido == -1) { return; }
-
         List<DetallePedido> detallesPedido = detallePedidoService.listarDetallesPedido(idPedido);
 
         String[] columnas = {"id_pedido", "Nombre", "Apellido", "Producto", "Cantidad", "Precio Unitario", "Fecha"};
         String [][] datosPedido = new String[detallesPedido.size()][columnas.length];
 
         for (int i = 0; i < detallesPedido.size(); i++) {
-
             String[] pedidoDatos = obtenerRegistro(detallesPedido, i);
             System.arraycopy(pedidoDatos, 0, datosPedido[i], 0, columnas.length);
         }
@@ -145,15 +136,11 @@ public class GestorDetallesPedido {
      */
     private static void obtenerDetalleConcreto(DetallePedidoService detallePedidoService) {
         int idPedido = ConsoleUI.ingresarNumero("Ingrese el id del pedido: ", "Ingresar Detalle Pedido");
-        if (idPedido == -1) { return; }
-
         int idProducto= ConsoleUI.ingresarNumero("Ingrese el id del producto: ", "Ingresar Detalle Pedido");
-        if (idProducto == -1) { return; }
 
         DetallePedido detallePedido = detallePedidoService.listarDetallePorId(idPedido, idProducto);
 
         String[] columnas = {"id_pedido", "Nombre", "Apellido", "id_producto" ,"Producto", "Cantidad", "Precio Unitario", "Fecha"};
-
         String [][] datosPedido = {
                 {
                     String.valueOf(detallePedido.getPedido().getId()),
@@ -177,13 +164,8 @@ public class GestorDetallesPedido {
      */
     private static void modificarCantidadProducto(DetallePedidoService detallePedidoService) {
         int idPedido = ConsoleUI.ingresarNumero("Ingrese el id del pedido: ", "Modificar Cantidad Pedido");
-        if (idPedido == -1) { return; }
-
         int idProducto= ConsoleUI.ingresarNumero("Ingrese el id del producto: ", "Modificar Cantidad Pedido");
-        if (idProducto == -1) { return; }
-
         int cantidad = ConsoleUI.ingresarNumero("Ingrese la cantidad del pedido: ", "Modificar Cantidad Pedido");
-        if (cantidad == -1) { return; }
 
         detallePedidoService.modificarCantidadProducto(idPedido, idProducto, cantidad);
         JOptionPane.showMessageDialog( null,  "Cantidad Pedido modificado con éxito",  "Modificar Cantidad Pedido",  JOptionPane.INFORMATION_MESSAGE );
@@ -196,10 +178,7 @@ public class GestorDetallesPedido {
      */
     private static void eliminarDetalle(DetallePedidoService detallePedidoService) {
         int idPedido = ConsoleUI.ingresarNumero("Ingrese el id del pedido: ", "Eliminar Detalle Pedido");
-        if (idPedido == -1) { return; }
-
         int idProducto= ConsoleUI.ingresarNumero("Ingrese el id del producto: ", "Eliminar Detalle Pedido");
-        if (idProducto == -1) { return; }
 
         detallePedidoService.eliminarDetallesPedido(idPedido, idProducto);
         JOptionPane.showMessageDialog( null,  "Eliminación detalle de pedido realizada con éxito",  "Eliminar Detalle Pedido",  JOptionPane.INFORMATION_MESSAGE );
@@ -212,7 +191,6 @@ public class GestorDetallesPedido {
      */
     private static void eliminarDetallesPorPedido(DetallePedidoService detallePedidoService) {
         int idPedido = ConsoleUI.ingresarNumero("Ingrese el id del pedido: ", "Eliminar Detalles Pedido");
-        if (idPedido == -1) { return; }
 
         detallePedidoService.eliminarPorPedido(idPedido);
         JOptionPane.showMessageDialog( null,  "Eliminación de los detalles del pedido realizada con éxito",  "Eliminar Detalles Pedido",  JOptionPane.INFORMATION_MESSAGE );
@@ -225,11 +203,9 @@ public class GestorDetallesPedido {
      */
     private static void calcularTotalPedido(DetallePedidoService detallePedidoService) {
         int idPedido = ConsoleUI.ingresarNumero("Ingrese el id del pedido: ", "Calcular Total Pedido");
-        if (idPedido == -1) { return; }
-
         double total = detallePedidoService.obtenerTotalPedido(idPedido);
-        String mensaje = "El total del pedido con id " + idPedido + " es de: " + total + "€" ;
 
+        String mensaje = "El total del pedido con id " + idPedido + " es de: " + total + "€" ;
         JOptionPane.showMessageDialog( null, mensaje,  "Calcular Total Pedido",  JOptionPane.INFORMATION_MESSAGE );
     }
 
@@ -240,10 +216,9 @@ public class GestorDetallesPedido {
      */
     private static void exportarDetallesPedidos(DetallePedidoService detallePedidoService) {
         List<DetallePedido> detallePedidos = detallePedidoService.listarDetallesPedido();
-
         ExportardorJSON<DetallePedido> exportador = new ExportardorJSON<>();
-        exportador.exportarJSON(detallePedidos, "detalles_pedidos.json");
 
+        exportador.exportarJSON(detallePedidos, "detalles_pedidos.json");
         JOptionPane.showMessageDialog( null,  "Detalles de los pedidos exportados con éxito",  "Detalles de los pedidos",  JOptionPane.INFORMATION_MESSAGE);
     }
 }

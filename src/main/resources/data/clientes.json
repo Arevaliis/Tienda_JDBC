@@ -16,15 +16,5 @@
     "nombre": "Luis",
     "apellido": "Martínez",
     "email": "luis@gmail.com"
-  },
-  {
-    "id": 5,
-    "nombre": "Maria",
-    "apellido": "Manzano"
-  },
-  {
-    "id": 6,
-    "nombre": "Jagger",
-    "apellido": "Master"
   }
 ]

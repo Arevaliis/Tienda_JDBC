@@ -48,7 +48,7 @@ public class DetallePedidoService implements IDetallePedidoService {
 
             } catch ( SQLException | DAOException e) {
                 connection.rollback();
-                throw new ServiceException("Error Service: Fallo durante insert detalle pedido", e);
+                throw new ServiceException("No se puedo registrar el detalle del pedido", e);
 
             } finally { connection.setAutoCommit(true); }
 
@@ -64,7 +64,7 @@ public class DetallePedidoService implements IDetallePedidoService {
 
             return detallesPedido;
 
-        } catch ( DAOException e) { throw new ServiceException("Error Service: Fallo durante select de los detalles del pedido", e); }
+        } catch ( DAOException e) { throw new ServiceException("No se puedo encontrar los detalles del pedido", e); }
     }
 
     @Override
@@ -77,7 +77,7 @@ public class DetallePedidoService implements IDetallePedidoService {
 
             return detallePedido;
 
-        } catch ( DAOException e) { throw new ServiceException("Error Service: Fallo durante select de un detalle del pedido", e); }
+        } catch ( DAOException e) { throw new ServiceException("No se puedo encontrar el detalle del pedido", e); }
     }
 
     @Override
@@ -120,7 +120,7 @@ public class DetallePedidoService implements IDetallePedidoService {
 
             } catch ( SQLException | DAOException e) {
                 connection.rollback();
-                throw new ServiceException("Error Service: Fallo durante insert detalle pedido", e);
+                throw new ServiceException("No se puedo modificar la cantidad del detalle del pedido", e);
 
             } finally { connection.setAutoCommit(true); }
 
@@ -146,7 +146,7 @@ public class DetallePedidoService implements IDetallePedidoService {
 
             } catch ( SQLException | DAOException e) {
                 connection.rollback();
-                throw new ServiceException("Error Service: Fallo durante delete detalle pedido", e);
+                throw new ServiceException("No se puedo eliminar el detalle del pedido", e);
 
             } finally { connection.setAutoCommit(true); }
 
@@ -175,7 +175,7 @@ public class DetallePedidoService implements IDetallePedidoService {
 
             } catch ( SQLException | DAOException e) {
                 connection.rollback();
-                throw new ServiceException("Error Service: Fallo durante delete detalle pedido", e);
+                throw new ServiceException("No se puedo eliminar los detalles del pedido", e);
 
             } finally { connection.setAutoCommit(true); }
 
@@ -186,7 +186,6 @@ public class DetallePedidoService implements IDetallePedidoService {
     public double obtenerTotalPedido(int idPedido) throws ServiceException {
         try{
             detallePedidoDAO.listarDetallesPedido(idPedido);
-
             return detallePedidoDAO.obtenerTotalPedido(idPedido);
 
         } catch ( DAOException e) { throw new ServiceException("Error Service: Fallo durante delete detalle pedido", e); }
@@ -195,12 +194,11 @@ public class DetallePedidoService implements IDetallePedidoService {
     @Override
     public List<DetallePedido> listarDetallesPedido() throws ServiceException {
         try{
-
             List<DetallePedido> detallesPedido = detallePedidoDAO.listarDetallesPedidos();
-            if (detallesPedido.isEmpty()) { throw new ServiceException("No existe ningún pedido."); }
+            if (detallesPedido.isEmpty()) { throw new ServiceException("No existe ningún pedido en la base de datos."); }
 
             return detallesPedido;
 
-        } catch ( DAOException e) { throw new ServiceException("Error Service: Fallo durante select de los detalles del pedido", e); }
+        } catch ( DAOException e) { throw new ServiceException("No se puedo encontrar ningún detalle de pedido", e); }
     }
 }

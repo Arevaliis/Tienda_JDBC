@@ -33,24 +33,6 @@
       "nombre": "Luis",
       "apellido": "Martínez"
     },
-    "fecha": "Apr 23, 2026, 12:24:37 PM"
-  },
-  {
-    "id": 7,
-    "cliente": {
-      "id": 2,
-      "nombre": "Ana",
-      "apellido": "García"
-    },
-    "fecha": "Apr 23, 2026, 12:25:03 PM"
-  },
-  {
-    "id": 10,
-    "cliente": {
-      "id": 2,
-      "nombre": "Ana",
-      "apellido": "García"
-    },
-    "fecha": "Apr 23, 2026, 12:25:26 PM"
+    "fecha": "Jan 22, 2025, 6:45:00 PM"
   }
 ]

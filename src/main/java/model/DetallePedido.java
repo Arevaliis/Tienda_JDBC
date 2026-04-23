@@ -5,9 +5,7 @@ import com.google.gson.annotations.Expose;
 import java.util.Objects;
 
 /**
- * Representa una línea de detalle dentro de un pedido.
- * Contiene la relación entre un pedido y un producto, junto con la cantidad
- * y el precio unitario aplicado en ese momento.
+ * Clase que representa una línea de detalle dentro de un pedido.
  */
 public class DetallePedido {
     private int idPedido;

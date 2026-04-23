@@ -4,34 +4,27 @@
     "nombre": "Teclado",
     "descripcion": "Teclado mecánico RGB",
     "precio": 50.0,
-    "stock": 90
+    "stock": 100
   },
   {
     "id": 2,
     "nombre": "Ratón",
     "descripcion": "Ratón gaming",
     "precio": 25.0,
-    "stock": 202
+    "stock": 200
   },
   {
     "id": 3,
     "nombre": "Monitor",
     "descripcion": "Monitor 24 pulgadas",
     "precio": 150.0,
-    "stock": 48
+    "stock": 50
   },
   {
     "id": 4,
     "nombre": "Auriculares",
     "descripcion": "Auriculares inalámbricos",
     "precio": 80.0,
-    "stock": 40
-  },
-  {
-    "id": 5,
-    "nombre": "Fax",
-    "descripcion": "Fax para enviar documentos",
-    "precio": 100.0,
-    "stock": 100
+    "stock": 75
   }
 ]

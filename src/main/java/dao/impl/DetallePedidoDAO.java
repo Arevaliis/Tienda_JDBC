@@ -28,10 +28,9 @@ public class DetallePedidoDAO implements IDetallePedidoDAO {
             insert.setInt(3, detalle.getCantidad());
             insert.setDouble(4, detalle.getPrecioUnitario());
 
+            if (insert.executeUpdate() == 0){throw new DAOException("No se insertó ningún detalle del pedido en la base de datos.");}
 
-            if (insert.executeUpdate() == 0) { throw new DAOException("No se ha podido completar el registro de los detalles del pedido en la base de datos"); }
-
-        } catch (SQLException e) { throw new DAOException("Error DAO: Fallo durante insert detalle pedido", e); }
+        } catch (SQLException e) { throw new DAOException("Error al insertar el detalle del pedido en la base de datos", e); }
     }
 
     @Override
@@ -100,7 +99,7 @@ public class DetallePedidoDAO implements IDetallePedidoDAO {
                 return detallesDePedido;
             }
 
-        } catch (SQLException e) { throw new DAOException("Error DAO: Fallo durante select de los detalles del pedido con id: " + idPedido, e); }
+        } catch (SQLException e) { throw new DAOException("Error al buscar los detalles del pedido en la base de datos", e); }
     }
 
     @Override
@@ -160,7 +159,7 @@ public class DetallePedidoDAO implements IDetallePedidoDAO {
                 );
             }
 
-        } catch (SQLException e) { throw new DAOException("Error DAO: Fallo durante select de uno de los detalles del pedido con id: " + idPedido, e); }
+        } catch (SQLException e) { throw new DAOException("Error al buscar el detalle del pedido en la base de datos", e); }
     }
 
     @Override
@@ -172,9 +171,9 @@ public class DetallePedidoDAO implements IDetallePedidoDAO {
             update.setInt(2, detallePedido.getPedido().getId());
             update.setInt(3, detallePedido.getProducto().getId());
 
-            if (update.executeUpdate() == 0) { throw new DAOException("No se ha podido actualizar la cantidad del detalle de pedido."); }
+            if (update.executeUpdate() == 0) { throw new DAOException("No se actualizó la cantidad en la base de datos"); }
 
-        } catch (SQLException e) { throw new DAOException("Error DAO: Fallo durante la modificación de la cantidad del detalle del pedido", e); }
+        } catch (SQLException e) { throw new DAOException("Error al modificar la cantidad del detalle del pedido en la base de datos", e); }
     }
 
     @Override
@@ -185,9 +184,9 @@ public class DetallePedidoDAO implements IDetallePedidoDAO {
             delete.setInt(1, idPedido);
             delete.setInt(2, idProducto);
 
-            if (delete.executeUpdate() == 0) { throw new DAOException("No se ha podido eliminar el detalle de pedido."); }
+            if (delete.executeUpdate() == 0) { throw new DAOException("No se eliminó el detalle pedido en la base de datos"); }
 
-        } catch (SQLException e) { throw new DAOException("Error DAO: Fallo durante la eliminación del detalle del pedido", e); }
+        } catch (SQLException e) { throw new DAOException("Error al eliminar el detalle del pedido en la base de datos", e); }
     }
 
     @Override
@@ -197,9 +196,9 @@ public class DetallePedidoDAO implements IDetallePedidoDAO {
         try (PreparedStatement delete = connection.prepareStatement(sql)) {
             delete.setInt(1, idPedido);
 
-            if (delete.executeUpdate() == 0) { throw new DAOException("No se ha podido eliminar los detalles de pedido con id: " + idPedido); }
+            if (delete.executeUpdate() == 0) { throw new DAOException("No se eliminó los detalles del pedido en la base de datos"); }
 
-        } catch (SQLException e) { throw new DAOException("Error DAO: Fallo durante la eliminación de los detalles del pedido", e); }
+        } catch (SQLException e) { throw new DAOException("Error al eliminar los detalles del pedido en la base de datos", e); }
     }
 
     @Override
@@ -264,7 +263,7 @@ public class DetallePedidoDAO implements IDetallePedidoDAO {
 
             return detallesDePedido;
 
-        } catch (SQLException e) { throw new DAOException("Error DAO: Fallo durante select de los detalles de todos los pedidos", e); }
+        } catch (SQLException e) { throw new DAOException("Error al buscar los detalles de todos los pedidos en la base de datos", e); }
     }
 
     /**
@@ -283,14 +282,12 @@ public class DetallePedidoDAO implements IDetallePedidoDAO {
             sumTotal.setInt(1, idPedido);
 
             try(ResultSet resultado = sumTotal.executeQuery()){
-
-                if (! resultado.next()) { throw new DAOException("No se ha podido calcular el total del pedido con id: " + idPedido); }
+                if (! resultado.next()) { throw new DAOException("No se pudo obtener el total del pedido en la base de datos"); }
 
                 return resultado.getDouble("total");
             }
 
-
-        } catch (SQLException e) { throw new DAOException("Error DAO: Fallo durante la eliminación de los detalles del pedido", e); }
+        } catch (SQLException e) { throw new DAOException("Error al calcular el total del pedido en la base de datos", e); }
     }
 
     /**
@@ -305,10 +302,10 @@ public class DetallePedidoDAO implements IDetallePedidoDAO {
         try (PreparedStatement sumTotal = connection.prepareStatement(sql);
              ResultSet resultado = sumTotal.executeQuery()){
 
-                if (! resultado.next()) { throw new DAOException("No se ha podido calcular el total de ventas"); }
+                if (! resultado.next()) { throw new DAOException("No se pudo calcular el total de ventas"); }
 
                 return resultado.getDouble("total");
 
-        } catch (SQLException e) { throw new DAOException("Error DAO: Fallo durante la eliminación de los detalles del pedido", e);}
+        } catch (SQLException e) { throw new DAOException("Error al calcular el total vendido en la base de datos", e); }
     }
 }
