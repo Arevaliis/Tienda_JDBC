@@ -112,7 +112,7 @@ public class GestorDetallesPedido {
             System.arraycopy(pedidoDatos, 0, datosPedido[i], 0, columnas.length);
         }
 
-        TablaViewer.crearTabla(datosPedido, columnas, "Ver Detalles Pedido", 950, 120);
+        TablaViewer.crearTabla(datosPedido, columnas, "Ver Detalles Pedido");
     }
 
     /**
@@ -165,7 +165,7 @@ public class GestorDetallesPedido {
                 }
         };
 
-        TablaViewer.crearTabla(datosPedido, columnas, "Ver Detalle Pedido", 1000, 80);
+        TablaViewer.crearTabla(datosPedido, columnas, "Ver Detalle Pedido");
     }
 
     /**

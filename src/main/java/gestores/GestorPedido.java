@@ -109,7 +109,7 @@ public class GestorPedido {
                 { String.valueOf(pedido.getId()), pedido.getCliente().getNombre(), pedido.getCliente().getApellido(), String.valueOf(pedido.getFecha())}
         };
 
-        TablaViewer.crearTabla(datosPedido, columnas, "Ver Pedido Cliente", 625, 75);
+        TablaViewer.crearTabla(datosPedido, columnas, "Ver Pedido Cliente");
     }
 
     /**
@@ -133,7 +133,7 @@ public class GestorPedido {
             System.arraycopy(pedidoDatos, 0, datosPedido[i], 0, columnas.length);
         }
 
-        TablaViewer.crearTabla(datosPedido, columnas, "Ver Pedido Cliente", 625, 75);
+        TablaViewer.crearTabla(datosPedido, columnas, "Ver Pedido Cliente");
     }
 
     /**
@@ -156,7 +156,7 @@ public class GestorPedido {
             System.arraycopy(pedidoDatos, 0, datosPedido[i], 0, columnas.length);
         }
 
-        TablaViewer.crearTabla(datosPedido, columnas, "Ver Pedido Cliente", 950, 120);
+        TablaViewer.crearTabla(datosPedido, columnas, "Ver Pedido Cliente");
     }
 
     /**

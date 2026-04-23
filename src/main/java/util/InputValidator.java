@@ -16,7 +16,8 @@ public class InputValidator {
      */
     public static int verificarNumeroIngresado(String opc) {
 
-        if (opc == null){ return -1; }
+        if (opc == null){ throw new NullPointerException(); }
+
         if (opc.isEmpty()){ throw new NumberFormatException("Debe ingresar una opción. No puede dejar el campo vacío."); }
         if (!opc.matches("^[0-9]+$")) { throw new NumberFormatException("La opción ingresada debe ser un número entero válido."); }
 

@@ -97,7 +97,7 @@ public class GestorInformes {
                 }
         };
 
-        TablaViewer.crearTabla(datosPedido, columnas, "Producto Mas Vendido", 1000, 80);
+        TablaViewer.crearTabla(datosPedido, columnas, "Producto Mas Vendido");
     }
 
     /**
@@ -120,7 +120,7 @@ public class GestorInformes {
                 }
         };
 
-        TablaViewer.crearTabla(datos, columnas, "Cliente Con Mas Compras", 1000, 80);
+        TablaViewer.crearTabla(datos, columnas, "Cliente Con Mas Compras");
     }
 
     /**
@@ -161,6 +161,6 @@ public class GestorInformes {
             System.arraycopy(registro, 0, datosPedido[i], 0, columnas.length);
         }
 
-        TablaViewer.crearTabla(datosPedido, columnas, "Producto Mas Vendido", 1000, 80);
+        TablaViewer.crearTabla(datosPedido, columnas, "Producto Mas Vendido");
     }
 }

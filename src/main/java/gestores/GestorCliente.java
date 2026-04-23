@@ -102,7 +102,6 @@ public class GestorCliente {
      */
     private static void buscarCliente(ClienteService clientesService)  throws ServiceException {
         int id = ConsoleUI.ingresarNumero("Ingrese el id del cliente: ", "Buscar Cliente Por ID");
-        if (id == -1){ return;}
 
         Cliente cliente = clientesService.buscarClienteID( id );
         String[] columnas = {"id", "Nombre", "Apellido"};
@@ -111,7 +110,7 @@ public class GestorCliente {
                 { String.valueOf(cliente.getId()), cliente.getNombre(), cliente.getApellido(), cliente.getEmail()}
         };
 
-        TablaViewer.crearTabla(datosCliente, columnas, "Ver Cliente", 300, 75);
+        TablaViewer.crearTabla(datosCliente, columnas, "Ver Cliente");
 
     }
 
@@ -136,7 +135,7 @@ public class GestorCliente {
             System.arraycopy(clienteDatos, 0, datosClientes[i], 0, columnas.length);
         }
 
-        TablaViewer.crearTabla(datosClientes, columnas, "Ver Clientes", 625, 150);
+        TablaViewer.crearTabla(datosClientes, columnas, "Ver Clientes");
     }
 
     /**
@@ -147,7 +146,6 @@ public class GestorCliente {
      */
     private static void eliminarCliente(ClienteService clientesService)  throws ServiceException {
         int id = ConsoleUI.ingresarNumero("Ingrese el id del cliente: ", "Eliminar Cliente");
-        if (id == -1){ return;}
 
         clientesService.eliminarCliente( id );
         JOptionPane.showMessageDialog( null,  "Cliente eliminado con éxito",  "Eliminar Cliente",  JOptionPane.INFORMATION_MESSAGE );
@@ -177,7 +175,6 @@ public class GestorCliente {
      */
     private static void modificarNombreCliente(ClienteService clientesService) throws ValidationException {
         int id = ConsoleUI.ingresarNumero("Ingrese el id del cliente: ", "Buscar Cliente");
-        if (id == -1){ return;}
 
         String nombre = ConsoleUI.ingresarPalabra("Ingrese el nuevo nombre del cliente; ", "Modificar Nombre");
 
@@ -193,7 +190,6 @@ public class GestorCliente {
      */
     private static void modificarApellidoCliente(ClienteService clientesService) throws ValidationException {
         int id = ConsoleUI.ingresarNumero("Ingrese el id del cliente: ", "Buscar Cliente");
-        if (id == -1){ return;}
 
         String apellido = ConsoleUI.ingresarPalabra("Ingrese el nuevo apellido del cliente; ", "Modificar Apellido");
 

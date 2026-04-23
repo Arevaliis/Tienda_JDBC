@@ -19,15 +19,16 @@ public class TablaViewer {
      * @param datos matriz de datos a mostrar en la tabla (filas y columnas)
      * @param columnas nombres de las columnas de la tabla
      * @param titulo título de la ventana emergente
-     * @param width ancho preferido de la tabla
-     * @param height alto preferido de la tabla
      *
      * @throws NullPointerException si los datos o columnas son nulos
      */
-    public static void crearTabla(String [][] datos, String [] columnas, String titulo, int width, int height){
+    public static void crearTabla(String [][] datos, String [] columnas, String titulo){
 
         JTable tabla = new JTable(datos, columnas);
         JScrollPane scroll = new JScrollPane(tabla);
+
+        int width = columnas.length * 120;
+        int height = datos.length * 20;
 
         tabla.setPreferredScrollableViewportSize(new java.awt.Dimension(width, height));
         tabla.setFillsViewportHeight(true);

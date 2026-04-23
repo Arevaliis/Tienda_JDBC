@@ -120,7 +120,7 @@ public class GestorProducto {
                 }
         };
 
-        TablaViewer.crearTabla(datosCliente, columnas, "Ver Producto", 650, 75);
+        TablaViewer.crearTabla(datosCliente, columnas, "Ver Producto");
     }
 
     /**
@@ -151,7 +151,7 @@ public class GestorProducto {
             System.arraycopy(datosProducto, 0, datosClientes[i], 0, columnas.length);
         }
 
-        TablaViewer.crearTabla(datosClientes, columnas, "Ver Productos", 825, 150);
+        TablaViewer.crearTabla(datosClientes, columnas, "Ver Productos");
     }
 
     /**

@@ -4,8 +4,7 @@ package exception;
  * Excepción personalizada para la capa de servicios (Service).
  * <p>
  * Se utiliza para representar errores de lógica de negocio o fallos
- * en la capa intermedia de la aplicación. Al extender de RuntimeException,
- * no es obligatorio capturarla o declararla.
+ * en la capa intermedia de la aplicación.
  * </p>
  */
 public class ServiceException extends RuntimeException {

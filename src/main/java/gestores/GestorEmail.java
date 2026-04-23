@@ -109,7 +109,7 @@ public class GestorEmail {
             System.arraycopy(emailDatos, 0, datosClientes[i], 0, columnas.length);
         }
 
-        TablaViewer.crearTabla(datosClientes, columnas, "Ver Email Cliente", 625, 75);
+        TablaViewer.crearTabla(datosClientes, columnas, "Ver Email Cliente");
     }
 
     /**

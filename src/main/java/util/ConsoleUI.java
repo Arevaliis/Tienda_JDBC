@@ -16,14 +16,7 @@ public class ConsoleUI {
      * @return True si la opción elegida es igual a 'SÍ' o False si la opción elegida es 'NO'
      */
     public static boolean confirmarContinuacion(String mensaje, String titulo){
-
-        int opc = JOptionPane.showConfirmDialog(
-                null,
-                mensaje,
-                titulo,
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.QUESTION_MESSAGE
-        );
+        int opc = JOptionPane.showConfirmDialog( null,  mensaje, titulo,  JOptionPane.YES_NO_OPTION,  JOptionPane.QUESTION_MESSAGE );
 
         return opc == 0;
     }
@@ -65,7 +58,7 @@ public class ConsoleUI {
 
         return JOptionPane.showOptionDialog(
                 null,
-                "Seleciona una opción",
+                "Selecciona una opción",
                 mensaje,
                 JOptionPane.DEFAULT_OPTION,
                 JOptionPane.INFORMATION_MESSAGE,
