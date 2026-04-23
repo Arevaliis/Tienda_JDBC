@@ -105,10 +105,9 @@ public class ProductoService implements IProductoService {
     @Override
     public void eliminarProducto(int id) throws ServiceException {
         try {
-
-            if (buscarProductoPorId(id) == null){ return; }
+            if (buscarProductoPorId(id) == null){ throw new ServiceException("El producto no existe"); }
             productoDAO.eliminarProducto(id);
 
-        } catch (DAOException e) { throw new ServiceException("Error Service: Fallo a la hora de eliminar el producto de la base de datos", e); }
+        } catch (DAOException e) { throw new ServiceException("No se pudo eliminar el producto", e); }
     }
 }

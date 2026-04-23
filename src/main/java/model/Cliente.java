@@ -20,6 +20,17 @@ public class Cliente {
     private String email;
 
     /**
+     * Constructor para creación de cliente en la base de datos.
+     *
+     * @param nombre nombre del cliente
+     * @param apellido apellido del cliente
+     */
+    public Cliente(String nombre, String apellido) {
+        this.nombre = nombre;
+        this.apellido = apellido;
+    }
+
+    /**
      * Constructor Cliente procedente de la base de datos
      *
      * @param id identificador único del cliente
@@ -45,17 +56,6 @@ public class Cliente {
         this.nombre = nombre;
         this.apellido = apellido;
         this.email = email;
-    }
-
-    /**
-     * Constructor para creación de cliente en la base de datos.
-     *
-     * @param nombre nombre del cliente
-     * @param apellido apellido del cliente
-     */
-    public Cliente(String nombre, String apellido) {
-        this.nombre = nombre;
-        this.apellido = apellido;
     }
 
     /**

@@ -1,8 +1,8 @@
 [
   {
     "id": 1,
-    "nombre": "Mateo",
-    "apellido": "Lopez",
+    "nombre": "Juan",
+    "apellido": "Pérez",
     "email": "juan@gmail.com"
   },
   {
@@ -18,37 +18,13 @@
     "email": "luis@gmail.com"
   },
   {
-    "id": 4,
-    "nombre": "Jose",
-    "apellido": "Iglesias",
-    "email": "joseIA@gmail.com"
+    "id": 5,
+    "nombre": "Maria",
+    "apellido": "Manzano"
   },
   {
-    "id": 7,
+    "id": 6,
     "nombre": "Jagger",
     "apellido": "Master"
-  },
-  {
-    "id": 8,
-    "nombre": "Federico",
-    "apellido": "Valverde",
-    "email": "fdValverde@gmail.com"
-  },
-  {
-    "id": 8,
-    "nombre": "Federico",
-    "apellido": "Valverde",
-    "email": "fede@gmail.com"
-  },
-  {
-    "id": 8,
-    "nombre": "Federico",
-    "apellido": "Valverde",
-    "email": "fede.valverde@gmail.com"
-  },
-  {
-    "id": 10,
-    "nombre": "Sergio",
-    "apellido": "Arevalo"
   }
 ]

@@ -23,9 +23,9 @@ public class ClienteDAO implements IClienteDAO {
             insert.setString(1, cliente.getNombre());
             insert.setString(2, cliente.getApellido());
 
-            if (insert.executeUpdate() == 0){throw new DAOException("No se ha completado la inserción del cliente en la base de datos.");}
+            if (insert.executeUpdate() == 0){throw new DAOException("No se insertó ningún cliente en la base de datos.");}
 
-        } catch (SQLException e) { throw new DAOException("Error DAO: Fallo durante la inserción del cliente", e); }
+        } catch (SQLException e) { throw new DAOException("Error al insertar el cliente en la base de datos", e); }
     }
 
     @Override
@@ -44,7 +44,7 @@ public class ClienteDAO implements IClienteDAO {
                                     resultado.getString("apellido"));
             }
 
-        } catch (SQLException e) { throw new DAOException("Error DAO: Fallo durante select de cliente", e); }
+        } catch (SQLException e) { throw new DAOException("Error al buscar cliente en la base de datos", e); }
     }
 
     @Override
@@ -74,7 +74,7 @@ public class ClienteDAO implements IClienteDAO {
 
                 return clientes;
 
-        } catch (SQLException e) { throw new DAOException("Error DAO: Fallo durante select de los clientes", e); }
+        } catch (SQLException e) { throw new DAOException("Error al listar los clientes de la base de datos", e); }
     }
 
     @Override
@@ -86,9 +86,9 @@ public class ClienteDAO implements IClienteDAO {
             update.setString(2, cliente.getApellido());
             update.setInt(3, cliente.getId());
 
-            if (update.executeUpdate() == 0){throw new DAOException("No se ha podido modificar el cliente.");}
+            if (update.executeUpdate() == 0){throw new DAOException("No se modificó ningún cliente de la base de datos");}
 
-        } catch (SQLException e) { throw new DAOException("Error DAO: Fallo durante el update del nombre del cliente", e); }
+        } catch (SQLException e) { throw new DAOException("Error al modificar el cliente en la base de datos", e); }
     }
 
     @Override
@@ -98,8 +98,8 @@ public class ClienteDAO implements IClienteDAO {
         try (PreparedStatement delete = connection.prepareStatement(sql)){
             delete.setInt(1, id);
 
-            if (delete.executeUpdate() == 0){ throw new DAOException("No se ha podido eliminar al cliente con id " + id);}
+            if (delete.executeUpdate() == 0){ throw new DAOException("No se eliminó ningún cliente de la base de datos");}
 
-        } catch (SQLException e) { throw new DAOException("Error DAO: Fallo durante el delete del cliente", e); }
+        } catch (SQLException e) { throw new DAOException("Error al eliminar el cliente de la base de datos", e); }
     }
 }

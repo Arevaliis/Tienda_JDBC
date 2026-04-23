@@ -21,7 +21,7 @@ public class ClienteService implements IClienteService {
             Cliente cliente = new Cliente(nombre, apellido);
             clienteDAO.insertarCliente(cliente);
 
-        } catch (DAOException e) { throw new ServiceException("Error Service: Fallo durante la inserción del cliente", e); }
+        } catch (DAOException e) { throw new ServiceException("No se puedo registrar el cliente", e); }
     }
 
     @Override
@@ -31,11 +31,11 @@ public class ClienteService implements IClienteService {
         try{
             cliente = clienteDAO.buscarClienteID(id);
 
-            if (cliente == null){throw new ServiceException("No existe ningún cliente con el id " + id);}
+            if (cliente == null){throw new ServiceException("No existe ningún cliente con el id: " + id);}
 
             return cliente;
 
-        } catch (DAOException e) { throw new ServiceException("Error Service: Fallo durante select de cliente", e); }
+        } catch (DAOException e) { throw new ServiceException("No se encontró el cliente", e); }
     }
 
     @Override
@@ -45,11 +45,11 @@ public class ClienteService implements IClienteService {
         try{
             clientes = clienteDAO.listarClientes();
 
-            if (clientes.isEmpty()){throw new ServiceException("No existe registro de clientes en la base de datos");}
+            if (clientes.isEmpty()){throw new ServiceException("No existen registros de clientes en la base de datos");}
 
             return clientes;
 
-        } catch (DAOException e) { throw new ServiceException("Error Service: Fallo durante select de todos los clientes", e); }
+        } catch (DAOException e) { throw new ServiceException("No se puedo listar los clientes", e); }
     }
 
     @Override
@@ -61,7 +61,7 @@ public class ClienteService implements IClienteService {
             cliente.setNombre(nombre);
             clienteDAO.actualizarCliente(cliente);
 
-        } catch (DAOException e) { throw new ServiceException("Error Service: Fallo durante la modificación del nombre de cliente", e); }
+        } catch (DAOException e) { throw new ServiceException("No se pudo modificar el nombre del cliente", e); }
     }
 
     @Override
@@ -73,17 +73,16 @@ public class ClienteService implements IClienteService {
             cliente.setApellido(apellido);
             clienteDAO.actualizarCliente(cliente);
 
-        } catch (DAOException e) { throw new ServiceException("Error Service: Fallo durante la modificación del apellido de cliente", e); }
+        } catch (DAOException e) { throw new ServiceException("No se pudo modificar el apellido del cliente", e); }
     }
-
 
     @Override
     public void eliminarCliente(int id) throws ServiceException {
         try {
-            if (buscarClienteID(id) == null){ return ;}
+            if (buscarClienteID(id) == null){ throw new ServiceException("El cliente no existe"); }
 
             clienteDAO.eliminarCliente(id);
 
-        } catch (DAOException e) { throw new ServiceException("Error Service: Fallo durante la eliminación del cliente", e); }
+        } catch (DAOException e) { throw new ServiceException("No se pudo eliminar el cliente", e); }
     }
 }

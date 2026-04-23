@@ -6,11 +6,6 @@ import util.Mensajes;
 
 import javax.swing.JOptionPane;
 
-// TODO -> Comprobar delete de cliente o producto que se use en otra tabla como FK
-// TODO -> Top productos más vendidos, Top clientes, Ingresos totales.
-// TODO -> Mejorar excepciones
-// TODO -> Revision proyecto
-
 /**
  * Clase principal de la aplicación.
  * Se encarga de iniciar el sistema y controlar el flujo del menú principal.
@@ -33,6 +28,9 @@ public class Main {
             } catch (IllegalArgumentException e) {
                 JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 
+            } catch (Exception ignore) { // Sirve como red final de seguridad
+                JOptionPane.showMessageDialog(null, "Ha ocurrido un error inesperado en la aplicación.", "Error crítico", JOptionPane.ERROR_MESSAGE);
+
             } finally {
                 if (!seguir){
                     JOptionPane.showMessageDialog(null, "Saliendo", "Salir", JOptionPane.INFORMATION_MESSAGE);
@@ -45,7 +43,7 @@ public class Main {
      * Solicita al usuario una opción del menú principal y ejecuta la acción correspondiente.
      *
      * @return el número de la opción seleccionada por el usuario
-     * @throws IllegalArgumentException si la opción no está entre 0-4
+     * @throws IllegalArgumentException si la opción no está entre 0-5
      */
     private static int ejecutarOpcion() {
         int opc = ConsoleUI.ingresarNumero(Mensajes.MENU_INICIAL, "Menu Inicial");

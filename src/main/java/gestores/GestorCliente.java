@@ -18,11 +18,12 @@ public class GestorCliente {
 
     /**
      * Inicia el gestor de clientes
+     * <p>
      * Establece la conexión con la base de datos y ejecuta el menú en bucle hasta que el usuario decida salir.
      * Maneja excepciones tanto de acceso a datos {@SQLException} como de lógica de negocio {@ServiceException}.
+     * </p>
      */
     public static void ejecutarGestorClientes(){
-
         boolean seguir = true;
 
         try (Connection connection = DatabaseConnection.getConnection()) {
@@ -30,7 +31,6 @@ public class GestorCliente {
 
             while (seguir) {
                 try {
-
                     if (ejecutarOpcion(connection ,clientesService) <= 0) { return; }
                     seguir = ConsoleUI.confirmarContinuacion("¿Desea seguir en la sección de clientes? S/N: ", "Seguir Menu Clientes");
 
@@ -52,6 +52,7 @@ public class GestorCliente {
      *
      * @param clientesService servicio encargado de la lógica de negocio de clientes
      * @param connection connection base de datos
+     *
      * @return opción seleccionada por el usuario
      *
      * @throws ServiceException si ocurre un error en la capa de servicio
@@ -128,7 +129,9 @@ public class GestorCliente {
 
         for (int i = 0; i < clientes.size(); i++) {
             Cliente cliente = clientes.get(i);
-            String[] clienteDatos = {String.valueOf(cliente.getId()), cliente.getNombre(), cliente.getApellido(), cliente.getEmail()};
+            String email = (cliente.getEmail() != null) ? cliente.getEmail() : "Sin registro";
+
+            String[] clienteDatos = {String.valueOf(cliente.getId()), cliente.getNombre(), cliente.getApellido(), email};
 
             System.arraycopy(clienteDatos, 0, datosClientes[i], 0, columnas.length);
         }
@@ -143,7 +146,6 @@ public class GestorCliente {
      * @throws ServiceException si ocurre un error al eliminar el cliente
      */
     private static void eliminarCliente(ClienteService clientesService)  throws ServiceException {
-
         int id = ConsoleUI.ingresarNumero("Ingrese el id del cliente: ", "Eliminar Cliente");
         if (id == -1){ return;}
 
@@ -158,7 +160,6 @@ public class GestorCliente {
      * @throws ValidationException si los datos introducidos no son válidos
      */
     private static void menuModificar(ClienteService clientesService) throws ValidationException {
-
         int opc = ConsoleUI.seleccionarOpcion( new String[]{"Nombre", "Apellido"},  "Modificar Cliente" ) + 1;
 
         switch (opc) {
@@ -175,14 +176,12 @@ public class GestorCliente {
      * @throws ValidationException si los datos introducidos no son válidos
      */
     private static void modificarNombreCliente(ClienteService clientesService) throws ValidationException {
-
         int id = ConsoleUI.ingresarNumero("Ingrese el id del cliente: ", "Buscar Cliente");
         if (id == -1){ return;}
 
         String nombre = ConsoleUI.ingresarPalabra("Ingrese el nuevo nombre del cliente; ", "Modificar Nombre");
 
         clientesService.modificarNombreCliente(nombre, id);
-
         JOptionPane.showMessageDialog( null,  "Cliente modificado con éxito",  "Modificar Cliente", JOptionPane.INFORMATION_MESSAGE);
     }
 
@@ -193,14 +192,12 @@ public class GestorCliente {
      * @throws ValidationException si los datos introducidos no son válidos
      */
     private static void modificarApellidoCliente(ClienteService clientesService) throws ValidationException {
-
         int id = ConsoleUI.ingresarNumero("Ingrese el id del cliente: ", "Buscar Cliente");
         if (id == -1){ return;}
 
         String apellido = ConsoleUI.ingresarPalabra("Ingrese el nuevo apellido del cliente; ", "Modificar Apellido");
 
         clientesService.modificarApellidoCliente(apellido, id);
-
         JOptionPane.showMessageDialog( null,  "Cliente modificado con éxito",  "Modificar Cliente",  JOptionPane.INFORMATION_MESSAGE);
     }
 
