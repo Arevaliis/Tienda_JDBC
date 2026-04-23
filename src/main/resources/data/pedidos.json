@@ -1,22 +1,56 @@
 [
   {
-    "pedido": {
+    "id": 1,
+    "cliente": {
+      "id": 1,
+      "nombre": "Juan",
+      "apellido": "Pérez"
+    },
+    "fecha": "Jan 10, 2025, 10:00:00 AM"
+  },
+  {
+    "id": 2,
+    "cliente": {
+      "id": 1,
+      "nombre": "Juan",
+      "apellido": "Pérez"
+    },
+    "fecha": "Jan 15, 2025, 12:30:00 PM"
+  },
+  {
+    "id": 3,
+    "cliente": {
+      "id": 2,
+      "nombre": "Ana",
+      "apellido": "García"
+    },
+    "fecha": "Jan 20, 2025, 9:15:00 AM"
+  },
+  {
+    "id": 4,
+    "cliente": {
       "id": 3,
-      "cliente": {
-        "id": 2,
-        "nombre": "Ana",
-        "apellido": "García"
-      },
-      "fecha": "Apr 7, 2026, 7:01:22 PM"
+      "nombre": "Luis",
+      "apellido": "Martínez"
     },
-    "producto": {
-      "id": 5,
-      "nombre": "Fax",
-      "descripcion": "Fax para enviar documentos",
-      "precio": 5.0,
-      "stock": 95
+    "fecha": "Apr 23, 2026, 12:24:37 PM"
+  },
+  {
+    "id": 7,
+    "cliente": {
+      "id": 2,
+      "nombre": "Ana",
+      "apellido": "García"
     },
-    "cantidad": 5,
-    "precioUnitario": 100.0
+    "fecha": "Apr 23, 2026, 12:25:03 PM"
+  },
+  {
+    "id": 10,
+    "cliente": {
+      "id": 2,
+      "nombre": "Ana",
+      "apellido": "García"
+    },
+    "fecha": "Apr 23, 2026, 12:25:26 PM"
   }
 ]

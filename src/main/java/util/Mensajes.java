@@ -87,7 +87,7 @@ public class Mensajes {
             
                 1. Crear pedido
                 2. Buscar pedido por ID
-                3. Listar todos los pedido
+                3. Listar todos los pedidos
                 4. Listar pedidos por cliente
                 5. Modificar pedido
                 6. Eliminar pedido

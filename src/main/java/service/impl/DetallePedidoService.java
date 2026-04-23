@@ -30,7 +30,7 @@ public class DetallePedidoService implements IDetallePedidoService {
 
             try {
                 DetallePedido detallePedido = detallePedidoDAO.listarDetallePorId(idPedido, idProducto);
-                if (detallePedido != null){ throw new ServiceException("El pedido ingresado ya tiene ese producto agregado. Si lo desea puede modificar la cantidad"); }
+                if (detallePedido != null){ throw new ServiceException("El pedido ingresado ya tiene ese producto agregado. Si lo desea puede modificar la cantidad."); }
 
                 Producto producto = productoService.buscarProductoPorId(idProducto);
 

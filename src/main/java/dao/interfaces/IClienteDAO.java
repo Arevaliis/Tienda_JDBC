@@ -44,7 +44,7 @@ public interface IClienteDAO {
 
 
     /**
-     * Elimina un cliente de la base de datos por su identificador.
+     * Elimina un cliente de la base de datos por su identificador. No se puede eliminar aquellos clientes que estén referenciados en otra tabla como FK.
      *
      * @param id identificador del cliente a eliminar
      * @throws DAOException si ocurre un error durante la eliminación o el cliente no existe

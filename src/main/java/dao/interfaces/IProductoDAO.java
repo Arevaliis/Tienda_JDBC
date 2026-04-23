@@ -45,7 +45,7 @@ public interface IProductoDAO {
     void actualizarProducto(Producto producto) throws DAOException;
 
     /**
-     * Elimina un producto de la base de datos a partir de su identificador.
+     * Elimina un producto de la base de datos a partir de su identificador. No se puede eliminar aquellos productos que estén referenciados en otra tabla como FK.
      *
      * @param id identificador del producto a eliminar
      * @throws DAOException sí ocurre un error durante la eliminación

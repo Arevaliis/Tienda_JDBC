@@ -27,7 +27,7 @@ public class TablaViewer {
         JTable tabla = new JTable(datos, columnas);
         JScrollPane scroll = new JScrollPane(tabla);
 
-        int width = columnas.length * 120;
+        int width = columnas.length * 140;
         int height = datos.length * 20;
 
         tabla.setPreferredScrollableViewportSize(new java.awt.Dimension(width, height));

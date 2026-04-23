@@ -28,7 +28,8 @@ public class Main {
                 JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 
             } catch (NullPointerException ignored) {
-                seguir = ConsoleUI.confirmarContinuacion("¿Desea seguir en el gestor?", "Seguir Menu Principal");
+                JOptionPane.showMessageDialog(null, "Saliendo", "Salir", JOptionPane.INFORMATION_MESSAGE);
+                break;
 
             } catch (Exception ignore) { // Sirve como red final de seguridad
                 JOptionPane.showMessageDialog(null, "Ha ocurrido un error inesperado en la aplicación.", "Error crítico", JOptionPane.ERROR_MESSAGE);

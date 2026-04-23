@@ -23,9 +23,9 @@ public class PedidoDAO implements IPedidoDAO {
         try (PreparedStatement insert = connection.prepareStatement(sql)){
             insert.setInt(1, pedido.getId_cliente());
 
-            if (insert.executeUpdate() == 0) { throw new DAOException("No se ha podido completar el registro del pedido en la base de datos"); }
+            if (insert.executeUpdate() == 0){throw new DAOException("No se insertó ningún pedido en la base de datos.");}
 
-        } catch (SQLException e) { throw new DAOException("Error DAO: Fallo durante insert pedido", e); }
+        } catch (SQLException e) { throw new DAOException("Error al insertar el pedido en la base de datos", e); }
     }
 
     @Override
@@ -44,7 +44,7 @@ public class PedidoDAO implements IPedidoDAO {
                                     resultado.getTimestamp("fecha"));
             }
 
-        } catch (SQLException e) { throw new DAOException("Error DAO: Fallo durante select pedido", e); }
+        } catch (SQLException e) { throw new DAOException("Error al buscar el pedido en la base de datos", e); }
     }
 
     @Override
@@ -67,7 +67,7 @@ public class PedidoDAO implements IPedidoDAO {
 
                 return pedidos;
 
-        } catch (SQLException e) { throw new DAOException("Error DAO: Fallo durante select de los pedidos", e); }
+        } catch (SQLException e) { throw new DAOException("Error al listar los pedidos en la base de datos", e); }
     }
 
     @Override
@@ -138,7 +138,7 @@ public class PedidoDAO implements IPedidoDAO {
                 return pedidos;
             }
 
-        } catch (SQLException e) { throw new DAOException("Error DAO: Fallo durante select pedido del cliente con id: " + idCliente, e); }
+        } catch (SQLException e) { throw new DAOException("Error al listar los pedidos del cliente en la base de datos", e); }
     }
 
     @Override
@@ -154,7 +154,7 @@ public class PedidoDAO implements IPedidoDAO {
 
             if (update.executeUpdate() == 0){ throw new DAOException("No se ha podido actualizar el pedido"); }
 
-        } catch (SQLException e) { throw new DAOException("Error DAO: Fallo al hacer update del pedido", e); }
+        } catch (SQLException e) { throw new DAOException("Error al actualizar el pedido en la base de datos", e); }
     }
 
     @Override
@@ -166,7 +166,7 @@ public class PedidoDAO implements IPedidoDAO {
 
             if (delete.executeUpdate() == 0){ throw new DAOException("No se ha podido eliminar el pedido"); }
 
-        } catch (SQLException e) { throw new DAOException("Error DAO: Fallo al hacer delete del pedido", e); }
+        } catch (SQLException e) { throw new DAOException("Error al eliminar el pedido en la base de datos", e); }
     }
 
     /**
@@ -196,6 +196,6 @@ public class PedidoDAO implements IPedidoDAO {
 
             return new ClienteInforme(cliente, resultado.getInt("total_comprado"));
 
-        } catch (SQLException e) { throw new DAOException("Error DAO: Fallo durante la búsqueda del cliente con más pedidos", e); }
+        } catch (SQLException e) { throw new DAOException("Error al buscar el cliente con mas pedidos en la base de datos", e); }
     }
 }
