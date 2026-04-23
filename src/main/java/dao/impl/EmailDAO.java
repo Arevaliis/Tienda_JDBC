@@ -23,9 +23,9 @@ public class EmailDAO implements IEmailDAO {
             insert.setString(1, email.getEmail());
             insert.setInt(2, email.getIdCliente());
 
-            if (insert.executeUpdate() == 0){throw new DAOException("El email ingresado ya existe en la base de datos.");}
+            if (insert.executeUpdate() == 0){throw new DAOException("No se insertó ningún email en la base de datos.");}
 
-        } catch (SQLException e) { throw new DAOException("Error DAO: Fallo durante el insert del email", e); }
+        } catch (SQLException e) { throw new DAOException("Error al insertar el email en la base de datos", e); }
     }
 
     @Override
@@ -46,7 +46,7 @@ public class EmailDAO implements IEmailDAO {
 
             return emails;
 
-        } catch (SQLException e) { throw new DAOException("Error DAO: Fallo durante el select de los emails", e); }
+        } catch (SQLException e) { throw new DAOException("Error al obtener los emails de la base de datos", e); }
     }
 
     @Override
@@ -65,7 +65,7 @@ public class EmailDAO implements IEmailDAO {
                                  resultado.getInt("id_cliente"));
             }
 
-        } catch (SQLException e) { throw new DAOException("Error DAO: Fallo durante el select de los emails", e); }
+        } catch (SQLException e) { throw new DAOException("Error al buscar el email en la base de datos", e); }
     }
 
     @Override
@@ -77,9 +77,9 @@ public class EmailDAO implements IEmailDAO {
             update.setInt(2, email.getIdCliente());
             update.setInt(3, email.getId());
 
-            if (update.executeUpdate() == 0) { throw new DAOException("No se ha podido modificar el email del cliente."); }
+            if (update.executeUpdate() == 0) { throw new DAOException("No se modificó el email del cliente."); }
 
-        } catch (SQLException e) { throw new DAOException("Error DAO: Fallo durante el update del apellido del cliente", e); }
+        } catch (SQLException e) { throw new DAOException("Error al actualizar el email en la base de datos", e); }
     }
 
     @Override
@@ -106,7 +106,7 @@ public class EmailDAO implements IEmailDAO {
                 return emails;
             }
 
-        } catch (SQLException e) { throw new DAOException("Error DAO: Fallo durante el select de los emails", e); }
+        } catch (SQLException e) { throw new DAOException("Error al buscar los emails del cliente en la base de datos", e); }
     }
 
     @Override
@@ -118,6 +118,6 @@ public class EmailDAO implements IEmailDAO {
 
             if (delete.executeUpdate() == 0) { throw new DAOException("No se ha podido eliminar el email"); }
 
-        } catch (SQLException e) { throw new DAOException("Error DAO: Fallo durante el delete del email", e); }
+        } catch (SQLException e) { throw new DAOException("Error al eliminar el email de la base de datos", e); }
     }
 }

@@ -12,7 +12,7 @@ import java.util.Objects;
     private Cliente cliente;
 
     /**
-     * Constructor para crear un email sin id (para inserciones).
+     * Constructor para crear un email sin ID (para inserciones).
      */
     public Email(String email, int idCliente) {
         this.email = email;
@@ -20,7 +20,7 @@ import java.util.Objects;
     }
 
     /**
-     * Constructor completo con id y cliente por id int
+     * Constructor completo con ID y cliente por ID int
      */
     public Email(int id, String email, int idCliente) {
         this.id = id;

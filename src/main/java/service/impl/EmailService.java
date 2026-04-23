@@ -40,7 +40,7 @@ public class EmailService implements IEmailService {
 
             } catch (SQLException | DAOException e) {
                 connection.rollback();
-                throw new ServiceException("Error Service: Fallo durante la transacción de insert email", e);
+                throw new ServiceException("No se puedo registrar el email", e);
 
             } finally {
                 connection.setAutoCommit(true);
@@ -57,8 +57,7 @@ public class EmailService implements IEmailService {
 
             return email;
 
-        } catch (DAOException e) { throw new ServiceException("Error Service: Fallo durante la busqueda del email con id: "+ id, e); }
-
+        } catch (DAOException e) { throw new ServiceException("No se encontró el email", e); }
     }
 
     @Override
@@ -80,7 +79,7 @@ public class EmailService implements IEmailService {
 
             } catch (SQLException | DAOException e) {
                 connection.rollback();
-                throw new ServiceException("Error Service: Fallo durante la transacción de update email", e);
+                throw new ServiceException("No se pudo modificar el nombre del email", e);
 
             } finally { connection.setAutoCommit(true); }
 
@@ -104,7 +103,7 @@ public class EmailService implements IEmailService {
 
             } catch (SQLException | DAOException e) {
                 connection.rollback();
-                throw new ServiceException("Error Service: Fallo durante el cambio de id cliente en el email", e);
+                throw new ServiceException("No se pudo modificar el ID del cliente", e);
 
             } finally { connection.setAutoCommit(true); }
 
@@ -122,7 +121,7 @@ public class EmailService implements IEmailService {
             Cliente cliente = clienteService.buscarClienteID(emailsIdInt.get(0).getIdCliente());
 
             for (Email email: emailsIdInt){
-                emailsCliente.add(
+                 emailsCliente.add(
                                 new Email(email.getId(),
                                         email.getEmail(),
                                         cliente));
@@ -130,17 +129,15 @@ public class EmailService implements IEmailService {
 
             return emailsCliente;
 
-        } catch (DAOException e) { throw new ServiceException("Error Service: Fallo durante la búsqueda de email por cliente", e); }
+        } catch (DAOException e) { throw new ServiceException("No se encontraron los emails del cliente", e); }
     }
 
     @Override
     public void eliminarEmail(int id) throws ServiceException {
         try {
             if (buscarEmail(id) == null){ return ;}
-
             emailDAO.eliminarEmail(id);
 
-        } catch (DAOException e) { throw new ServiceException("Error Service: Fallo durante la eliminación de email con id: " + id, e); }
-
+        } catch (DAOException e) { throw new ServiceException("No se pudo eliminar el email del cliente", e); }
     }
 }
