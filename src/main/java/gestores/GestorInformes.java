@@ -2,13 +2,15 @@ package gestores;
 
 import exception.ServiceException;
 import exception.ValidationException;
-import model.*;
+import model.Producto;
+import model.ProductoInforme;
+import model.Cliente;
+import model.ClienteInforme;
 import service.impl.InformeService;
 import util.ConsoleUI;
 import util.DatabaseConnection;
 import util.Mensajes;
 import util.TablaViewer;
-
 import javax.swing.JOptionPane;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -21,6 +23,7 @@ public class GestorInformes {
 
     /**
      * Inicia el gestor de informes
+     * <p>
      * Establece la conexión con la base de datos y ejecuta el menú en bucle hasta que el usuario decida salir.
      * Maneja excepciones tanto de acceso a datos {@SQLException} como de lógica de negocio {@ServiceException}.
      */
@@ -33,7 +36,6 @@ public class GestorInformes {
 
             while (seguir) {
                 try {
-
                     if (ejecutarOpcion(informeService) <= 0) { return; }
                     seguir = ConsoleUI.confirmarContinuacion("¿Desea seguir en la sección de informes?", "Seguir Menu Informes");
 
@@ -45,9 +47,7 @@ public class GestorInformes {
                 }
             }
 
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
+        } catch (SQLException e) { JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE); }
     }
 
     /**
@@ -89,12 +89,12 @@ public class GestorInformes {
         String[] columnas = {"id", "Nombre", "Descripcion", "Total Vendido"};
 
         String [][] datosPedido = {
-                {
-                        String.valueOf(producto.getId()),
-                        producto.getNombre(),
-                        producto.getDescripcion(),
-                        String.valueOf(productoInforme.getTotalVendido())
-                }
+            {
+                String.valueOf(producto.getId()),
+                producto.getNombre(),
+                producto.getDescripcion(),
+                String.valueOf(productoInforme.getTotalVendido())
+            }
         };
 
         TablaViewer.crearTabla(datosPedido, columnas, "Producto Mas Vendido");
@@ -112,12 +112,12 @@ public class GestorInformes {
         String[] columnas = {"id", "Nombre", "Apellido", "Total Compras"};
 
         String [][] datos = {
-                {
-                    String.valueOf(cliente.getId()),
-                    cliente.getNombre(),
-                    cliente.getApellido(),
-                    String.valueOf(clienteInforme.getTotalComprado())
-                }
+            {
+                String.valueOf(cliente.getId()),
+                cliente.getNombre(),
+                cliente.getApellido(),
+                String.valueOf(clienteInforme.getTotalComprado())
+            }
         };
 
         TablaViewer.crearTabla(datos, columnas, "Cliente Con Mas Compras");

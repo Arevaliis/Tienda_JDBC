@@ -5,7 +5,6 @@ import dao.impl.PedidoDAO;
 import dao.impl.ProductoDAO;
 import exception.DAOException;
 import exception.ServiceException;
-import model.Cliente;
 import model.ClienteInforme;
 import model.ProductoInforme;
 import service.interfaces.IInformeService;
@@ -14,13 +13,11 @@ import java.sql.Connection;
 import java.util.List;
 
 public class InformeService implements IInformeService {
-    private final Connection connection;
     private final ProductoDAO productoDAO;
     private final PedidoDAO pedidoDAO;
     private final DetallePedidoDAO detallePedidoDAO;
 
     public InformeService(Connection connection) {
-        this.connection = connection;
         this.productoDAO = new ProductoDAO(connection);
         this.pedidoDAO = new PedidoDAO(connection);
         this.detallePedidoDAO = new DetallePedidoDAO(connection);
@@ -31,11 +28,11 @@ public class InformeService implements IInformeService {
         try{
             ProductoInforme producto = productoDAO.obtenerProductoTOP();
 
-            if (producto == null){ throw new ServiceException("No se ha vendido ningún producto.");  }
+            if (producto == null){ throw new ServiceException("No hay ventas de productos");  }
 
             return producto;
 
-        } catch (DAOException e) { throw new ServiceException("Fallo Service: No se ha podido obtener el producto mas vendido", e); }
+        } catch (DAOException e) { throw new ServiceException("No se puedo obtener el producto mas vendido", e); }
     }
 
     @Override
@@ -47,9 +44,7 @@ public class InformeService implements IInformeService {
 
             return cliente;
 
-        } catch (DAOException e) {
-            throw new ServiceException("Error Service: Fallo durante búsqueda del cliente con mas pedidos", e);
-        }
+        } catch (DAOException e) { throw new ServiceException("No se puedo obtener el cliente con mas pedidos", e); }
     }
 
     @Override
@@ -70,6 +65,6 @@ public class InformeService implements IInformeService {
 
             return productos;
 
-        } catch (DAOException e) { throw new ServiceException("Fallo Service: No se ha podido obtener el producto mas vendido", e); }
+        } catch (DAOException e) { throw new ServiceException("No se puedo obtener los productos mas vendidos", e); }
     }
 }
