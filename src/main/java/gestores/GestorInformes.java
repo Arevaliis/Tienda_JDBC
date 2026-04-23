@@ -35,13 +35,13 @@ public class GestorInformes {
                 try {
 
                     if (ejecutarOpcion(informeService) <= 0) { return; }
-                    seguir = ConsoleUI.confirmarContinuacion("¿Desea seguir en la sección de informes? S/N: ", "Seguir Menu Informes");
+                    seguir = ConsoleUI.confirmarContinuacion("¿Desea seguir en la sección de informes?", "Seguir Menu Informes");
 
                 } catch (IllegalArgumentException | ServiceException | ValidationException e) {
                     JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 
                 } catch (NullPointerException ignored) {
-                    seguir = ConsoleUI.confirmarContinuacion("¿Desea seguir en la sección de informes? S/N: ", "Seguir Menu Informes");
+                    seguir = ConsoleUI.confirmarContinuacion("¿Desea seguir en la sección de informes?", "Seguir Menu Informes");
                 }
             }
 

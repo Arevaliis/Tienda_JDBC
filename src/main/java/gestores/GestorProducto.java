@@ -32,15 +32,14 @@ public class GestorProducto {
 
             while (seguir) {
                 try {
-
                     if (ejecutarOpcion(productoService) <= 0) { return; }
-                    seguir = ConsoleUI.confirmarContinuacion("¿Desea seguir en la sección de productos? S/N: ", "Seguir Menu Productos");
+                    seguir = ConsoleUI.confirmarContinuacion("¿Desea seguir en la sección de productos?", "Seguir Menu Productos");
 
                 } catch (IllegalArgumentException | ServiceException | ValidationException e) {
                     JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 
                 } catch (NullPointerException ignored) {
-                    seguir = ConsoleUI.confirmarContinuacion("¿Desea seguir en la sección de productos? S/N: ", "Seguir Menu Productos");
+                    seguir = ConsoleUI.confirmarContinuacion("¿Desea seguir en la sección de productos?", "Seguir Menu Productos");
                 }
             }
 
@@ -54,6 +53,7 @@ public class GestorProducto {
      *
      * @param productoService servicio encargado de la lógica de productos
      * @return opción seleccionada por el usuario
+     *
      * @throws ServiceException si ocurre un error en la capa de servicio
      * @throws ValidationException si los datos introducidos no son válidos
      * @throws IllegalArgumentException si la opción no está dentro del rango permitido
@@ -88,14 +88,10 @@ public class GestorProducto {
         String descripcion = ConsoleUI.ingresarPalabra("Ingrese una descripción del producto: ", "Ingresar Producto");
 
         double precio = ConsoleUI.ingresarDecimal("Ingrese el precio del producto: ", "Ingresar Producto");
-
-
         int stock = ConsoleUI.ingresarNumero("Ingrese el stock del producto: ", "Ingresar Producto");
-        if (stock == -1){ return;}
 
         productoService.insertarProducto(nombre, descripcion, precio, stock);
         JOptionPane.showMessageDialog( null,  "Producto ingresado con éxito",  "Ingresar Producto",  JOptionPane.INFORMATION_MESSAGE );
-
     }
 
     /**
@@ -105,7 +101,6 @@ public class GestorProducto {
      */
     private static void buscarProducto(ProductoService productoService) {
         int id = ConsoleUI.ingresarNumero("Ingrese el id del producto", "Ver Producto");
-        if (id == -1){ return;}
 
         Producto producto = productoService.buscarProductoPorId(id);
         String[] columnas = {"id", "Nombre", "Descripcion", "Precio", "Stock"};
@@ -125,9 +120,6 @@ public class GestorProducto {
 
     /**
      * Obtiene y muestra la lista completa de productos registrados.
-     * <p>
-     * Los productos se formatean en texto utilizando el método {@code toString()}
-     * y se muestran en una ventana de información.
      *
      * @param productoService servicio encargado de gestionar productos
      */
@@ -156,14 +148,11 @@ public class GestorProducto {
 
     /**
      * Elimina un producto del sistema a partir de su identificador.
-     * <p>
-     * Solicita el ID al usuario, lo valida y delega la operación al servicio.
      *
      * @param productoService servicio encargado de gestionar productos
      */
     private static void eliminarProducto(ProductoService productoService) {
         int id = ConsoleUI.ingresarNumero("Ingrese el id del producto", "Eliminar Producto");
-        if (id == -1){ return;}
 
         productoService.eliminarProducto(id);
         JOptionPane.showMessageDialog( null,  "Producto eliminado de la base de datos",  "Eliminar Producto",  JOptionPane.INFORMATION_MESSAGE );
@@ -171,13 +160,10 @@ public class GestorProducto {
 
     /**
      * Muestra el menú de modificación de productos.
-     * <p>
-     * Permite seleccionar qué atributo del producto se desea modificar.
      *
      * @param productoService servicio encargado de gestionar productos
      */
     private static void menuModificarProducto(ProductoService productoService) throws ValidationException {
-
         int opc = ConsoleUI.seleccionarOpcion( new String[]{"Nombre", "Descripcion", "Precio", "Stock"},  "Modificar Producto" ) + 1;
 
         switch (opc) {
@@ -198,11 +184,9 @@ public class GestorProducto {
      */
     private static void modificarNombreProducto(ProductoService productoService) throws ValidationException {
         int id = ConsoleUI.ingresarNumero("Ingrese el id del producto", "Modificar Nombre");
-        if (id == -1) { return; }
-
         String nombre = ConsoleUI.ingresarPalabra("Ingrese el nombre del producto:", "Modificar Nombre");
-        productoService.modificarNombre(id, nombre);
 
+        productoService.modificarNombre(id, nombre);
         JOptionPane.showMessageDialog(null,  "Nombre producto actualizado correctamente",  "Modificar Nombre",  JOptionPane.INFORMATION_MESSAGE);
     }
 
@@ -214,11 +198,9 @@ public class GestorProducto {
      */
     private static void modificarDescripcionProdcto(ProductoService productoService) throws ValidationException {
         int id = ConsoleUI.ingresarNumero("Ingrese el id del producto", "Modificar Descripción");
-        if (id == -1) { return; }
-
         String descripcion = ConsoleUI.ingresarPalabra("Ingrese la descripción del producto:", "Modificar Descripción");
-        productoService.modificarDescripcion(id, descripcion);
 
+        productoService.modificarDescripcion(id, descripcion);
         JOptionPane.showMessageDialog(null,  "Descripción del producto actualizada correctamente",  "Modificar Descripción",  JOptionPane.INFORMATION_MESSAGE);
     }
 
@@ -229,11 +211,9 @@ public class GestorProducto {
      */
     private static void modificarPrecioProducto(ProductoService productoService) {
         int id = ConsoleUI.ingresarNumero("Ingrese el id del producto", "Modificar Precio");
-        if (id == -1) { return; }
-
         double precio = ConsoleUI.ingresarDecimal("Ingrese el precio del producto: ", "Modificar Precio");
-        productoService.modificarPrecio(id, precio);
 
+        productoService.modificarPrecio(id, precio);
         JOptionPane.showMessageDialog(null,  "Precio del producto actualizado correctamente",  "Modificar Precio",  JOptionPane.INFORMATION_MESSAGE);
     }
 
@@ -244,13 +224,9 @@ public class GestorProducto {
      */
     private static void modificarStockProducto(ProductoService productoService) {
         int id = ConsoleUI.ingresarNumero("Ingrese el id del producto", "Modificar Stock");
-        if (id == -1) { return; }
-
         int stock = ConsoleUI.ingresarNumero("Ingrese el stock del producto: ", "Modificar Stock");
-        if (stock == -1) {return;}
 
         productoService.modificarStock(id, stock);
-
         JOptionPane.showMessageDialog(null,  "Stock del producto actualizado correctamente",  "Modificar Stock",  JOptionPane.INFORMATION_MESSAGE);
     }
 

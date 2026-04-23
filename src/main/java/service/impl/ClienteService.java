@@ -83,6 +83,6 @@ public class ClienteService implements IClienteService {
 
             clienteDAO.eliminarCliente(id);
 
-        } catch (DAOException e) { throw new ServiceException("No se pudo eliminar el cliente", e); }
+        } catch (DAOException e) { throw new ServiceException( "No se pudo eliminar el cliente debido a una restricción del sistema o a un error en la operación.", e ); }
     }
 }

@@ -1,12 +1,10 @@
 package model;
 
 import com.google.gson.annotations.Expose;
-
 import java.util.Objects;
 
 /**
- * Representa un producto dentro del sistema.
- * Contiene información básica como nombre, descripción, precio y stock.
+ * Clase que representa un producto
  */
 public class Producto {
     @Expose

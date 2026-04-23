@@ -2,8 +2,8 @@ package dao.impl;
 
 import dao.interfaces.IProductoDAO;
 import exception.DAOException;
-import model.*;
-
+import model.Producto;
+import model.ProductoInforme;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -27,9 +27,9 @@ public class ProductoDAO implements IProductoDAO {
             insert.setDouble(3, producto.getPrecio());
             insert.setInt(4, producto.getStock());
 
-            if (insert.executeUpdate() == 0) { throw new DAOException("No se ha completado el registro del producto"); }
+            if (insert.executeUpdate() == 0){throw new DAOException("No se insertó ningún producto en la base de datos.");}
 
-        } catch (SQLException e) { throw new DAOException("Error DAO: Fallo al hacer insert producto", e); }
+        } catch (SQLException e) { throw new DAOException("Error al insertar el producto en la base de datos", e); }
     }
 
     @Override
@@ -51,7 +51,7 @@ public class ProductoDAO implements IProductoDAO {
                         );
             }
 
-        } catch (SQLException e) { throw new DAOException("Error DAO: Fallo al hacer select producto", e); }
+        } catch (SQLException e) { throw new DAOException("Error al buscar el producto en la base de datos", e); }
     }
 
     @Override
@@ -77,7 +77,7 @@ public class ProductoDAO implements IProductoDAO {
 
                 return productos;
 
-        } catch (SQLException e) { throw new DAOException("Error DAO: Fallo al hacer select producto", e); }
+        } catch (SQLException e) { throw new DAOException("Error al buscar los productos en la base de datos", e); }
 
     }
 
@@ -94,9 +94,9 @@ public class ProductoDAO implements IProductoDAO {
             update.setInt(4, producto.getStock());
             update.setInt(5, producto.getId());
 
-            if (update.executeUpdate() == 0){ throw new DAOException("No se ha podido actualizar el producto"); }
+            if (update.executeUpdate() == 0){throw new DAOException("No se actualizó ningún producto en la base de datos.");}
 
-        } catch (SQLException e) { throw new DAOException("Error DAO: Fallo al hacer update del producto", e); }
+        } catch (SQLException e) { throw new DAOException("Error al actualizar el producto en la base de datos", e); }
     }
 
     @Override
@@ -106,9 +106,9 @@ public class ProductoDAO implements IProductoDAO {
         try(PreparedStatement delete = connection.prepareStatement(sql)) {
             delete.setInt(1, id);
 
-            if (delete.executeUpdate() == 0){ throw new DAOException("No existe el id de producto ingresado: " + id); }
+            if (delete.executeUpdate() == 0){throw new DAOException("No se insertó eliminó producto en la base de datos.");}
 
-        } catch (SQLException e) { throw new DAOException("Error DAO: Fallo al hacer delete del producto", e); }
+        } catch (SQLException e) { throw new DAOException("Error al eliminar el producto en la base de datos", e); }
     }
 
     /**
@@ -142,7 +142,7 @@ public class ProductoDAO implements IProductoDAO {
 
             return new ProductoInforme(producto, resultado.getInt("total_vendido"));
 
-        } catch (SQLException e) { throw new DAOException("Error DAO: Fallo durante la búsqueda del producto mas vendido", e); }
+        } catch (SQLException e) { throw new DAOException("Error al obtener el producto mas vendido en la base de datos", e); }
     }
 
     /**
@@ -180,6 +180,6 @@ public class ProductoDAO implements IProductoDAO {
 
             return productos;
 
-        } catch (SQLException e) { throw new DAOException("Error DAO: Fallo durante la búsqueda del producto mas vendido", e); }
+        } catch (SQLException e) { throw new DAOException("Error al obtener los cinco productos mas vendidos en la base de datos", e); }
     }
 }

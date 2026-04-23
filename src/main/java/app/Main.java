@@ -22,13 +22,13 @@ public class Main {
         while (seguir) {
             try {
                 if (ejecutarOpcion() <= 0 ) { return; }
-                seguir = ConsoleUI.confirmarContinuacion("¿Desea seguir en el gestor? S/N: ", "Seguir Menu Principal");
+                seguir = ConsoleUI.confirmarContinuacion("¿Desea seguir en el gestor? ", "Seguir Menu Principal");
 
             } catch (IllegalArgumentException e) {
                 JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 
             } catch (NullPointerException ignored) {
-                seguir = ConsoleUI.confirmarContinuacion("¿Desea seguir en el gestor? S/N: ", "Seguir Menu Principal");
+                seguir = ConsoleUI.confirmarContinuacion("¿Desea seguir en el gestor?", "Seguir Menu Principal");
 
             } catch (Exception ignore) { // Sirve como red final de seguridad
                 JOptionPane.showMessageDialog(null, "Ha ocurrido un error inesperado en la aplicación.", "Error crítico", JOptionPane.ERROR_MESSAGE);

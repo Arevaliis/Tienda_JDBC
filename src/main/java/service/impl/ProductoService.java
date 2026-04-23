@@ -21,7 +21,7 @@ public class ProductoService implements IProductoService {
             Producto producto = new Producto(nombre, descripcion, precio, stock);
             productoDAO.insertarProducto(producto);
 
-        } catch (DAOException e) { throw new ServiceException("Error Service: Fallo a la hora de insertar producto en la base de datos", e); }
+        } catch (DAOException e) { throw new ServiceException("No se puedo registrar el producto", e); }
     }
 
     @Override
@@ -33,7 +33,7 @@ public class ProductoService implements IProductoService {
 
             return producto;
 
-        } catch (DAOException e) { throw new ServiceException("Error Service: Fallo a la hora de buscar producto en la base de datos", e); }
+        } catch (DAOException e) { throw new ServiceException("No se puedo encontrar el producto", e); }
 }
 
     @Override
@@ -45,7 +45,7 @@ public class ProductoService implements IProductoService {
 
             return productos;
 
-        } catch (DAOException e) { throw new ServiceException("Error Service: Fallo a la hora de buscar todos los productos en la base de datos", e); }
+        } catch (DAOException e) { throw new ServiceException("No se pudieron encontrar los productos", e); }
     }
 
     @Override
@@ -57,7 +57,7 @@ public class ProductoService implements IProductoService {
             producto.setNombre(nombre);
             productoDAO.actualizarProducto(producto);
 
-        } catch (DAOException e) { throw new ServiceException("Error Service: Fallo a la hora de modificar el nombre del producto.", e); }
+        } catch (DAOException e) { throw new ServiceException("No se puedo modificar el nombre del producto", e); }
     }
 
     @Override
@@ -69,9 +69,7 @@ public class ProductoService implements IProductoService {
             producto.setDescripcion(descripcion);
             productoDAO.actualizarProducto(producto);
 
-        } catch (DAOException e) {
-            throw new ServiceException("Error Service: Fallo a la hora de modificar la descripción del producto.", e);
-        }
+        } catch (DAOException e) { throw new ServiceException("No se puedo modificar la descripción del producto", e); }
     }
 
     @Override
@@ -83,9 +81,7 @@ public class ProductoService implements IProductoService {
             producto.setPrecio(precio);
             productoDAO.actualizarProducto(producto);
 
-        } catch (DAOException e) {
-            throw new ServiceException("Error Service: Fallo a la hora de modificar el precio del producto.", e);
-        }
+        } catch (DAOException e) { throw new ServiceException("No se puedo modificar el precio del producto", e); }
     }
 
     @Override
@@ -97,9 +93,8 @@ public class ProductoService implements IProductoService {
             producto.setStock(stock);
             productoDAO.actualizarProducto(producto);
 
-        } catch (DAOException e) {
-            throw new ServiceException("Error Service: Fallo a la hora de modificar el stock del producto.", e);
-        }
+        } catch (DAOException e) { throw new ServiceException("No se puedo modificar el stock del producto", e); }
+
     }
 
     @Override
@@ -108,6 +103,6 @@ public class ProductoService implements IProductoService {
             if (buscarProductoPorId(id) == null){ throw new ServiceException("El producto no existe"); }
             productoDAO.eliminarProducto(id);
 
-        } catch (DAOException e) { throw new ServiceException("No se pudo eliminar el producto", e); }
+        } catch (DAOException e) { throw new ServiceException( "No se pudo eliminar el producto debido a una restricción del sistema o a un error en la operación.", e ); }
     }
 }

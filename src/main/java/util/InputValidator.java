@@ -73,11 +73,10 @@ public class InputValidator {
     public static double verificarDecimalIngresado(String numero) {
 
         if (numero.isEmpty()) { throw new NumberFormatException("Debe ingresar un número decimal. No puede estar vacío."); }
+        if (!numero.matches("^[0-9]+(\\.[0-9]+)?$")) { throw new NumberFormatException("Debe ingresar un número decimal válido. Debe usar '.' no ','1"); }
 
         double decimal = Double.parseDouble(numero);
         if (decimal < 0) { throw new NumberFormatException("El valor no puede ser negativo."); }
-
-        if (!numero.matches("^[0-9]+(\\.[0-9]+)?$")) { throw new NumberFormatException("Debe ingresar un número decimal válido."); }
 
         return decimal;
     }

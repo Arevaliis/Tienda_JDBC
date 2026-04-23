@@ -35,13 +35,13 @@ public class GestorPedido {
                 try {
 
                     if (ejecutarOpcion(pedidoService) <= 0) { return; }
-                    seguir = ConsoleUI.confirmarContinuacion("¿Desea seguir en la sección de pedidos? S/N: ", "Seguir Menu Pedidos");
+                    seguir = ConsoleUI.confirmarContinuacion("¿Desea seguir en la sección de pedidos?: ", "Seguir Menu Pedidos");
 
                 } catch (IllegalArgumentException | ServiceException | ValidationException e) {
                     JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 
                 } catch (NullPointerException ignored) {
-                    seguir = ConsoleUI.confirmarContinuacion("¿Desea seguir en la sección de pedidos? S/N: ", "Seguir Menu Pedidos");
+                    seguir = ConsoleUI.confirmarContinuacion("¿Desea seguir en la sección de pedidos?", "Seguir Menu Pedidos");
                 }
             }
 

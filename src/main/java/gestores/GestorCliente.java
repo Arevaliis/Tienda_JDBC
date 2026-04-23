@@ -32,13 +32,13 @@ public class GestorCliente {
             while (seguir) {
                 try {
                     if (ejecutarOpcion(connection ,clientesService) <= 0) { return; }
-                    seguir = ConsoleUI.confirmarContinuacion("¿Desea seguir en la sección de clientes? S/N: ", "Seguir Menu Clientes");
+                    seguir = ConsoleUI.confirmarContinuacion("¿Desea seguir en la sección de clientes?", "Seguir Menu Clientes");
 
                 } catch (IllegalArgumentException | ServiceException | ValidationException e) {
                     JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 
                 } catch (NullPointerException ignored) {
-                    seguir = ConsoleUI.confirmarContinuacion("¿Desea seguir en la sección de clientes? S/N: ", "Seguir Menu Clientes");
+                    seguir = ConsoleUI.confirmarContinuacion("¿Desea seguir en la sección de clientes?", "Seguir Menu Clientes");
                 }
             }
 
